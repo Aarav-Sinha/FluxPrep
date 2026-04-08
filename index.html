@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>FluxPrep — Crack Your Exam</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#03060f;--blue:#3b82f6;--blue2:#2563eb;--purple:#9333ea;--cyan:#06b6d4;
+  --surface:rgba(255,255,255,0.04);--surface2:rgba(255,255,255,0.07);
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
+  --text:#f0f6ff;--muted:#4a5a78;--subtle:#7a8fa8;
+  --fd:'Syne',sans-serif;--fb:'DM Sans',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--fb);overflow-x:hidden;min-height:100vh}
+
+/* bg */
+body::before{content:'';position:fixed;inset:0;opacity:.025;pointer-events:none;z-index:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:180px 180px}
+.bg-grid{position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:linear-gradient(rgba(59,130,246,0.035) 1px,transparent 1px),linear-gradient(90deg,rgba(59,130,246,0.035) 1px,transparent 1px);
+  background-size:56px 56px;
+  mask-image:radial-gradient(ellipse 110% 60% at 50% 0%,black 30%,transparent 80%)}
+.blob{position:fixed;border-radius:50%;filter:blur(110px);pointer-events:none;z-index:0}
+.b1{width:800px;height:800px;top:-300px;left:-200px;background:radial-gradient(circle,rgba(59,130,246,0.1),transparent 70%);animation:bd 16s ease-in-out infinite alternate}
+.b2{width:650px;height:650px;bottom:-150px;right:-150px;background:radial-gradient(circle,rgba(147,51,234,0.09),transparent 70%);animation:bd 20s ease-in-out infinite alternate-reverse}
+.b3{width:450px;height:450px;top:50%;left:55%;background:radial-gradient(circle,rgba(6,182,212,0.06),transparent 70%);animation:bd 13s ease-in-out infinite alternate}
+@keyframes bd{from{transform:translate(0,0) scale(1)}to{transform:translate(50px,35px) scale(1.1)}}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:68px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(3,6,15,0.75);backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border)}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-mark{width:34px;height:34px;border-radius:9px;
+  background:linear-gradient(135deg,var(--blue),var(--purple));
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--fd);font-size:14px;font-weight:800;color:#fff;letter-spacing:-0.5px}
+.logo-text{font-family:var(--fd);font-size:20px;font-weight:800;
+  background:linear-gradient(135deg,var(--blue),var(--purple));
+  background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-right{display:flex;align-items:center;gap:10px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:9px 20px;border-radius:9px;
+  font-family:var(--fb);font-size:14px;font-weight:600;cursor:pointer;transition:all .18s;border:none;text-decoration:none}
+.btn-ghost{background:transparent;border:1px solid var(--border2);color:var(--subtle)}
+.btn-ghost:hover{color:var(--text);background:var(--surface2)}
+.btn-primary{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(59,130,246,0.35)}
+
+/* HERO */
+.hero{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:120px 24px 80px;text-align:center}
+.hero-pill{display:inline-flex;align-items:center;gap:8px;
+  background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.2);
+  border-radius:999px;padding:6px 16px;font-size:12px;font-weight:600;
+  color:#93c5fd;letter-spacing:.5px;text-transform:uppercase;margin-bottom:32px;
+  animation:fadeUp .6s ease both}
+.hero-pill span{width:6px;height:6px;border-radius:50%;background:var(--blue);display:inline-block;animation:blink 2s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hero-title{font-family:var(--fd);font-size:clamp(48px,7vw,88px);font-weight:800;line-height:1.0;
+  margin-bottom:24px;animation:fadeUp .6s .1s ease both;letter-spacing:-2px}
+.hero-title .line2{background:linear-gradient(135deg,var(--blue) 10%,var(--purple) 60%,var(--cyan));
+  background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;display:block}
+.hero-sub{max-width:560px;font-size:17px;line-height:1.75;color:var(--subtle);
+  margin:0 auto 44px;animation:fadeUp .6s .2s ease both;font-weight:300}
+.hero-actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;animation:fadeUp .6s .3s ease both}
+.btn-hero{padding:14px 32px;font-size:15px;border-radius:12px}
+.hero-scroll{margin-top:80px;animation:fadeUp .6s .5s ease both;display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--muted);font-size:12px}
+.scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,var(--blue),transparent);animation:scrollDown 2s ease-in-out infinite}
+@keyframes scrollDown{0%,100%{transform:translateY(-4px);opacity:.5}50%{transform:translateY(4px);opacity:1}}
+
+/* STATS */
+.stats-bar{position:relative;z-index:1;display:flex;justify-content:center;gap:0;
+  margin:0 auto;max-width:800px;padding:0 24px;margin-top:-20px;margin-bottom:80px}
+.stat-item{flex:1;text-align:center;padding:28px 20px;position:relative;
+  animation:fadeUp .5s ease both}
+.stat-item+.stat-item::before{content:'';position:absolute;left:0;top:20%;height:60%;width:1px;background:var(--border)}
+.stat-num{font-family:var(--fd);font-size:36px;font-weight:800;
+  background:linear-gradient(135deg,var(--blue),var(--purple));
+  background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1}
+.stat-lbl{font-size:13px;color:var(--muted);margin-top:6px}
+
+/* GOALS */
+.section{position:relative;z-index:1;padding:80px 24px;max-width:1200px;margin:0 auto}
+.section-label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--blue);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.section-label::before{content:'';width:20px;height:2px;background:var(--blue)}
+.section-title{font-family:var(--fd);font-size:clamp(28px,4vw,44px);font-weight:800;
+  line-height:1.1;margin-bottom:16px;letter-spacing:-1px}
+.section-sub{font-size:15px;color:var(--subtle);line-height:1.7;max-width:500px;font-weight:300}
+.goals-header{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:20px;margin-bottom:44px}
+
+.goals-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.goal-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;
+  padding:28px;cursor:pointer;transition:all .25s;position:relative;overflow:hidden;
+  animation:fadeUp .5s ease both}
+.goal-card::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .25s;
+  background:linear-gradient(135deg,rgba(59,130,246,0.06),rgba(147,51,234,0.04))}
+.goal-card:hover{border-color:rgba(59,130,246,0.3);transform:translateY(-4px);
+  box-shadow:0 20px 40px rgba(0,0,0,0.3)}
+.goal-card:hover::before{opacity:1}
+.goal-card.coming-soon{opacity:.55;cursor:not-allowed}
+.goal-card.coming-soon:hover{transform:none;box-shadow:none}
+.goal-icon{width:48px;height:48px;border-radius:14px;margin-bottom:20px;
+  display:flex;align-items:center;justify-content:center;font-size:22px;
+  background:rgba(59,130,246,0.1);border:1px solid rgba(59,130,246,0.15)}
+.goal-name{font-family:var(--fd);font-size:22px;font-weight:800;margin-bottom:8px;letter-spacing:-.5px}
+.goal-tagline{font-size:13px;color:var(--subtle);line-height:1.6;margin-bottom:20px;font-weight:300}
+.goal-classes{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px}
+.class-pill{background:rgba(59,130,246,0.08);border:1px solid rgba(59,130,246,0.15);
+  color:#93c5fd;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px}
+.goal-footer{display:flex;align-items:center;justify-content:space-between}
+.goal-cta{font-size:13px;font-weight:600;color:var(--blue);display:flex;align-items:center;gap:4px;transition:gap .2s}
+.goal-card:hover .goal-cta{gap:8px}
+.cs-badge{display:inline-flex;align-items:center;gap:5px;
+  background:rgba(245,158,11,0.12);border:1px solid rgba(245,158,11,0.25);
+  color:#fcd34d;font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px}
+.loading-goals{text-align:center;padding:60px;color:var(--muted)}
+
+/* FEATURES */
+.features-section{position:relative;z-index:1;padding:80px 24px;
+  background:linear-gradient(to bottom,transparent,rgba(59,130,246,0.03),transparent)}
+.features-inner{max-width:1200px;margin:0 auto}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:56px}
+.feature-card{background:var(--surface);border:1px solid var(--border);border-radius:20px;
+  padding:32px;transition:all .2s;animation:fadeUp .5s ease both}
+.feature-card:hover{border-color:var(--border2);background:var(--surface2)}
+.feat-icon{font-size:28px;margin-bottom:20px;display:block}
+.feat-title{font-family:var(--fd);font-size:18px;font-weight:700;margin-bottom:10px}
+.feat-desc{font-size:14px;color:var(--subtle);line-height:1.7;font-weight:300}
+
+/* HOW IT WORKS */
+.steps-section{position:relative;z-index:1;padding:80px 24px;max-width:1100px;margin:0 auto}
+.steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:56px;position:relative}
+.steps-grid::before{content:'';position:absolute;top:28px;left:10%;right:10%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--blue),var(--purple),transparent);z-index:0}
+.step{text-align:center;padding:0 16px;position:relative;z-index:1;animation:fadeUp .5s ease both}
+.step-num{width:56px;height:56px;border-radius:16px;margin:0 auto 20px;
+  background:linear-gradient(135deg,var(--blue),var(--purple));
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--fd);font-size:20px;font-weight:800;color:#fff;
+  box-shadow:0 8px 24px rgba(59,130,246,0.3)}
+.step-title{font-family:var(--fd);font-size:16px;font-weight:700;margin-bottom:8px}
+.step-desc{font-size:13px;color:var(--subtle);line-height:1.6;font-weight:300}
+
+/* CTA BANNER */
+.cta-section{position:relative;z-index:1;padding:80px 24px;max-width:900px;margin:0 auto;text-align:center}
+.cta-card{background:linear-gradient(135deg,rgba(59,130,246,0.08),rgba(147,51,234,0.08));
+  border:1px solid rgba(59,130,246,0.2);border-radius:28px;padding:64px 48px;position:relative;overflow:hidden}
+.cta-card::before{content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);
+  width:400px;height:200px;background:radial-gradient(ellipse,rgba(59,130,246,0.15),transparent 70%);pointer-events:none}
+.cta-title{font-family:var(--fd);font-size:clamp(28px,4vw,44px);font-weight:800;margin-bottom:16px;letter-spacing:-1px}
+.cta-sub{font-size:16px;color:var(--subtle);margin-bottom:36px;font-weight:300;line-height:1.7}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+
+/* FOOTER */
+footer{position:relative;z-index:1;padding:40px 48px;
+  border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.footer-left{display:flex;align-items:center;gap:10px}
+.footer-right{font-size:13px;color:var(--muted)}
+.footer-links{display:flex;gap:20px}
+.footer-link{font-size:13px;color:var(--muted);text-decoration:none;transition:color .15s}
+.footer-link:hover{color:var(--subtle)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* LOADING */
+#page-loader{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;align-items:center;justify-content:center;transition:opacity .4s}
+#page-loader.hidden{opacity:0;pointer-events:none}
+.loader-logo{font-family:var(--fd);font-size:32px;font-weight:800;
+  background:linear-gradient(135deg,var(--blue),var(--purple));
+  background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  animation:pulse 1.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+
+@media(max-width:768px){
+  nav{padding:0 20px}
+  .goals-grid{grid-template-columns:1fr}
+  .features-grid{grid-template-columns:1fr}
+  .steps-grid{grid-template-columns:1fr 1fr;gap:24px}
+  .steps-grid::before{display:none}
+  .stats-bar{flex-wrap:wrap}
+  .stat-item{flex:0 0 50%}
+  .stat-item::before{display:none}
+  footer{padding:24px 20px;flex-direction:column;text-align:center}
+  .hero-title{letter-spacing:-1px}
+}
+</style>
+</head>
+<body>
+<div id="page-loader"><div class="loader-logo">FluxPrep</div></div>
+<div class="bg-grid"></div>
+<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+
+<nav>
+  <a href="index.html" class="nav-logo">
+    <div class="logo-mark">FP</div>
+    <span class="logo-text">FluxPrep</span>
+  </a>
+  <div class="nav-right">
+    <a href="login.html" class="btn btn-ghost">Sign In</a>
+    <a href="register.html" class="btn btn-primary">Get Started →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-pill"><span></span>India's smartest exam prep platform</div>
+  <h1 class="hero-title">
+    Prepare Smarter.<br/>
+    <span class="line2">Rank Higher.</span>
+  </h1>
+  <p class="hero-sub">Goal-based learning for IIT-JEE, NEET, CLAT, NSEB, ISC and more. Real-time sync, mock tests, and performance analytics — all in one place.</p>
+  <div class="hero-actions">
+    <a href="register.html" class="btn btn-primary btn-hero">Start for Free →</a>
+    <a href="login.html" class="btn btn-ghost btn-hero">Sign In</a>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll to explore</span>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar" style="position:relative;z-index:1">
+  <div class="stat-item" style="animation-delay:.1s"><div class="stat-num" id="stat-students">—</div><div class="stat-lbl">Students Registered</div></div>
+  <div class="stat-item" style="animation-delay:.2s"><div class="stat-num" id="stat-goals">—</div><div class="stat-lbl">Exam Goals</div></div>
+  <div class="stat-item" style="animation-delay:.3s"><div class="stat-num">100%</div><div class="stat-lbl">Free to Start</div></div>
+  <div class="stat-item" style="animation-delay:.4s"><div class="stat-num">∞</div><div class="stat-lbl">Cross-device Sync</div></div>
+</div>
+
+<!-- GOALS -->
+<section class="section">
+  <div class="goals-header">
+    <div>
+      <div class="section-label">Exam Goals</div>
+      <h2 class="section-title">Choose Your<br/>Target Exam</h2>
+    </div>
+    <p class="section-sub">Each goal comes with curated content, class-specific paths, and real-time admin-managed updates.</p>
+  </div>
+  <div class="goals-grid" id="goals-grid">
+    <div class="loading-goals">Loading goals…</div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<div class="features-section">
+<div class="features-inner">
+  <div style="text-align:center;margin-bottom:0">
+    <div class="section-label" style="justify-content:center">Platform Features</div>
+    <h2 class="section-title" style="text-align:center">Everything you need<br/>to crack your exam</h2>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card" style="animation-delay:.1s"><span class="feat-icon">🎯</span><div class="feat-title">Goal-Based Paths</div><div class="feat-desc">Curated study paths tailored to your exam, class, and dropper status — not one-size-fits-all.</div></div>
+    <div class="feature-card" style="animation-delay:.15s"><span class="feat-icon">📊</span><div class="feat-title">Performance Analytics</div><div class="feat-desc">Track progress over time, identify weak areas, and get data-driven insights to improve faster.</div></div>
+    <div class="feature-card" style="animation-delay:.2s"><span class="feat-icon">🔄</span><div class="feat-title">Real-Time Sync</div><div class="feat-desc">Seamlessly switch between devices. Your progress, notes, and tests sync instantly via Firestore.</div></div>
+    <div class="feature-card" style="animation-delay:.25s"><span class="feat-icon">🧪</span><div class="feat-title">Mock Tests</div><div class="feat-desc">Full-length, timed mock exams with detailed solutions and percentile ranking among peers.</div></div>
+    <div class="feature-card" style="animation-delay:.3s"><span class="feat-icon">🏆</span><div class="feat-title">Leaderboard</div><div class="feat-desc">Compete with students across India. Rise through the ranks and stay motivated every day.</div></div>
+    <div class="feature-card" style="animation-delay:.35s"><span class="feat-icon">🆔</span><div class="feat-title">Permanent Student ID</div><div class="feat-desc">Every student gets a unique FP-XXXXXX ID. Your identity on the platform — forever.</div></div>
+  </div>
+</div>
+</div>
+
+<!-- HOW IT WORKS -->
+<section class="steps-section">
+  <div style="text-align:center;margin-bottom:0">
+    <div class="section-label" style="justify-content:center">How It Works</div>
+    <h2 class="section-title" style="text-align:center">Up and running<br/>in 4 simple steps</h2>
+  </div>
+  <div class="steps-grid">
+    <div class="step" style="animation-delay:.1s"><div class="step-num">1</div><div class="step-title">Choose Your Goal</div><div class="step-desc">Pick your target exam from the live goal cards on this page.</div></div>
+    <div class="step" style="animation-delay:.15s"><div class="step-num">2</div><div class="step-title">Register</div><div class="step-desc">Sign in with Google, fill your details — takes under 2 minutes.</div></div>
+    <div class="step" style="animation-delay:.2s"><div class="step-num">3</div><div class="step-title">Get Your ID</div><div class="step-desc">Receive your permanent FluxPrep student ID — unique to you.</div></div>
+    <div class="step" style="animation-delay:.25s"><div class="step-num">4</div><div class="step-title">Start Preparing</div><div class="step-desc">Access your dashboard, practice tests, and performance tools.</div></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-card">
+    <h2 class="cta-title">Ready to start your<br/>prep journey?</h2>
+    <p class="cta-sub">Join thousands of students already using FluxPrep. Free to start, powerful at every level.</p>
+    <div class="cta-btns">
+      <a href="register.html" class="btn btn-primary" style="padding:14px 32px;font-size:15px;border-radius:12px">Create Free Account →</a>
+      <a href="login.html" class="btn btn-ghost" style="padding:14px 32px;font-size:15px;border-radius:12px">Sign In</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-left">
+    <div class="logo-mark">FP</div>
+    <span class="logo-text">FluxPrep</span>
+  </div>
+  <div class="footer-links">
+    <a href="login.html" class="footer-link">Sign In</a>
+    <a href="register.html" class="footer-link">Register</a>
+  </div>
+  <div class="footer-right">© 2025 FluxPrep. All rights reserved.</div>
+</footer>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, onSnapshot, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB0yTyuJEpi3j4Wu5r45uJ7cSpVVzgjiMk",
+  authDomain: "fluxprep-1f7b3.firebaseapp.com",
+  projectId: "fluxprep-1f7b3",
+  storageBucket: "fluxprep-1f7b3.firebasestorage.app",
+  messagingSenderId: "651182920201",
+  appId: "1:651182920201:web:3fb71e6f5d56e5bb9b5ed8"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const ICONS = {
+  'IIT-JEE':'⚡','NEET':'🧬','CLAT':'⚖️','NSEB':'🔭','ISC':'📚'};
+const TAGLINES = {
+  'IIT-JEE':'Engineering entrance for IITs & NITs',
+  'NEET':'Medical entrance for MBBS & BDS',
+  'CLAT':'Law entrance for NLUs across India',
+  'NSEB':'National Science Olympiad — Biology',
+  'ISC':'CISCE Board — Class 11 & 12'};
+
+// Goals real-time
+onSnapshot(collection(db, 'goals'), snap => {
+  const goals = [];
+  snap.forEach(d => goals.push({id:d.id,...d.data()}));
+  renderGoals(goals);
+  document.getElementById('stat-goals').textContent = goals.filter(g=>!g.comingSoon).length + '+';
+});
+
+// Student count
+getDocs(collection(db,'students')).then(snap=>{
+  document.getElementById('stat-students').textContent = snap.size + '+';
+});
+
+function renderGoals(goals){
+  const grid = document.getElementById('goals-grid');
+  if(!goals.length){grid.innerHTML='<div class="loading-goals">No goals available yet.</div>';return;}
+  grid.innerHTML = goals.map((g,i)=>{
+    const icon = ICONS[g.id] || '📖';
+    const tag = TAGLINES[g.id] || '';
+    const cs = g.comingSoon;
+    return `<div class="goal-card${cs?' coming-soon':''}" style="animation-delay:${i*0.07}s" ${cs?'':'onclick="goRegister(\''+g.id+'\')"'}>
+      <div class="goal-icon">${icon}</div>
+      <div class="goal-name">${g.name||g.id}</div>
+      <div class="goal-tagline">${tag}</div>
+      <div class="goal-classes">${(g.classes||[]).map(c=>`<span class="class-pill">Class ${c}</span>`).join('')}</div>
+      <div class="goal-footer">
+        ${cs
+          ? `<span class="cs-badge">⏳ Coming Soon</span>`
+          : `<span class="goal-cta">Register Now →</span>`}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+window.goRegister = (goalId) => {
+  sessionStorage.setItem('fp_preselect_goal', goalId);
+  window.location.href = 'register.html';
+};
+
+// Hide loader
+window.addEventListener('load',()=>{
+  setTimeout(()=>document.getElementById('page-loader').classList.add('hidden'),400);
+});
+
+// Scroll reveal
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.style.animationPlayState='running'});
+},{threshold:.1});
+document.querySelectorAll('.feature-card,.step,.goal-card').forEach(el=>{
+  el.style.animationPlayState='paused';io.observe(el);
+});
+</script>
+</body>
+</html>
