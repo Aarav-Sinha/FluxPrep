@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>FluxPrep — Practice</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#3b82f6;--blue2:#2563eb;--purple:#9333ea;--green:#22c55e;--red:#ef4444;--amber:#f59e0b;
+  --fd:'Syne',sans-serif;--fb:'DM Sans',sans-serif;--sidebar:240px;
+}
+[data-theme="dark"]{
+  --bg:#03060f;--bg2:#060d1a;--surface:rgba(255,255,255,0.04);--surface2:rgba(255,255,255,0.07);
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
+  --text:#f0f6ff;--muted:#4a5a78;--subtle:#7a8fa8;--card:#080f20;
+}
+[data-theme="light"]{
+  --bg:#f0f4ff;--bg2:#e8eeff;--surface:rgba(0,0,0,0.04);--surface2:rgba(0,0,0,0.07);
+  --border:rgba(0,0,0,0.08);--border2:rgba(0,0,0,0.15);
+  --text:#0d1526;--muted:#8896b0;--subtle:#4a5a78;--card:#ffffff;
+}
+html,body{background:var(--bg);color:var(--text);font-family:var(--fb);min-height:100vh;transition:background .3s,color .3s}
+.blob{position:fixed;border-radius:50%;filter:blur(120px);pointer-events:none;z-index:0}
+.b1{width:500px;height:500px;top:-150px;left:-100px;background:radial-gradient(circle,rgba(59,130,246,0.07),transparent 70%)}
+.b2{width:450px;height:450px;bottom:-100px;right:-80px;background:radial-gradient(circle,rgba(147,51,234,0.06),transparent 70%)}
+[data-theme="light"] .blob{opacity:.4}
+#auth-guard{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;align-items:center;justify-content:center}
+.guard-logo{font-family:var(--fd);font-size:26px;font-weight:800;background:linear-gradient(135deg,var(--blue),var(--purple));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:pulse 1.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+
+/* SIDEBAR */
+.sidebar{position:fixed;top:0;left:0;width:var(--sidebar);height:100vh;z-index:50;
+  background:var(--card);backdrop-filter:blur(20px);border-right:1px solid var(--border);
+  display:flex;flex-direction:column;padding:24px 0;transition:transform .3s}
+.sb-logo{padding:0 20px 24px;border-bottom:1px solid var(--border)}
+.sb-logo a{display:flex;align-items:center;gap:8px;text-decoration:none}
+.lm{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:11px;font-weight:800;color:#fff}
+.lt{font-family:var(--fd);font-size:17px;font-weight:800;background:linear-gradient(135deg,var(--blue),var(--purple));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.sb-nav{padding:20px 12px;flex:1;overflow-y:auto}
+.sb-sec{font-size:10px;font-weight:700;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;padding:0 10px;margin:20px 0 8px}
+.sb-item{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;cursor:pointer;color:var(--subtle);font-size:14px;font-weight:500;margin-bottom:2px;transition:all .18s;text-decoration:none}
+.sb-item:hover{background:var(--surface2);color:var(--text)}
+.sb-item.active{background:rgba(59,130,246,.12);color:#3b82f6;border:1px solid rgba(59,130,246,.2)}
+.sb-item svg{width:17px;height:17px;flex-shrink:0;opacity:.8}
+.sb-footer{padding:16px 12px;border-top:1px solid var(--border)}
+.sb-user{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;background:var(--surface);margin-bottom:8px}
+.sb-av{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;overflow:hidden}
+.sb-av img{width:100%;height:100%;object-fit:cover}
+.sb-uname{font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-uid{font-size:10px;color:var(--muted);font-family:'Courier New',monospace}
+.logout-btn{width:100%;background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.18);color:#ef4444;font-family:var(--fb);font-size:13px;font-weight:500;padding:9px;border-radius:10px;cursor:pointer;transition:all .2s}
+.logout-btn:hover{background:rgba(239,68,68,.14)}
+
+/* MAIN */
+.main{margin-left:var(--sidebar);position:relative;z-index:1;min-height:100vh}
+.topbar{padding:16px 32px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:0;z-index:40}
+.topbar-left{display:flex;align-items:center;gap:12px}
+.topbar h1{font-family:var(--fd);font-size:20px;font-weight:800;letter-spacing:-.5px}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.icon-btn{width:36px;height:36px;border-radius:10px;background:var(--surface);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;color:var(--subtle)}
+.icon-btn:hover{background:var(--surface2);color:var(--text)}
+.hamburger{display:none}
+
+/* PAGES */
+.page{display:none;padding:28px 32px;animation:fadeIn .3s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* SELECTOR PAGE */
+.page-title{font-family:var(--fd);font-size:24px;font-weight:800;letter-spacing:-.5px;margin-bottom:6px}
+.page-sub{font-size:14px;color:var(--muted);margin-bottom:28px;font-weight:300}
+
+.subject-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin-bottom:32px}
+.subject-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:22px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.subject-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--purple));opacity:0;transition:opacity .2s}
+.subject-card:hover{border-color:rgba(59,130,246,.3);transform:translateY(-2px);box-shadow:0 12px 28px rgba(0,0,0,.15)}
+.subject-card:hover::before{opacity:1}
+.subject-card.selected{border-color:rgba(59,130,246,.4);background:rgba(59,130,246,.06)}
+.subject-card.selected::before{opacity:1}
+.sc-icon{width:40px;height:40px;border-radius:12px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.15);display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.sc-icon svg{width:20px;height:20px;color:var(--blue)}
+.sc-name{font-family:var(--fd);font-size:16px;font-weight:700;margin-bottom:4px}
+.sc-count{font-size:12px;color:var(--muted)}
+
+.chapter-list{display:flex;flex-direction:column;gap:8px}
+.chapter-item{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;
+  background:var(--surface);border:1px solid var(--border);border-radius:12px;cursor:pointer;transition:all .18s}
+.chapter-item:hover{background:var(--surface2);border-color:var(--border2)}
+.ch-left{display:flex;align-items:center;gap:12px}
+.ch-num{width:28px;height:28px;border-radius:8px;background:rgba(59,130,246,.1);
+  display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--blue);flex-shrink:0}
+.ch-name{font-size:14px;font-weight:600}
+.ch-stats{font-size:12px;color:var(--muted);text-align:right}
+.ch-arrow{color:var(--muted)}
+
+/* DIFFICULTY SELECTOR */
+.diff-wrap{display:flex;gap:10px;margin-bottom:28px;flex-wrap:wrap}
+.diff-opt{padding:10px 20px;border-radius:10px;border:1px solid var(--border);background:var(--surface);
+  cursor:pointer;font-size:13px;font-weight:600;transition:all .18s;color:var(--subtle)}
+.diff-opt:hover{background:var(--surface2)}
+.diff-opt.selected{border-color:var(--blue);background:rgba(59,130,246,.1);color:var(--blue)}
+
+/* QUESTION ENGINE */
+.q-engine{max-width:760px;margin:0 auto}
+.q-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:gap}
+.q-meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.q-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;font-size:11px;font-weight:700}
+.qb-subject{background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.2);color:#3b82f6}
+.qb-chapter{background:rgba(147,51,234,.1);border:1px solid rgba(147,51,234,.2);color:#9333ea}
+.qb-num{background:var(--surface);border:1px solid var(--border);color:var(--subtle)}
+.q-progress-bar{height:3px;background:var(--border);border-radius:999px;overflow:hidden;margin-bottom:28px}
+.q-progress-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--blue),var(--purple));transition:width .5s ease}
+
+.q-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:32px;margin-bottom:20px;position:relative}
+.q-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:20px 20px 0 0;background:linear-gradient(90deg,var(--blue),var(--purple))}
+.q-loading{text-align:center;padding:60px 20px}
+.q-spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .9s linear infinite;margin:0 auto 16px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.q-loading-text{font-size:14px;color:var(--muted)}
+.q-loading-sub{font-size:12px;color:var(--muted);margin-top:6px;opacity:.7}
+
+.q-num-label{font-size:11px;font-weight:700;letter-spacing:1px;color:var(--muted);text-transform:uppercase;margin-bottom:12px}
+.q-text{font-size:17px;line-height:1.75;font-weight:400;margin-bottom:28px;color:var(--text)}
+.q-text strong,.q-text b{font-weight:700}
+
+.options-list{display:flex;flex-direction:column;gap:10px;margin-bottom:24px}
+.opt{display:flex;align-items:flex-start;gap:14px;padding:16px 18px;
+  border-radius:14px;border:1px solid var(--border);background:var(--surface);
+  cursor:pointer;transition:all .2s;text-align:left;width:100%}
+.opt:hover:not(.locked){background:var(--surface2);border-color:var(--border2)}
+.opt.selected{border-color:var(--blue);background:rgba(59,130,246,.08)}
+.opt.correct{border-color:var(--green);background:rgba(34,197,94,.08) !important;color:var(--text)}
+.opt.wrong{border-color:var(--red);background:rgba(239,68,68,.08) !important;color:var(--text)}
+.opt.reveal-correct{border-color:var(--green);background:rgba(34,197,94,.05)}
+.opt.locked{cursor:not-allowed}
+.opt-key{width:28px;height:28px;border-radius:8px;border:1.5px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;
+  color:var(--muted);flex-shrink:0;transition:all .2s}
+.opt.selected .opt-key{border-color:var(--blue);color:var(--blue);background:rgba(59,130,246,.1)}
+.opt.correct .opt-key{border-color:var(--green);color:var(--green);background:rgba(34,197,94,.15)}
+.opt.wrong .opt-key{border-color:var(--red);color:var(--red);background:rgba(239,68,68,.15)}
+.opt.reveal-correct .opt-key{border-color:var(--green);color:var(--green);background:rgba(34,197,94,.1)}
+.opt-text{font-size:15px;line-height:1.6;padding-top:2px}
+
+.q-actions{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border-radius:11px;font-family:var(--fb);font-size:14px;font-weight:600;cursor:pointer;transition:all .18s;border:none}
+.btn-primary{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(59,130,246,.35)}
+.btn-primary:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.btn-ghost{background:var(--surface);border:1px solid var(--border);color:var(--subtle)}
+.btn-ghost:hover{background:var(--surface2);color:var(--text)}
+.btn-danger{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);color:#ef4444}
+.btn-danger:hover{background:rgba(239,68,68,.15)}
+
+/* EXPLANATION */
+.explanation{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;margin-top:4px}
+.exp-label{font-size:11px;font-weight:700;letter-spacing:1px;color:var(--blue);text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.exp-label::before{content:'';width:3px;height:14px;background:var(--blue);border-radius:2px;display:inline-block}
+.exp-text{font-size:14px;line-height:1.8;color:var(--subtle)}
+.result-banner{border-radius:14px;padding:16px 20px;margin-bottom:20px;display:flex;align-items:center;gap:12px;font-weight:600;font-size:15px}
+.result-banner.correct{background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.25);color:#22c55e}
+.result-banner.wrong{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.25);color:#ef4444}
+
+/* SESSION STATS BAR */
+.session-stats{display:flex;gap:0;background:var(--card);border:1px solid var(--border);border-radius:16px;margin-bottom:24px;overflow:hidden}
+.ss-item{flex:1;padding:16px 12px;text-align:center;border-right:1px solid var(--border)}
+.ss-item:last-child{border-right:none}
+.ss-val{font-family:var(--fd);font-size:22px;font-weight:800;line-height:1}
+.ss-lbl{font-size:11px;color:var(--muted);margin-top:4px;font-weight:600;text-transform:uppercase;letter-spacing:.3px}
+
+/* PERFORMANCE PAGE */
+.perf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:28px}
+.perf-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px}
+.pc-label{font-size:11px;font-weight:700;letter-spacing:.5px;color:var(--muted);text-transform:uppercase;margin-bottom:10px}
+.pc-val{font-family:var(--fd);font-size:32px;font-weight:800;line-height:1}
+.pc-sub{font-size:12px;color:var(--muted);margin-top:4px}
+
+.subject-perf{display:flex;flex-direction:column;gap:10px;margin-bottom:28px}
+.sp-row{display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--card);border:1px solid var(--border);border-radius:12px}
+.sp-name{flex:0 0 140px;font-size:14px;font-weight:600}
+.sp-bar-wrap{flex:1;height:8px;background:var(--border);border-radius:999px;overflow:hidden}
+.sp-bar{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--blue),var(--purple));transition:width .8s ease}
+.sp-pct{flex:0 0 46px;text-align:right;font-size:13px;font-weight:700;color:var(--blue)}
+
+.history-table{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;padding:11px 18px;font-size:10px;font-weight:700;letter-spacing:.8px;color:var(--muted);text-transform:uppercase;border-bottom:1px solid var(--border)}
+td{padding:12px 18px;font-size:13px;border-bottom:1px solid var(--border)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--surface)}
+
+/* SECTION HEADER */
+.section-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.section-title{font-family:var(--fd);font-size:17px;font-weight:700}
+.breadcrumb{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);margin-bottom:22px;flex-wrap:wrap}
+.bc-item{cursor:pointer;transition:color .15s}
+.bc-item:hover{color:var(--blue)}
+.bc-sep{color:var(--border2)}
+.bc-current{color:var(--text);font-weight:600}
+
+/* SCORE CARD */
+.score-card{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:40px;text-align:center;max-width:500px;margin:0 auto}
+.score-circle{width:120px;height:120px;border-radius:50%;margin:0 auto 20px;
+  background:conic-gradient(var(--blue) 0%,var(--purple) 50%,var(--border) 50%);
+  display:flex;align-items:center;justify-content:center;position:relative}
+.score-circle-inner{width:96px;height:96px;border-radius:50%;background:var(--card);display:flex;align-items:center;justify-content:center;flex-direction:column}
+.score-pct{font-family:var(--fd);font-size:26px;font-weight:800;line-height:1}
+.score-lbl{font-size:11px;color:var(--muted)}
+.score-title{font-family:var(--fd);font-size:22px;font-weight:800;margin-bottom:8px}
+.score-sub{font-size:14px;color:var(--muted);margin-bottom:28px;line-height:1.6}
+.score-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:28px}
+.sss{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px}
+.sss-val{font-family:var(--fd);font-size:20px;font-weight:800}
+.sss-lbl{font-size:11px;color:var(--muted);margin-top:3px}
+
+/* TOAST */
+#toast{position:fixed;bottom:24px;right:24px;z-index:999;background:var(--card);border:1px solid var(--border);backdrop-filter:blur(20px);padding:12px 18px;border-radius:12px;font-size:13px;font-weight:500;display:flex;align-items:center;gap:10px;transform:translateY(80px);opacity:0;transition:all .3s cubic-bezier(.34,1.56,.64,1);max-width:280px}
+#toast.show{transform:translateY(0);opacity:1}
+#toast.success{border-color:rgba(34,197,94,.3)}
+#toast.error{border-color:rgba(239,68,68,.3)}
+.td{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+#toast.success .td{background:var(--green)}
+#toast.error .td{background:var(--red)}
+
+@media(max-width:768px){
+  :root{--sidebar:0px}
+  .sidebar{transform:translateX(-240px);width:240px}
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0}
+  .topbar,.page{padding-left:16px;padding-right:16px}
+  .hamburger{display:flex}
+  .perf-grid{grid-template-columns:1fr 1fr}
+  .q-card{padding:20px}
+  .q-text{font-size:15px}
+  .score-stats{grid-template-columns:1fr 1fr}
+  .session-stats{flex-wrap:wrap}
+  .ss-item{flex:0 0 50%;border-bottom:1px solid var(--border)}
+  .ss-item:nth-child(2){border-right:none}
+  .subject-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:420px){
+  .subject-grid{grid-template-columns:1fr}
+  .perf-grid{grid-template-columns:1fr}
+  .score-stats{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div id="auth-guard"><div class="guard-logo">FluxPrep</div></div>
+<div class="blob b1"></div><div class="blob b2"></div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="sb-logo"><a href="stud.html"><div class="lm">FP</div><span class="lt">FluxPrep</span></a></div>
+  <nav class="sb-nav">
+    <div class="sb-sec">Main</div>
+    <a class="sb-item" href="stud.html">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Dashboard
+    </a>
+    <div class="sb-sec">Prepare</div>
+    <a class="sb-item active" href="practice.html">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      Practice
+    </a>
+    <a class="sb-item" href="test.html">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      Mock Tests
+    </a>
+    <div class="sb-sec">Account</div>
+    <a class="sb-item" onclick="switchPage('performance')">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      My Performance
+    </a>
+    <a class="sb-item" href="stud.html">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Profile
+    </a>
+  </nav>
+  <div class="sb-footer">
+    <div class="sb-user">
+      <div class="sb-av" id="sb-av">?</div>
+      <div><div class="sb-uname" id="sb-name">Loading…</div><div class="sb-uid" id="sb-uid">FP-……</div></div>
+    </div>
+    <button class="logout-btn" onclick="doLogout()">Sign Out</button>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-left">
+      <div class="icon-btn hamburger" onclick="document.getElementById('sidebar').classList.toggle('open')">
+        <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </div>
+      <h1 id="page-heading">Practice</h1>
+    </div>
+    <div class="topbar-right">
+      <div class="icon-btn" onclick="toggleTheme()" title="Toggle theme">
+        <svg id="theme-icon" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE: SELECT SUBJECT -->
+  <div class="page active" id="page-select">
+    <div class="page-title">Choose a Subject</div>
+    <div class="page-sub" id="select-sub">Select a subject to begin chapterwise practice</div>
+    <div class="subject-grid" id="subject-grid">
+      <div style="color:var(--muted);padding:40px;font-size:14px">Loading subjects…</div>
+    </div>
+  </div>
+
+  <!-- PAGE: SELECT CHAPTER -->
+  <div class="page" id="page-chapters">
+    <div class="breadcrumb">
+      <span class="bc-item" onclick="switchPage('select')">Subjects</span>
+      <span class="bc-sep">›</span>
+      <span class="bc-current" id="bc-subject">—</span>
+    </div>
+    <div class="page-title" id="chapters-title">Chapters</div>
+    <div class="page-sub">Select a chapter to practice. Questions get tougher as you go.</div>
+    <div class="chapter-list" id="chapter-list"></div>
+  </div>
+
+  <!-- PAGE: PRACTICE SESSION -->
+  <div class="page" id="page-practice">
+    <div class="breadcrumb">
+      <span class="bc-item" onclick="exitSession()">Subjects</span>
+      <span class="bc-sep">›</span>
+      <span class="bc-item" id="bc-sub2" onclick="exitToChapters()">—</span>
+      <span class="bc-sep">›</span>
+      <span class="bc-current" id="bc-chap">—</span>
+    </div>
+    <div class="session-stats">
+      <div class="ss-item"><div class="ss-val" id="ss-q">0</div><div class="ss-lbl">Questions</div></div>
+      <div class="ss-item"><div class="ss-val" style="color:var(--green)" id="ss-c">0</div><div class="ss-lbl">Correct</div></div>
+      <div class="ss-item"><div class="ss-val" style="color:var(--red)" id="ss-w">0</div><div class="ss-lbl">Wrong</div></div>
+      <div class="ss-item"><div class="ss-val" id="ss-acc">—</div><div class="ss-lbl">Accuracy</div></div>
+    </div>
+    <div class="q-engine" id="q-engine"></div>
+  </div>
+
+  <!-- PAGE: PERFORMANCE -->
+  <div class="page" id="page-performance">
+    <div class="page-title">My Performance</div>
+    <div class="page-sub">Your practice analytics across all subjects and chapters</div>
+    <div class="perf-grid" id="perf-grid"></div>
+    <div class="section-hdr"><div class="section-title">Subject-wise Accuracy</div></div>
+    <div class="subject-perf" id="subject-perf"></div>
+    <div class="section-hdr" style="margin-top:28px"><div class="section-title">Recent Sessions</div></div>
+    <div class="history-table"><table>
+      <thead><tr><th>Subject</th><th>Chapter</th><th>Score</th><th>Accuracy</th><th>Date</th></tr></thead>
+      <tbody id="history-tbody"><tr><td colspan="5" style="text-align:center;padding:32px;color:var(--muted)">No practice history yet</td></tr></tbody>
+    </table></div>
+  </div>
+</div>
+
+<div id="toast"><span class="td"></span><span id="toast-msg"></span></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut as fbOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, collection, addDoc, query, where, orderBy, getDocs, updateDoc, increment, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyB0yTyuJEpi3j4Wu5r45uJ7cSpVVzgjiMk",
+  authDomain: "fluxprep-1f7b3.firebaseapp.com",
+  projectId: "fluxprep-1f7b3",
+  storageBucket: "fluxprep-1f7b3.firebasestorage.app",
+  messagingSenderId: "651182920201",
+  appId: "1:651182920201:web:3fb71e6f5d56e5bb9b5ed8"
+};
+const GEMINI_KEY = "AIzaSyCApP3RYWxoTS8EdwB28m3UBWrzP4iv7e8";
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+let studentData = {}, currentUser = null;
+let selectedSubject = null, selectedChapter = null;
+let session = { total:0, correct:0, wrong:0, skipped:0, history:[] };
+let currentQ = null, answered = false, questionQueue = [];
+
+// Theme
+const savedTheme = localStorage.getItem('fp_theme') || 'dark';
+document.documentElement.setAttribute('data-theme', savedTheme);
+window.toggleTheme = () => {
+  const t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+  localStorage.setItem('fp_theme', t);
+};
+
+// Auth
+onAuthStateChanged(auth, async user => {
+  if (!user) { window.location.href = 'login.html'; return; }
+  const snap = await getDoc(doc(db,'students',user.uid));
+  if (!snap.exists()) { window.location.href = 'register.html'; return; }
+  const d = snap.data();
+  if (d.status === 'banned' || d.status === 'disabled') { window.location.href = 'suspended.html'; return; }
+  currentUser = user; studentData = d;
+  document.getElementById('auth-guard').style.display = 'none';
+  const initials = (d.name||'?').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+  const photo = d.photo || user.photoURL;
+  document.getElementById('sb-av').innerHTML = photo ? `<img src="${esc(photo)}" alt=""/>` : initials;
+  document.getElementById('sb-name').textContent = d.name||'—';
+  document.getElementById('sb-uid').textContent = d.userID||'—';
+  document.getElementById('select-sub').textContent = `Practising for: ${d.goal} · Class ${d.class}`;
+  loadSubjects();
+  loadPerformance();
+});
+
+// Load subjects from Firestore for student's goal
+async function loadSubjects() {
+  const grid = document.getElementById('subject-grid');
+  try {
+    const snap = await getDocs(collection(db, `goals/${studentData.goal}/subjects`));
+    if (snap.empty) {
+      grid.innerHTML = '<div style="color:var(--muted);padding:40px;font-size:14px;text-align:center">No subjects added yet. Ask your admin to add subjects for your goal.</div>';
+      return;
+    }
+    const subjects = [];
+    snap.forEach(d => subjects.push({id:d.id,...d.data()}));
+    subjects.sort((a,b) => (a.order||99) - (b.order||99));
+
+    const ICONS = {
+      'Physics':'<path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>',
+      'Chemistry':'<path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v11m0 0H5a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2h-4m-5 0h4"/>',
+      'Biology':'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+      'Mathematics':'<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>',
+      'English':'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+      'Legal Reasoning':'<path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/>',
+    };
+    const defaultIcon = '<circle cx="12" cy="12" r="10"/>';
+
+    grid.innerHTML = subjects.map(s => {
+      const iconPath = ICONS[s.name] || defaultIcon;
+      const chCount = (s.chapters||[]).length;
+      return `<div class="subject-card" onclick="selectSubject(${JSON.stringify(s).replace(/"/g,'&quot;')})">
+        <div class="sc-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">${iconPath}</svg></div>
+        <div class="sc-name">${esc(s.name)}</div>
+        <div class="sc-count">${chCount} chapter${chCount!==1?'s':''}</div>
+      </div>`;
+    }).join('');
+  } catch(e) {
+    grid.innerHTML = `<div style="color:var(--muted);padding:40px;font-size:14px">${e.message}</div>`;
+  }
+}
+
+window.selectSubject = (s) => {
+  selectedSubject = s;
+  document.getElementById('bc-subject').textContent = s.name;
+  document.getElementById('chapters-title').textContent = s.name;
+  const chapters = s.chapters || [];
+  const list = document.getElementById('chapter-list');
+  if (!chapters.length) {
+    list.innerHTML = '<div style="color:var(--muted);padding:24px;font-size:14px">No chapters added for this subject yet.</div>';
+  } else {
+    list.innerHTML = chapters.map((ch,i) => `
+      <div class="chapter-item" onclick="selectChapter(${JSON.stringify(ch).replace(/"/g,'&quot;')},${i})">
+        <div class="ch-left">
+          <div class="ch-num">${i+1}</div>
+          <div class="ch-name">${esc(ch)}</div>
+        </div>
+        <svg class="ch-arrow" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>`).join('');
+  }
+  switchPage('chapters');
+};
+
+window.selectChapter = (chapter, idx) => {
+  selectedChapter = { name: chapter, index: idx };
+  document.getElementById('bc-sub2').textContent = selectedSubject.name;
+  document.getElementById('bc-chap').textContent = chapter;
+  session = { total:0, correct:0, wrong:0, skipped:0, history:[], startTime: Date.now() };
+  updateSessionStats();
+  switchPage('practice');
+  document.getElementById('page-heading').textContent = 'Practice';
+  loadNextQuestion();
+};
+
+// GEMINI question generation
+async function generateQuestion(usedQuestions=[]) {
+  const goal = studentData.goal;
+  const cls = studentData.class;
+  const subject = selectedSubject.name;
+  const chapter = selectedChapter.name;
+
+  // Map goal to exam context for prompt difficulty tuning
+  const examContext = {
+    'IIT-JEE': 'IIT JEE Advanced level — the most difficult engineering entrance exam in India. Questions should require multi-step reasoning, deep conceptual understanding, and mathematical rigour beyond standard JEE Advanced.',
+    'NEET': 'NEET level but harder — comparable to AIIMS or NEET PG. Requires precise factual recall, application of concepts, and elimination of closely-worded options.',
+    'CLAT': 'CLAT Advanced level — complex legal reasoning, dense reading comprehension passages, and tricky logical reasoning. Harder than actual CLAT.',
+    'NSEB': 'Science Olympiad level — NSEB/IPhO/IChO/IOAA standard. Requires deep theoretical understanding and novel problem-solving.',
+    'ISC': 'ISC level but significantly harder — questions should go beyond ISC board, incorporating concepts from competitive exams relevant to this subject.'
+  };
+  const difficultyContext = examContext[goal] || `${goal} competitive exam level, significantly harder than standard questions`;
+
+  const avoidStr = usedQuestions.length > 0
+    ? `Do NOT repeat these question topics already asked: ${usedQuestions.slice(-5).join('; ')}.`
+    : '';
+
+  const prompt = `You are an expert question setter for Indian competitive exams. Generate exactly 1 high-quality MCQ for:
+
+Exam: ${goal}
+Subject: ${subject}
+Chapter: ${chapter}
+Student Class: ${cls}
+Difficulty: ${difficultyContext}
+
+${avoidStr}
+
+Requirements:
+- The question must be HARDER than the actual ${goal} exam
+- Test deep conceptual understanding, NOT rote memorisation
+- All 4 options must be plausible — no obviously wrong options
+- The explanation must be detailed (3-5 sentences), teach WHY the answer is correct and WHY others are wrong
+- Use proper scientific/mathematical notation where needed
+- For numerical questions, show the calculation method in explanation
+- Question must be original and precisely worded
+
+Respond ONLY with valid JSON in this exact format (no markdown, no extra text):
+{
+  "question": "Full question text here",
+  "options": ["Option A text", "Option B text", "Option C text", "Option D text"],
+  "correct": 0,
+  "explanation": "Detailed explanation here",
+  "topic": "Specific topic within the chapter"
+}
+
+The "correct" field is the 0-based index of the correct option.`;
+
+  const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      contents: [{ parts: [{ text: prompt }] }],
+      generationConfig: { temperature: 0.8, maxOutputTokens: 1024, topP: 0.95 }
+    })
+  });
+
+  if (!res.ok) throw new Error(`Gemini API error: ${res.status}`);
+  const data = await res.json();
+  const raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+  // Strip markdown if any
+  const clean = raw.replace(/```json\n?/g,'').replace(/```\n?/g,'').trim();
+  const parsed = JSON.parse(clean);
+
+  // Validate
+  if (!parsed.question || !Array.isArray(parsed.options) || parsed.options.length !== 4
+    || typeof parsed.correct !== 'number' || !parsed.explanation) {
+    throw new Error('Invalid question format from AI');
+  }
+  return parsed;
+}
+
+async function loadNextQuestion() {
+  answered = false;
+  const engine = document.getElementById('q-engine');
+  engine.innerHTML = `<div class="q-card"><div class="q-loading">
+    <div class="q-spinner"></div>
+    <div class="q-loading-text">Generating question…</div>
+    <div class="q-loading-sub">Crafting a challenging question for ${esc(selectedChapter.name)}</div>
+  </div></div>`;
+
+  try {
+    const usedTopics = session.history.map(h=>h.topic||'');
+    const q = await generateQuestion(usedTopics);
+    currentQ = q;
+    renderQuestion(q);
+  } catch(e) {
+    engine.innerHTML = `<div class="q-card" style="text-align:center;padding:40px">
+      <div style="color:var(--red);font-size:14px;margin-bottom:16px">Failed to generate question: ${esc(e.message)}</div>
+      <button class="btn btn-primary" onclick="loadNextQuestion()">Try Again</button>
+    </div>`;
+  }
+}
+
+function renderQuestion(q) {
+  const qNum = session.total + 1;
+  const keys = ['A','B','C','D'];
+  const engine = document.getElementById('q-engine');
+  engine.innerHTML = `
+    <div class="q-header">
+      <div class="q-meta">
+        <span class="q-badge qb-subject">${esc(selectedSubject.name)}</span>
+        <span class="q-badge qb-chapter">${esc(selectedChapter.name)}</span>
+        <span class="q-badge qb-num">Q${qNum}</span>
+      </div>
+    </div>
+    <div class="q-card" id="q-card">
+      <div class="q-num-label">Question ${qNum}</div>
+      <div class="q-text">${formatText(q.question)}</div>
+      <div class="options-list" id="options-list">
+        ${q.options.map((opt,i) => `
+          <button class="opt" id="opt-${i}" onclick="selectAnswer(${i})">
+            <div class="opt-key">${keys[i]}</div>
+            <div class="opt-text">${formatText(opt)}</div>
+          </button>`).join('')}
+      </div>
+      <div id="result-area"></div>
+      <div class="q-actions">
+        <button class="btn btn-ghost" onclick="skipQuestion()">Skip</button>
+        <button class="btn btn-primary" id="submit-btn" onclick="submitAnswer()" disabled>Submit Answer</button>
+      </div>
+    </div>`;
+}
+
+let selectedAnswerIndex = -1;
+window.selectAnswer = (i) => {
+  if (answered) return;
+  selectedAnswerIndex = i;
+  document.querySelectorAll('.opt').forEach((o,idx) => {
+    o.classList.toggle('selected', idx === i);
+  });
+  document.getElementById('submit-btn').disabled = false;
+};
+
+window.submitAnswer = () => {
+  if (answered || selectedAnswerIndex === -1) return;
+  answered = true;
+  const correct = currentQ.correct;
+  const isCorrect = selectedAnswerIndex === correct;
+
+  session.total++;
+  if (isCorrect) session.correct++; else session.wrong++;
+  session.history.push({
+    question: currentQ.question,
+    selectedAnswer: selectedAnswerIndex,
+    correctAnswer: correct,
+    isCorrect,
+    topic: currentQ.topic || selectedChapter.name,
+    subject: selectedSubject.name,
+    chapter: selectedChapter.name
+  });
+
+  // Style options
+  document.querySelectorAll('.opt').forEach((o,i) => {
+    o.classList.add('locked');
+    if (i === correct) o.classList.add('correct');
+    else if (i === selectedAnswerIndex && !isCorrect) o.classList.add('wrong');
+  });
+
+  // Show result + explanation
+  const resultArea = document.getElementById('result-area');
+  resultArea.innerHTML = `
+    <div class="result-banner ${isCorrect?'correct':'wrong'}">
+      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        ${isCorrect
+          ? '<polyline points="20 6 9 17 4 12"/>'
+          : '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>'}
+      </svg>
+      ${isCorrect ? 'Correct!' : `Wrong — Correct answer: Option ${['A','B','C','D'][correct]}`}
+    </div>
+    <div class="explanation">
+      <div class="exp-label">Explanation</div>
+      <div class="exp-text">${formatText(currentQ.explanation)}</div>
+    </div>`;
+
+  // Update actions
+  document.querySelector('.q-actions').innerHTML = `
+    <button class="btn btn-ghost" onclick="endSession()">End Session</button>
+    <button class="btn btn-primary" onclick="loadNextQuestion()">Next Question</button>`;
+
+  updateSessionStats();
+  saveProgress(isCorrect);
+};
+
+window.skipQuestion = () => {
+  session.skipped++;
+  session.total++;
+  session.history.push({ skipped: true, subject: selectedSubject.name, chapter: selectedChapter.name });
+  updateSessionStats();
+  loadNextQuestion();
+};
+
+function updateSessionStats() {
+  document.getElementById('ss-q').textContent = session.total;
+  document.getElementById('ss-c').textContent = session.correct;
+  document.getElementById('ss-w').textContent = session.wrong;
+  const acc = session.total > 0 ? Math.round((session.correct/session.total)*100) : 0;
+  document.getElementById('ss-acc').textContent = session.total > 0 ? acc+'%' : '—';
+}
+
+async function saveProgress(isCorrect) {
+  try {
+    const ref = doc(db, `students/${currentUser.uid}/practiceStats/${selectedSubject.id}_${selectedChapter.name.replace(/\s/g,'_')}`);
+    await setDoc(ref, {
+      subject: selectedSubject.name,
+      subjectId: selectedSubject.id,
+      chapter: selectedChapter.name,
+      goal: studentData.goal,
+      total: increment(1),
+      correct: isCorrect ? increment(1) : increment(0),
+      lastPracticed: new Date().toISOString()
+    }, { merge: true });
+  } catch(e) { /* silent */ }
+}
+
+window.endSession = async () => {
+  if (session.total === 0) { switchPage('select'); return; }
+  try {
+    await addDoc(collection(db, `students/${currentUser.uid}/practiceHistory`), {
+      subject: selectedSubject.name,
+      chapter: selectedChapter.name,
+      goal: studentData.goal,
+      total: session.total,
+      correct: session.correct,
+      wrong: session.wrong,
+      skipped: session.skipped,
+      accuracy: session.total > 0 ? Math.round((session.correct/session.total)*100) : 0,
+      duration: Math.round((Date.now() - session.startTime)/60000),
+      timestamp: new Date().toISOString()
+    });
+  } catch(e) { /* silent */ }
+  showScoreCard();
+};
+
+function showScoreCard() {
+  const acc = session.total > 0 ? Math.round((session.correct/session.total)*100) : 0;
+  const grade = acc >= 80 ? 'Excellent!' : acc >= 60 ? 'Good effort!' : acc >= 40 ? 'Keep practising!' : 'Needs improvement';
+  const pct = acc;
+  const conic = `conic-gradient(var(--blue) 0% ${pct}%, var(--purple) ${pct}% ${Math.min(pct+10,100)}%, var(--border) ${Math.min(pct+10,100)}% 100%)`;
+  const engine = document.getElementById('q-engine');
+  engine.innerHTML = `<div class="score-card">
+    <div class="score-circle" style="background:${conic}">
+      <div class="score-circle-inner">
+        <div class="score-pct">${acc}%</div>
+        <div class="score-lbl">accuracy</div>
+      </div>
+    </div>
+    <div class="score-title">${grade}</div>
+    <div class="score-sub">${esc(selectedSubject.name)} › ${esc(selectedChapter.name)}</div>
+    <div class="score-stats">
+      <div class="sss"><div class="sss-val" style="color:var(--text)">${session.total}</div><div class="sss-lbl">Total</div></div>
+      <div class="sss"><div class="sss-val" style="color:var(--green)">${session.correct}</div><div class="sss-lbl">Correct</div></div>
+      <div class="sss"><div class="sss-val" style="color:var(--red)">${session.wrong}</div><div class="sss-lbl">Wrong</div></div>
+    </div>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+      <button class="btn btn-ghost" onclick="exitSession()">Back to Subjects</button>
+      <button class="btn btn-primary" onclick="restartChapter()">Practice Again</button>
+    </div>
+  </div>`;
+}
+
+window.restartChapter = () => {
+  session = { total:0, correct:0, wrong:0, skipped:0, history:[], startTime: Date.now() };
+  updateSessionStats();
+  loadNextQuestion();
+};
+window.exitSession = () => { switchPage('select'); };
+window.exitToChapters = () => { switchPage('chapters'); };
+
+// Performance
+async function loadPerformance() {
+  try {
+    const statsSnap = await getDocs(collection(db, `students/${currentUser.uid}/practiceStats`));
+    const histSnap = await getDocs(query(collection(db, `students/${currentUser.uid}/practiceHistory`), orderBy('timestamp','desc')));
+
+    let totalQ = 0, totalC = 0;
+    const subjectMap = {};
+    statsSnap.forEach(d => {
+      const s = d.data();
+      totalQ += s.total||0;
+      totalC += s.correct||0;
+      if (!subjectMap[s.subject]) subjectMap[s.subject] = {total:0,correct:0};
+      subjectMap[s.subject].total += s.total||0;
+      subjectMap[s.subject].correct += s.correct||0;
+    });
+
+    const overallAcc = totalQ > 0 ? Math.round((totalC/totalQ)*100) : 0;
+    document.getElementById('perf-grid').innerHTML = `
+      <div class="perf-card"><div class="pc-label">Total Questions</div><div class="pc-val">${totalQ}</div><div class="pc-sub">Across all subjects</div></div>
+      <div class="perf-card"><div class="pc-label">Overall Accuracy</div><div class="pc-val" style="color:var(--blue)">${overallAcc}%</div><div class="pc-sub">${totalC} correct</div></div>
+      <div class="perf-card"><div class="pc-label">Sessions</div><div class="pc-val">${histSnap.size}</div><div class="pc-sub">Practice sessions</div></div>`;
+
+    const spDiv = document.getElementById('subject-perf');
+    if (Object.keys(subjectMap).length) {
+      spDiv.innerHTML = Object.entries(subjectMap).map(([sub,d]) => {
+        const acc = d.total > 0 ? Math.round((d.correct/d.total)*100) : 0;
+        return `<div class="sp-row">
+          <div class="sp-name">${esc(sub)}</div>
+          <div class="sp-bar-wrap"><div class="sp-bar" style="width:${acc}%"></div></div>
+          <div class="sp-pct">${acc}%</div>
+        </div>`;
+      }).join('');
+    } else {
+      spDiv.innerHTML = '<div style="color:var(--muted);padding:20px;font-size:14px;text-align:center">No practice data yet. Start practising!</div>';
+    }
+
+    const tbody = document.getElementById('history-tbody');
+    if (histSnap.empty) {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:32px;color:var(--muted)">No sessions yet</td></tr>';
+    } else {
+      const rows = [];
+      histSnap.forEach(d => rows.push(d.data()));
+      tbody.innerHTML = rows.slice(0,20).map(r => `<tr>
+        <td style="font-weight:600">${esc(r.subject||'—')}</td>
+        <td style="color:var(--subtle)">${esc(r.chapter||'—')}</td>
+        <td>${r.correct}/${r.total}</td>
+        <td style="color:${r.accuracy>=60?'var(--green)':'var(--red)'};font-weight:700">${r.accuracy||0}%</td>
+        <td style="color:var(--muted)">${r.timestamp?new Date(r.timestamp).toLocaleDateString('en-IN'):'—'}</td>
+      </tr>`).join('');
+    }
+  } catch(e) { /* silent */ }
+}
+
+window.switchPage = (page) => {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  const headings = {select:'Practice',chapters:'Chapters',practice:'Practice',performance:'My Performance'};
+  document.getElementById('page-heading').textContent = headings[page]||'Practice';
+  if (page === 'performance') loadPerformance();
+  document.getElementById('sidebar').classList.remove('open');
+};
+
+window.doLogout = async () => { await fbOut(auth); window.location.href='login.html'; };
+
+// Helpers
+function formatText(t) {
+  return String(t||'').replace(/\n/g,'<br/>')
+    .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
+    .replace(/`(.*?)`/g,'<code style="background:var(--surface);padding:2px 6px;border-radius:4px;font-family:monospace;font-size:13px">$1</code>');
+}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+let tt;
+window.showToast=(msg,type='success')=>{const el=document.getElementById('toast');document.getElementById('toast-msg').textContent=msg;el.className=type+' show';clearTimeout(tt);tt=setTimeout(()=>el.className=type,3500);};
+</script>
+</body>
+</html>
