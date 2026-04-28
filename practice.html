@@ -249,10 +249,10 @@ const cfg={apiKey:"AIzaSyB0yTyuJEpi3j4Wu5r45uJ7cSpVVzgjiMk",authDomain:"fluxprep
 // Try multiple Gemini models in order
 const GEMINI_KEY="AIzaSyDKmSFlARYpM0ApoFy8dN34-FZvkWJvlFU";
 const GEMINI_MODELS=[
-  "gemini-2.0-flash",
-  "gemini-1.5-flash-latest",
+  //"gemini-2.0-flash",
+  //"gemini-1.5-flash-latest",
   "gemini-1.5-flash",
-  "gemini-pro"
+  //"gemini-pro"
 ];
 const app=initializeApp(cfg);const auth=getAuth(app);const db=getFirestore(app);
 let SD={},CU=null,selSubj=null,selChap=null,practiceMode='ai';
