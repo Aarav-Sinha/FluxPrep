@@ -155,8 +155,8 @@ import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-ap
 import{getAuth,onAuthStateChanged,signOut as fbOut}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import{getFirestore,doc,getDoc,addDoc,collection,getDocs}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 const cfg={apiKey:"AIzaSyB0yTyuJEpi3j4Wu5r45uJ7cSpVVzgjiMk",authDomain:"fluxprep-1f7b3.firebaseapp.com",projectId:"fluxprep-1f7b3",storageBucket:"fluxprep-1f7b3.firebasestorage.app",messagingSenderId:"651182920201",appId:"1:651182920201:web:3fb71e6f5d56e5bb9b5ed8"};
-const GEMINI_KEY="AIzaSyCApP3RYWxoTS8EdwB28m3UBWrzP4iv7e8";
-const MODELS=["gemini-2.0-flash","gemini-1.5-flash-latest","gemini-1.5-flash","gemini-pro"];
+const GEMINI_KEY="AIzaSyDKmSFlARYpM0ApoFy8dN34-FZvkWJvlFU";
+const MODELS=["gemini-1.5-flash"];
 const app=initializeApp(cfg);const auth=getAuth(app);const db=getFirestore(app);
 let SD={},CU=null,chatHistory=[],isLoading=false;
 const th=localStorage.getItem('fp_theme')||'dark';document.documentElement.setAttribute('data-theme',th);
