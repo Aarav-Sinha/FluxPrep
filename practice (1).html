@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>FluxPrep — Practice</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--blue:#3b82f6;--blue2:#2563eb;--purple:#8b5cf6;--green:#10b981;--amber:#f59e0b;--red:#ef4444;--fh:'Syne',sans-serif;--fb:'Plus Jakarta Sans',sans-serif;--sw:244px;}
+[data-theme="dark"]{--bg:#04070f;--card:#0c1322;--card2:#111929;--bd:rgba(255,255,255,.06);--bd2:rgba(255,255,255,.12);--t:#eef2ff;--t2:#94a3b8;--t3:#3d4f68;--inp:rgba(255,255,255,.04);}
+[data-theme="light"]{--bg:#f4f7ff;--card:#fff;--card2:#eef1fb;--bd:rgba(0,0,0,.07);--bd2:rgba(0,0,0,.14);--t:#0e1729;--t2:#475569;--t3:#9db0c8;--inp:rgba(0,0,0,.04);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--t);font-family:var(--fb);min-height:100vh;transition:background .3s,color .3s}
+#ag{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;align-items:center;justify-content:center}
+.gl{font-family:var(--fh);font-size:24px;font-weight:800;background:linear-gradient(135deg,var(--blue),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:pulse 1.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+.sb{position:fixed;top:0;left:0;width:var(--sw);height:100vh;z-index:60;background:var(--card);border-right:1px solid var(--bd);display:flex;flex-direction:column;padding:20px 0;transition:transform .28s,background .3s}
+.sb-logo{padding:0 16px 18px;border-bottom:1px solid var(--bd)}
+.sb-logo a{display:flex;align-items:center;gap:8px;text-decoration:none}
+.nm{width:27px;height:27px;border-radius:7px;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:11px;font-weight:800;color:#fff}
+.nt{font-family:var(--fh);font-size:15px;font-weight:800;background:linear-gradient(135deg,var(--blue),var(--purple));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.sb-nav{padding:16px 9px;flex:1;overflow-y:auto}
+.sb-sec{font-size:9px;font-weight:700;letter-spacing:1.5px;color:var(--t3);text-transform:uppercase;padding:0 9px;margin:16px 0 5px}
+.si{display:flex;align-items:center;gap:9px;padding:9px 9px;border-radius:9px;cursor:pointer;color:var(--t2);font-size:13px;font-weight:500;margin-bottom:2px;transition:all .16s;text-decoration:none;border:1px solid transparent}
+.si:hover{background:var(--card2);color:var(--t)}
+.si.active{background:rgba(59,130,246,.09);color:var(--blue);border-color:rgba(59,130,246,.18)}
+.si svg{width:16px;height:16px;flex-shrink:0;opacity:.8}
+.si.active svg{opacity:1}
+.sb-foot{padding:13px 9px;border-top:1px solid var(--bd)}
+.sb-user{display:flex;align-items:center;gap:9px;padding:8px;border-radius:9px;background:var(--inp);margin-bottom:7px}
+.av{width:29px;height:29px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;overflow:hidden}
+.av img{width:100%;height:100%;object-fit:cover}
+.sb-un{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-uid{font-size:10px;color:var(--t3);font-family:'Courier New',monospace}
+.lout{width:100%;background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.15);color:var(--red);font-family:var(--fb);font-size:12px;font-weight:500;padding:8px;border-radius:9px;cursor:pointer;transition:all .2s}
+.lout:hover{background:rgba(239,68,68,.11)}
+.main{margin-left:var(--sw);position:relative;z-index:1;min-height:100vh;transition:margin .28s}
+.topbar{padding:13px 26px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:0;z-index:40;transition:background .3s}
+.tb-l{display:flex;align-items:center;gap:10px}
+.tb-t{font-family:var(--fh);font-size:17px;font-weight:800;letter-spacing:-.5px}
+.tb-r{display:flex;align-items:center;gap:7px}
+.ib{width:33px;height:33px;border-radius:8px;background:var(--inp);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;color:var(--t2);flex-shrink:0}
+.ib:hover{color:var(--t);border-color:var(--bd2)}
+.hb{display:none}
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:50}
+.ov.show{display:block}
+.pg{display:none;padding:22px 26px;animation:fi .28s ease}
+.pg.active{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:8px;font-family:var(--fb);font-size:13px;font-weight:600;cursor:pointer;transition:all .16s;border:none}
+.btn-p{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff}
+.btn-p:hover{transform:translateY(-1px);box-shadow:0 5px 14px rgba(59,130,246,.32)}
+.btn-p:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.btn-g{background:var(--inp);border:1px solid var(--bd);color:var(--t2)}
+.btn-g:hover{color:var(--t);border-color:var(--bd2)}
+.pg-t{font-family:var(--fh);font-size:21px;font-weight:800;letter-spacing:-.5px;margin-bottom:4px}
+.pg-s{font-size:13px;color:var(--t2);margin-bottom:22px}
+.bc{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--t2);margin-bottom:18px;flex-wrap:wrap}
+.bci{cursor:pointer;transition:color .15s}
+.bci:hover{color:var(--blue)}
+.bc-sep{color:var(--t3)}
+.bc-cur{color:var(--t);font-weight:600}
+/* PRACTICE MODE TABS */
+.mode-tabs{display:flex;gap:6px;margin-bottom:20px}
+.mode-tab{padding:7px 16px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;transition:all .16s;border:1px solid var(--bd);background:var(--inp);color:var(--t2)}
+.mode-tab.active{background:rgba(59,130,246,.1);border-color:rgba(59,130,246,.22);color:var(--blue)}
+/* SUBJECTS */
+.subj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(195px,1fr));gap:12px;margin-bottom:24px}
+.subj-card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:19px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
+.subj-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--purple));opacity:0;transition:opacity .2s}
+.subj-card:hover{border-color:rgba(59,130,246,.27);transform:translateY(-2px)}
+.subj-card:hover::before{opacity:1}
+.subj-icon{width:36px;height:36px;border-radius:10px;background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.14);display:flex;align-items:center;justify-content:center;margin-bottom:12px}
+.subj-icon svg{width:18px;height:18px;color:var(--blue)}
+.subj-name{font-family:var(--fh);font-size:14px;font-weight:700;margin-bottom:2px}
+.subj-cnt{font-size:11px;color:var(--t2)}
+/* CHAPTERS */
+.chap-list{display:flex;flex-direction:column;gap:7px}
+.chap-item{display:flex;align-items:center;justify-content:space-between;padding:12px 15px;background:var(--card);border:1px solid var(--bd);border-radius:10px;cursor:pointer;transition:all .16s}
+.chap-item:hover{background:var(--card2);border-color:var(--bd2)}
+.chap-l{display:flex;align-items:center;gap:10px}
+.chap-num{width:24px;height:24px;border-radius:6px;background:rgba(59,130,246,.08);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--blue);flex-shrink:0}
+.chap-name{font-size:13px;font-weight:600}
+.chap-meta{font-size:11px;color:var(--t3);display:flex;align-items:center;gap:8px}
+.chap-tag{background:rgba(59,130,246,.07);border:1px solid rgba(59,130,246,.14);color:var(--blue);font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px}
+/* SESSION STATS */
+.sess{display:flex;background:var(--card);border:1px solid var(--bd);border-radius:13px;margin-bottom:20px;overflow:hidden;flex-wrap:wrap}
+.ss{flex:1;padding:13px 9px;text-align:center;border-right:1px solid var(--bd)}
+.ss:last-child{border-right:none}
+.ss-v{font-family:var(--fh);font-size:19px;font-weight:800;line-height:1}
+.ss-l{font-size:9px;color:var(--t3);margin-top:3px;font-weight:700;text-transform:uppercase;letter-spacing:.3px}
+/* SOURCE BADGE */
+.src-badge{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;padding:3px 9px;border-radius:999px}
+.src-ai{background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.18);color:var(--purple)}
+.src-admin{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.18);color:var(--green)}
+/* QUESTION */
+.q-wrap{max-width:700px;margin:0 auto}
+.q-meta{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:16px}
+.qb{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;font-size:10px;font-weight:700}
+.qb-s{background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.2);color:var(--blue)}
+.qb-c{background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.2);color:var(--purple)}
+.qb-n{background:var(--inp);border:1px solid var(--bd);color:var(--t2)}
+.q-card{background:var(--card);border:1px solid var(--bd);border-radius:17px;padding:26px;margin-bottom:16px;position:relative}
+.q-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:17px 17px 0 0;background:linear-gradient(90deg,var(--blue),var(--purple))}
+.q-loading{text-align:center;padding:48px 20px}
+.ring{width:40px;height:40px;border:3px solid var(--bd);border-top-color:var(--blue);border-radius:50%;animation:spin .85s linear infinite;margin:0 auto 14px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.q-lt{font-size:14px;color:var(--t2)}
+.q-ls{font-size:11px;color:var(--t3);margin-top:4px}
+.q-num{font-size:10px;font-weight:700;letter-spacing:.8px;color:var(--t3);text-transform:uppercase;margin-bottom:9px;display:flex;align-items:center;justify-content:space-between}
+.q-text{font-size:15px;line-height:1.8;margin-bottom:22px;color:var(--t)}
+.q-text code{background:var(--inp);padding:2px 6px;border-radius:4px;font-family:'Courier New',monospace;font-size:13px}
+.opts{display:flex;flex-direction:column;gap:8px;margin-bottom:18px}
+.opt{display:flex;align-items:flex-start;gap:12px;padding:13px 15px;border-radius:12px;border:1px solid var(--bd);background:var(--inp);cursor:pointer;transition:all .18s;text-align:left;width:100%;font-family:var(--fb)}
+.opt:hover:not(.locked){background:var(--card2);border-color:var(--bd2)}
+.opt.sel{border-color:var(--blue);background:rgba(59,130,246,.07)}
+.opt.correct{border-color:var(--green);background:rgba(16,185,129,.07)}
+.opt.wrong{border-color:var(--red);background:rgba(239,68,68,.07)}
+.opt.reveal{border-color:var(--green);background:rgba(16,185,129,.04)}
+.opt.locked{cursor:not-allowed}
+.opt-key{width:24px;height:24px;border-radius:6px;border:1.5px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--t3);flex-shrink:0;transition:all .18s}
+.opt.sel .opt-key{border-color:var(--blue);color:var(--blue);background:rgba(59,130,246,.1)}
+.opt.correct .opt-key{border-color:var(--green);color:var(--green);background:rgba(16,185,129,.14)}
+.opt.wrong .opt-key{border-color:var(--red);color:var(--red);background:rgba(239,68,68,.14)}
+.opt.reveal .opt-key{border-color:var(--green);color:var(--green);background:rgba(16,185,129,.1)}
+.opt-txt{font-size:14px;line-height:1.65;padding-top:2px;color:var(--t)}
+.q-acts{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+.rb{border-radius:11px;padding:12px 15px;margin-bottom:14px;display:flex;align-items:center;gap:9px;font-weight:600;font-size:13px}
+.rb-c{background:rgba(16,185,129,.07);border:1px solid rgba(16,185,129,.2);color:var(--green)}
+.rb-w{background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.2);color:var(--red)}
+.exp{background:var(--inp);border:1px solid var(--bd);border-radius:11px;padding:16px}
+.exp-l{font-size:10px;font-weight:700;letter-spacing:.8px;color:var(--blue);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:5px}
+.exp-l::before{content:'';width:3px;height:12px;background:var(--blue);border-radius:2px}
+.exp-t{font-size:13px;line-height:1.85;color:var(--t2)}
+/* SCORE */
+.score-c{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:32px;text-align:center;max-width:440px;margin:0 auto}
+.sc-ring{width:100px;height:100px;border-radius:50%;margin:0 auto 16px;position:relative}
+.sc-inner{position:absolute;inset:9px;border-radius:50%;background:var(--card);display:flex;align-items:center;justify-content:center;flex-direction:column}
+.sc-pct{font-family:var(--fh);font-size:20px;font-weight:800;line-height:1}
+.sc-pl{font-size:10px;color:var(--t3)}
+.sc-t{font-family:var(--fh);font-size:18px;font-weight:800;margin-bottom:5px}
+.sc-s{font-size:13px;color:var(--t2);margin-bottom:18px;line-height:1.65}
+.sc-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-bottom:18px}
+.scs{background:var(--inp);border:1px solid var(--bd);border-radius:10px;padding:11px}
+.scs-v{font-family:var(--fh);font-size:17px;font-weight:800;line-height:1}
+.scs-l{font-size:10px;color:var(--t3);margin-top:2px}
+/* PERFORMANCE */
+.perf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;margin-bottom:20px}
+.pc{background:var(--card);border:1px solid var(--bd);border-radius:13px;padding:16px 18px}
+.pc-l{font-size:10px;color:var(--t3);font-weight:700;letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px}
+.pc-v{font-family:var(--fh);font-size:26px;font-weight:800;line-height:1}
+.sp-list{display:flex;flex-direction:column;gap:7px;margin-bottom:20px}
+.sp-row{display:flex;align-items:center;gap:11px;padding:11px 14px;background:var(--card);border:1px solid var(--bd);border-radius:10px}
+.sp-n{flex:0 0 115px;font-size:12px;font-weight:600}
+.sp-bar{flex:1;height:6px;background:var(--bd);border-radius:999px;overflow:hidden}
+.sp-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--blue),var(--purple));transition:width .7s ease}
+.sp-pct{flex:0 0 36px;text-align:right;font-size:11px;font-weight:700;color:var(--blue)}
+.hist-t{background:var(--card);border:1px solid var(--bd);border-radius:13px;overflow:hidden}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;padding:9px 14px;font-size:10px;font-weight:700;letter-spacing:.7px;color:var(--t3);text-transform:uppercase;border-bottom:1px solid var(--bd)}
+td{padding:10px 14px;font-size:12px;border-bottom:1px solid var(--bd)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--inp)}
+#toast{position:fixed;bottom:18px;right:18px;z-index:999;background:var(--card);border:1px solid var(--bd);padding:10px 15px;border-radius:10px;font-size:12px;font-weight:500;display:flex;align-items:center;gap:8px;transform:translateY(80px);opacity:0;transition:all .28s cubic-bezier(.34,1.56,.64,1);max-width:250px}
+#toast.show{transform:translateY(0);opacity:1}
+#toast.success{border-color:rgba(16,185,129,.28)}
+#toast.error{border-color:rgba(239,68,68,.28)}
+.tdot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+#toast.success .tdot{background:var(--green)}
+#toast.error .tdot{background:var(--red)}
+@media(max-width:768px){:root{--sw:0px}.sb{transform:translateX(-244px);width:244px}.sb.open{transform:translateX(0)}.main{margin-left:0}.ov.show{display:block}.topbar,.pg{padding-left:14px;padding-right:14px}.hb{display:flex}.perf-grid{grid-template-columns:1fr 1fr}.sess{flex-wrap:wrap}.ss{flex:0 0 50%;border-bottom:1px solid var(--bd)}.subj-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.subj-grid{grid-template-columns:1fr}.perf-grid{grid-template-columns:1fr}.sc-stats{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div id="ag"><div class="gl">FluxPrep</div></div>
+<div class="ov" id="ov" onclick="closeSB()"></div>
+<aside class="sb" id="sb">
+  <div class="sb-logo"><a href="stud.html"><div class="nm">FP</div><span class="nt">FluxPrep</span></a></div>
+  <nav class="sb-nav">
+    <div class="sb-sec">Main</div>
+    <a class="si" href="stud.html"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
+    <div class="sb-sec">Prepare</div>
+    <a class="si active" href="practice.html"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Practice</a>
+    <a class="si" href="test.html"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Mock Tests</a>
+    <a class="si" href="doubt.html"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Ask a Doubt</a>
+    <div class="sb-sec">Analytics</div>
+    <div class="si" onclick="showPg('performance')"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>My Performance</div>
+    <div class="sb-sec">Account</div>
+    <a class="si" href="stud.html"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profile</a>
+  </nav>
+  <div class="sb-foot">
+    <div class="sb-user"><div class="av" id="sbav">?</div><div style="min-width:0"><div class="sb-un" id="sbn">Loading</div><div class="sb-uid" id="sbuid">FP-…</div></div></div>
+    <button class="lout" onclick="doOut()">Sign Out</button>
+  </div>
+</aside>
+<div class="main">
+  <div class="topbar">
+    <div class="tb-l"><div class="ib hb" onclick="openSB()"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></div><div class="tb-t" id="ph">Practice</div></div>
+    <div class="tb-r"><div class="ib" onclick="toggleTheme()"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg></div></div>
+  </div>
+  <div class="pg active" id="pg-select">
+    <div class="pg-t">Choose a Subject</div>
+    <div class="pg-s" id="pg-sub">Select a subject to begin AI-powered chapterwise practice</div>
+    <div class="subj-grid" id="subj-grid"><div style="color:var(--t3);padding:36px;font-size:13px;text-align:center">Loading subjects…</div></div>
+  </div>
+  <div class="pg" id="pg-chapters">
+    <div class="bc"><span class="bci" onclick="showPg('select')">Subjects</span><span class="bc-sep">›</span><span class="bc-cur" id="bc-sub">—</span></div>
+    <div class="pg-t" id="chap-t">Chapters</div>
+    <div class="pg-s">Select a chapter. AI questions are harder than the actual exam. Admin questions are curated.</div>
+    <div class="chap-list" id="chap-list"></div>
+  </div>
+  <div class="pg" id="pg-practice">
+    <div class="bc"><span class="bci" onclick="exitSess()">Subjects</span><span class="bc-sep">›</span><span class="bci" id="bc-sub2" onclick="exitToChaps()">—</span><span class="bc-sep">›</span><span class="bc-cur" id="bc-chap">—</span></div>
+    <!-- MODE TABS -->
+    <div class="mode-tabs">
+      <div class="mode-tab active" id="tab-ai" onclick="setMode('ai')">
+        <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        AI Questions
+      </div>
+      <div class="mode-tab" id="tab-admin" onclick="setMode('admin')">
+        <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Curated Questions
+      </div>
+    </div>
+    <div class="sess">
+      <div class="ss"><div class="ss-v" id="ss-q">0</div><div class="ss-l">Questions</div></div>
+      <div class="ss"><div class="ss-v" style="color:var(--green)" id="ss-c">0</div><div class="ss-l">Correct</div></div>
+      <div class="ss"><div class="ss-v" style="color:var(--red)" id="ss-w">0</div><div class="ss-l">Wrong</div></div>
+      <div class="ss"><div class="ss-v" id="ss-a">—</div><div class="ss-l">Accuracy</div></div>
+    </div>
+    <div class="q-wrap" id="q-eng"></div>
+  </div>
+  <div class="pg" id="pg-performance">
+    <div class="pg-t">My Performance</div>
+    <div class="pg-s">Practice analytics across all subjects and chapters</div>
+    <div class="perf-grid" id="perf-grid"></div>
+    <div style="font-family:var(--fh);font-size:14px;font-weight:700;margin-bottom:12px">Subject Accuracy</div>
+    <div class="sp-list" id="sp-list"></div>
+    <div style="font-family:var(--fh);font-size:14px;font-weight:700;margin-bottom:12px;margin-top:20px">Recent Sessions</div>
+    <div class="hist-t"><table><thead><tr><th>Subject</th><th>Chapter</th><th>Mode</th><th>Score</th><th>Accuracy</th><th>Date</th></tr></thead><tbody id="hist-body"><tr><td colspan="6" style="text-align:center;padding:24px;color:var(--t3)">No history yet</td></tr></tbody></table></div>
+  </div>
+</div>
+<div id="toast"><span class="tdot"></span><span id="toast-msg"></span></div>
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import{getAuth,onAuthStateChanged,signOut as fbOut}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import{getFirestore,doc,getDoc,addDoc,collection,query,orderBy,getDocs,setDoc,increment,where}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+const cfg={apiKey:"AIzaSyB0yTyuJEpi3j4Wu5r45uJ7cSpVVzgjiMk",authDomain:"fluxprep-1f7b3.firebaseapp.com",projectId:"fluxprep-1f7b3",storageBucket:"fluxprep-1f7b3.firebasestorage.app",messagingSenderId:"651182920201",appId:"1:651182920201:web:3fb71e6f5d56e5bb9b5ed8"};
+// Try multiple Gemini models in order
+const GEMINI_KEY="AIzaSyCApP3RYWxoTS8EdwB28m3UBWrzP4iv7e8";
+const GEMINI_MODELS=[
+  "gemini-2.0-flash",
+  "gemini-1.5-flash-latest",
+  "gemini-1.5-flash",
+  "gemini-pro"
+];
+const app=initializeApp(cfg);const auth=getAuth(app);const db=getFirestore(app);
+let SD={},CU=null,selSubj=null,selChap=null,practiceMode='ai';
+let sess={total:0,correct:0,wrong:0,start:0,topics:[]};
+let curQ=null,answered=false,selIdx=-1;
+// Admin question pool and index for curated mode
+let adminQuestions=[],adminQIdx=0;
+
+const th=localStorage.getItem('fp_theme')||'dark';document.documentElement.setAttribute('data-theme',th);
+window.toggleTheme=()=>{const n=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);localStorage.setItem('fp_theme',n);};
+window.openSB=()=>{document.getElementById('sb').classList.add('open');document.getElementById('ov').classList.add('show');};
+window.closeSB=()=>{document.getElementById('sb').classList.remove('open');document.getElementById('ov').classList.remove('show');};
+
+onAuthStateChanged(auth,async u=>{
+  if(!u){location.href='login.html';return;}
+  const s=await getDoc(doc(db,'students',u.uid));
+  if(!s.exists()){location.href='register.html';return;}
+  const d=s.data();if(d.status&&d.status!=='active'){location.href='stud.html';return;}
+  CU=u;SD=d;document.getElementById('ag').style.display='none';
+  const ini=(d.name||'?').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+  const ph=d.photo||u.photoURL;
+  document.getElementById('sbav').innerHTML=ph?`<img src="${x(ph)}" alt=""/>`:ini;
+  document.getElementById('sbn').textContent=d.name||'—';document.getElementById('sbuid').textContent=d.userID||'—';
+  document.getElementById('pg-sub').textContent=`Goal: ${d.goal} · Class ${d.class}`;
+  loadSubjs();
+});
+
+window.setMode=mode=>{
+  practiceMode=mode;
+  document.getElementById('tab-ai').classList.toggle('active',mode==='ai');
+  document.getElementById('tab-admin').classList.toggle('active',mode==='admin');
+  // Restart session with new mode
+  sess={total:0,correct:0,wrong:0,start:Date.now(),topics:[]};
+  updSess();
+  if(mode==='admin'){loadAdminQs().then(()=>{if(adminQuestions.length===0){showToast('No curated questions for this chapter yet','error');}else{adminQIdx=0;renderAdminQ();}});}
+  else{loadQ();}
+};
+
+async function loadSubjs(){
+  const grid=document.getElementById('subj-grid');
+  try{
+    const snap=await getDocs(collection(db,`goals/${SD.goal}/subjects`));
+    if(snap.empty){grid.innerHTML='<div style="color:var(--t3);padding:36px;font-size:13px;text-align:center">No subjects yet. Contact the admin.</div>';return;}
+    const subs=[];snap.forEach(d=>subs.push({id:d.id,...d.data()}));
+    // Filter by student's class
+    const myClass=String(SD.class||'');
+    const filtered=subs.filter(s=>{if(!s.availableClasses||s.availableClasses.length===0)return true;return s.availableClasses.includes(myClass);});
+    filtered.sort((a,b)=>(a.order||99)-(b.order||99));
+    if(!filtered.length){grid.innerHTML='<div style="color:var(--t3);padding:36px;font-size:13px;text-align:center">No subjects available for your class. Contact the admin.</div>';return;}
+    const im={'Physics':'<path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>','Chemistry':'<path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v11m0 0H5a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2h-4m-5 0h4"/>','Biology':'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>','Mathematics':'<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>','English':'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>'};
+    grid.innerHTML=filtered.map(s=>`<div class="subj-card" onclick="selectSubj(${JSON.stringify(s).replace(/"/g,'&quot;')})"><div class="subj-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">${im[s.name]||'<circle cx="12" cy="12" r="10"/>'}</svg></div><div class="subj-name">${x(s.name)}</div><div class="subj-cnt">${(s.chapters||[]).length} chapter${(s.chapters||[]).length!==1?'s':''}</div></div>`).join('');
+  }catch(e){grid.innerHTML=`<div style="color:var(--red);padding:36px;font-size:13px">Error: ${x(e.message)}</div>`;}
+}
+
+window.selectSubj=s=>{
+  selSubj=s;document.getElementById('bc-sub').textContent=s.name;document.getElementById('chap-t').textContent=s.name;
+  const list=document.getElementById('chap-list'),chs=s.chapters||[];
+  list.innerHTML=chs.length?chs.map((ch,i)=>`<div class="chap-item" onclick="selectChap(${JSON.stringify(ch).replace(/"/g,'&quot;')},${i})"><div class="chap-l"><div class="chap-num">${i+1}</div><div class="chap-name">${x(ch)}</div></div><div class="chap-meta"><span class="chap-tag">AI</span><span class="chap-tag" style="background:rgba(16,185,129,.07);border-color:rgba(16,185,129,.18);color:var(--green)">Curated</span></div></div>`).join(''):'<div style="color:var(--t3);padding:18px;font-size:13px">No chapters yet.</div>';
+  showPg('chapters');
+};
+
+window.selectChap=async(ch,idx)=>{
+  selChap={name:ch,idx};document.getElementById('bc-sub2').textContent=selSubj.name;document.getElementById('bc-chap').textContent=ch;
+  sess={total:0,correct:0,wrong:0,start:Date.now(),topics:[]};updSess();
+  showPg('practice');document.getElementById('ph').textContent='Practice';
+  practiceMode='ai';document.getElementById('tab-ai').classList.add('active');document.getElementById('tab-admin').classList.remove('active');
+  loadQ();
+};
+
+// ==== GEMINI AI QUESTION GENERATION ====
+async function callGemini(prompt){
+  for(const model of GEMINI_MODELS){
+    try{
+      const res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_KEY}`,{
+        method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({contents:[{parts:[{text:prompt}]}],generationConfig:{temperature:0.75,maxOutputTokens:1200,topP:0.95}})
+      });
+      if(!res.ok){
+        const err=await res.text();
+        if(res.status===404||res.status===400){continue;} // Try next model
+        throw new Error(`API ${res.status}: ${err.slice(0,150)}`);
+      }
+      const data=await res.json();
+      const raw=data.candidates?.[0]?.content?.parts?.[0]?.text||'';
+      if(!raw)throw new Error('Empty response');
+      console.log(`Using model: ${model}`);
+      return raw;
+    }catch(e){
+      if(e.message.includes('404')||e.message.includes('not found')||e.message.includes('400')){continue;}
+      throw e;
+    }
+  }
+  throw new Error('All Gemini models unavailable. Check your API key and try again.');
+}
+
+async function generateQ(){
+  const goal=SD.goal,cls=SD.class,subj=selSubj.name,chap=selChap.name;
+  const diffMap={
+    'IIT-JEE':'IIT JEE Advanced level difficulty — multi-step reasoning, application of multiple concepts simultaneously, mathematical rigour. Significantly harder than standard JEE Advanced questions.',
+    'NEET':'NEET PG/AIIMS standard — precise recall, cross-chapter application, careful option elimination. Much harder than standard NEET.',
+    'CLAT':'Complex legal reasoning, multi-layered passage comprehension, non-obvious inferences. Harder than actual CLAT.',
+    'NSEB':'Science Olympiad (IPhO/IChO/IOAA) standard — deep theory, novel problem-solving beyond standard curriculum.',
+    'ISC':'Far beyond ISC board, incorporating competitive exam depth for this subject.'
+  };
+  const diff=diffMap[goal]||`${goal} advanced competitive level, much harder than standard exam`;
+  const avoid=sess.topics.length?`Avoid these recently asked topics: ${sess.topics.slice(-5).join(', ')}.`:'';
+  const prompt=`You are an expert question setter for Indian competitive exams. Create ONE MCQ question.
+
+Exam: ${goal} | Subject: ${subj} | Chapter: ${chap} | Class: ${cls}
+Difficulty: ${diff}
+${avoid}
+
+Rules:
+1. All 4 options must be highly plausible — no obviously wrong options
+2. Test deep understanding, not memorisation
+3. Explanation: 4-6 sentences covering WHY correct answer is right AND why others are wrong
+4. For numerical problems, show key calculation steps
+
+Respond with ONLY this JSON (no markdown, no extra text):
+{"question":"Full question text","options":["Option A","Option B","Option C","Option D"],"correct":0,"explanation":"Detailed explanation here","topic":"Specific sub-topic"}
+
+"correct" is 0-indexed (0=A, 1=B, 2=C, 3=D).`;
+
+  const raw=await callGemini(prompt);
+  const match=raw.match(/\{[\s\S]*\}/);
+  if(!match)throw new Error('No JSON in AI response. Try again.');
+  const parsed=JSON.parse(match[0]);
+  if(!parsed.question||!Array.isArray(parsed.options)||parsed.options.length!==4||typeof parsed.correct!=='number'||parsed.correct<0||parsed.correct>3||!parsed.explanation)throw new Error('Invalid question format received');
+  return parsed;
+}
+
+async function loadQ(){
+  answered=false;selIdx=-1;
+  const eng=document.getElementById('q-eng');
+  eng.innerHTML=`<div class="q-card"><div class="q-loading"><div class="ring"></div><div class="q-lt">Generating question…</div><div class="q-ls">Creating a ${x(selSubj.name)} question on ${x(selChap.name)}</div></div></div>`;
+  try{const q=await generateQ();curQ={...q,source:'ai'};renderQ(curQ);}
+  catch(e){eng.innerHTML=`<div class="q-card" style="text-align:center;padding:36px"><div style="color:var(--red);font-size:13px;margin-bottom:8px">${x(e.message)}</div><div style="font-size:12px;color:var(--t3);margin-bottom:16px">The AI service may be temporarily unavailable. You can switch to Curated Questions above, or try again.</div><button class="btn btn-p" onclick="loadQ()">Try Again</button>&nbsp;<button class="btn btn-g" onclick="setMode('admin')">Switch to Curated</button></div>`;}
+}
+
+// ==== ADMIN CURATED QUESTIONS ====
+async function loadAdminQs(){
+  try{
+    const snap=await getDocs(collection(db,`goals/${SD.goal}/subjects/${selSubj.id}/adminQuestions`));
+    adminQuestions=[];
+    snap.forEach(d=>{const q=d.data();if(q.chapter===selChap.name)adminQuestions.push({id:d.id,...q});});
+    // Shuffle
+    for(let i=adminQuestions.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[adminQuestions[i],adminQuestions[j]]=[adminQuestions[j],adminQuestions[i]];}
+  }catch(e){adminQuestions=[];}
+}
+
+function renderAdminQ(){
+  if(!adminQuestions.length){
+    document.getElementById('q-eng').innerHTML=`<div class="q-card" style="text-align:center;padding:36px"><div style="color:var(--t3);font-size:13px;margin-bottom:16px">No curated questions for this chapter yet.<br/>The admin hasn't added any questions here.</div><button class="btn btn-g" onclick="setMode('ai')">Switch to AI Questions</button></div>`;
+    return;
+  }
+  if(adminQIdx>=adminQuestions.length){
+    // All questions done - show completion
+    const eng=document.getElementById('q-eng');
+    eng.innerHTML=`<div class="q-card" style="text-align:center;padding:36px"><div style="font-family:var(--fh);font-size:17px;font-weight:800;margin-bottom:8px">All ${adminQuestions.length} curated questions done!</div><div style="font-size:13px;color:var(--t2);margin-bottom:20px">You've completed all admin-added questions for this chapter.</div><div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><button class="btn btn-g" onclick="restartAdmin()">Restart</button><button class="btn btn-p" onclick="endSess()">End Session</button></div></div>`;
+    return;
+  }
+  curQ={...adminQuestions[adminQIdx],source:'admin'};
+  adminQIdx++;
+  renderQ(curQ);
+}
+
+window.restartAdmin=()=>{adminQIdx=0;for(let i=adminQuestions.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[adminQuestions[i],adminQuestions[j]]=[adminQuestions[j],adminQuestions[i]];}renderAdminQ();};
+
+function renderQ(q){
+  const qn=sess.total+1,keys=['A','B','C','D'];
+  const srcBadge=q.source==='admin'?'<span class="src-badge src-admin"><svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Curated</span>':'<span class="src-badge src-ai"><svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>AI</span>';
+  document.getElementById('q-eng').innerHTML=`
+    <div class="q-meta"><span class="qb qb-s">${x(selSubj.name)}</span><span class="qb qb-c">${x(selChap.name)}</span><span class="qb qb-n">Q${qn}</span>${srcBadge}</div>
+    <div class="q-card" id="qcard">
+      <div class="q-num"><span>Question ${qn}</span>${q.difficulty?`<span style="font-size:10px;color:var(--t3)">${x(q.difficulty)}</span>`:''}</div>
+      <div class="q-text">${fmt(q.question)}</div>
+      <div class="opts" id="opts">${q.options.map((o,i)=>`<button class="opt" id="opt${i}" onclick="pickOpt(${i})"><div class="opt-key">${keys[i]}</div><div class="opt-txt">${fmt(o)}</div></button>`).join('')}</div>
+      <div id="res-area"></div>
+      <div class="q-acts" id="q-acts"><button class="btn btn-g" onclick="skipQ()">Skip</button><button class="btn btn-p" id="sub-btn" onclick="submitQ()" disabled>Submit Answer</button></div>
+    </div>`;
+}
+window.pickOpt=i=>{if(answered)return;selIdx=i;document.querySelectorAll('.opt').forEach((o,j)=>o.classList.toggle('sel',j===i));document.getElementById('sub-btn').disabled=false;};
+window.submitQ=()=>{
+  if(answered||selIdx===-1)return;answered=true;
+  const cor=curQ.correct,ok=selIdx===cor;
+  sess.total++;if(ok)sess.correct++;else sess.wrong++;
+  sess.topics.push(curQ.topic||selChap.name);
+  document.querySelectorAll('.opt').forEach((o,i)=>{o.classList.add('locked');if(i===cor)o.classList.add('correct');else if(i===selIdx&&!ok)o.classList.add('wrong');});
+  document.getElementById('res-area').innerHTML=`<div class="rb ${ok?'rb-c':'rb-w'}"><svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">${ok?'<polyline points="20 6 9 17 4 12"/>':'<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>'}</svg>${ok?'Correct!':'Wrong — Correct answer: Option '+['A','B','C','D'][cor]}</div><div class="exp"><div class="exp-l">Explanation</div><div class="exp-t">${fmt(curQ.explanation)}</div></div>`;
+  document.getElementById('q-acts').innerHTML=`<button class="btn btn-g" onclick="endSess()">End Session</button><button class="btn btn-p" onclick="nextQ()">Next Question</button>`;
+  updSess();saveProg(ok);
+};
+window.nextQ=()=>{if(practiceMode==='admin')renderAdminQ();else loadQ();};
+window.skipQ=()=>{sess.total++;sess.topics.push('skip');updSess();if(practiceMode==='admin')renderAdminQ();else loadQ();};
+function updSess(){
+  document.getElementById('ss-q').textContent=sess.total;document.getElementById('ss-c').textContent=sess.correct;document.getElementById('ss-w').textContent=sess.wrong;
+  const a=sess.total>0?Math.round(sess.correct/sess.total*100):0;document.getElementById('ss-a').textContent=sess.total>0?a+'%':'—';
+}
+async function saveProg(ok){
+  try{const ref=doc(db,`students/${CU.uid}/practiceStats/${selSubj.id}_${selChap.name.replace(/\W/g,'_')}`);await setDoc(ref,{subject:selSubj.name,subjectId:selSubj.id,chapter:selChap.name,goal:SD.goal,total:increment(1),correct:ok?increment(1):increment(0),lastPracticed:new Date().toISOString()},{merge:true});}catch(e){}
+}
+window.endSess=async()=>{
+  if(sess.total===0){showPg('select');return;}
+  try{await addDoc(collection(db,`students/${CU.uid}/practiceHistory`),{subject:selSubj.name,chapter:selChap.name,goal:SD.goal,mode:practiceMode,total:sess.total,correct:sess.correct,wrong:sess.wrong,accuracy:sess.total>0?Math.round(sess.correct/sess.total*100):0,duration:Math.round((Date.now()-sess.start)/60000),timestamp:new Date().toISOString()});}catch(e){}
+  showScoreCard();
+};
+function showScoreCard(){
+  const acc=sess.total>0?Math.round(sess.correct/sess.total*100):0;
+  const grade=acc>=85?'Excellent!':acc>=65?'Good effort!':acc>=45?'Keep going!':'Needs more work';
+  const deg=acc*3.6;
+  document.getElementById('q-eng').innerHTML=`<div class="score-c">
+    <div class="sc-ring" style="background:conic-gradient(var(--blue) 0deg,var(--purple) ${deg}deg,var(--bd) ${deg}deg)"><div class="sc-inner"><div class="sc-pct">${acc}%</div><div class="sc-pl">accuracy</div></div></div>
+    <div class="sc-t">${grade}</div>
+    <div class="sc-s">${x(selSubj.name)} › ${x(selChap.name)}<br/><span style="font-size:11px;opacity:.7">${practiceMode==='admin'?'Curated mode':'AI mode'}</span></div>
+    <div class="sc-stats"><div class="scs"><div class="scs-v">${sess.total}</div><div class="scs-l">Total</div></div><div class="scs"><div class="scs-v" style="color:var(--green)">${sess.correct}</div><div class="scs-l">Correct</div></div><div class="scs"><div class="scs-v" style="color:var(--red)">${sess.wrong}</div><div class="scs-l">Wrong</div></div></div>
+    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><button class="btn btn-g" onclick="exitSess()">Back to Subjects</button><button class="btn btn-p" onclick="restart()">Practice Again</button></div>
+  </div>`;
+}
+window.restart=()=>{sess={total:0,correct:0,wrong:0,start:Date.now(),topics:[]};updSess();if(practiceMode==='admin'){adminQIdx=0;renderAdminQ();}else loadQ();};
+window.exitSess=()=>showPg('select');
+window.exitToChaps=()=>showPg('chapters');
+async function loadPerf(){
+  try{
+    const statsSnap=await getDocs(collection(db,`students/${CU.uid}/practiceStats`));const histSnap=await getDocs(query(collection(db,`students/${CU.uid}/practiceHistory`),orderBy('timestamp','desc')));
+    let tt=0,tc=0;const subMap={};
+    statsSnap.forEach(d=>{const s=d.data();tt+=s.total||0;tc+=s.correct||0;if(!subMap[s.subject])subMap[s.subject]={t:0,c:0};subMap[s.subject].t+=s.total||0;subMap[s.subject].c+=s.correct||0;});
+    const oa=tt>0?Math.round(tc/tt*100):0;
+    document.getElementById('perf-grid').innerHTML=`<div class="pc"><div class="pc-l">Total Questions</div><div class="pc-v">${tt}</div></div><div class="pc"><div class="pc-l">Overall Accuracy</div><div class="pc-v" style="color:var(--blue)">${oa}%</div></div><div class="pc"><div class="pc-l">Sessions</div><div class="pc-v">${histSnap.size}</div></div>`;
+    const sp=document.getElementById('sp-list');
+    sp.innerHTML=Object.entries(subMap).length?Object.entries(subMap).map(([s,d])=>{const a=d.t>0?Math.round(d.c/d.t*100):0;return`<div class="sp-row"><div class="sp-n">${x(s)}</div><div class="sp-bar"><div class="sp-fill" style="width:${a}%"></div></div><div class="sp-pct">${a}%</div></div>`;}).join(''):'<div style="color:var(--t3);padding:12px;font-size:13px">No practice data yet.</div>';
+    const rows=[];histSnap.forEach(d=>rows.push(d.data()));
+    document.getElementById('hist-body').innerHTML=rows.length?rows.slice(0,20).map(r=>`<tr><td style="font-weight:600">${x(r.subject||'—')}</td><td style="color:var(--t2)">${x(r.chapter||'—')}</td><td><span style="font-size:10px;font-weight:600;color:${r.mode==='admin'?'var(--green)':'var(--purple)'}">${r.mode==='admin'?'Curated':'AI'}</span></td><td>${r.correct}/${r.total}</td><td style="color:${(r.accuracy||0)>=60?'var(--green)':'var(--red)'};font-weight:700">${r.accuracy||0}%</td><td style="color:var(--t3)">${r.timestamp?new Date(r.timestamp).toLocaleDateString('en-IN'):'—'}</td></tr>`).join(''):'<tr><td colspan="6" style="text-align:center;padding:24px;color:var(--t3)">No sessions yet</td></tr>';
+  }catch(e){}
+}
+window.showPg=pg=>{document.querySelectorAll('.pg').forEach(p=>p.classList.remove('active'));document.getElementById('pg-'+pg).classList.add('active');const h={select:'Practice',chapters:'Chapters',practice:'Practice',performance:'My Performance'};document.getElementById('ph').textContent=h[pg]||'Practice';if(pg==='performance')loadPerf();closeSB();};
+window.doOut=async()=>{await fbOut(auth);location.href='login.html';};
+function fmt(t){return String(t||'').replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/`(.*?)`/g,'<code style="background:var(--inp);padding:2px 5px;border-radius:4px;font-family:monospace;font-size:12px">$1</code>');}
+function x(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+let tt;function showToast(msg,type='success'){const el=document.getElementById('toast');document.getElementById('toast-msg').textContent=msg;el.className=type+' show';clearTimeout(tt);tt=setTimeout(()=>el.className=type,3500);}
+</script>
+</body>
+</html>

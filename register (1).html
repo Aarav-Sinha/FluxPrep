@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>FluxPrep — Register</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--blue:#3b82f6;--blue2:#2563eb;--purple:#8b5cf6;--green:#10b981;--amber:#f59e0b;--red:#ef4444;--fh:'Syne',sans-serif;--fb:'Plus Jakarta Sans',sans-serif;}
+[data-theme="dark"]{--bg:#04070f;--card:#0c1322;--bd:rgba(255,255,255,.06);--bd2:rgba(255,255,255,.12);--bfocus:rgba(59,130,246,.4);--t:#eef2ff;--t2:#94a3b8;--t3:#3d4f68;--inp:rgba(255,255,255,.04);}
+[data-theme="light"]{--bg:#f4f7ff;--card:#fff;--bd:rgba(0,0,0,.07);--bd2:rgba(0,0,0,.14);--bfocus:rgba(59,130,246,.4);--t:#0e1729;--t2:#475569;--t3:#9db0c8;--inp:rgba(0,0,0,.04);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--t);font-family:var(--fb);min-height:100vh;transition:background .3s,color .3s}
+.orb{position:fixed;border-radius:50%;filter:blur(90px);pointer-events:none;z-index:0;opacity:.5}
+.o1{width:500px;height:500px;top:-150px;left:-100px;background:radial-gradient(circle,rgba(59,130,246,.18),transparent 70%)}
+.o2{width:450px;height:450px;bottom:-100px;right:-80px;background:radial-gradient(circle,rgba(139,92,246,.14),transparent 70%)}
+[data-theme="light"] .orb{opacity:.2}
+.page{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:28px 16px 56px}
+.topbar{width:100%;max-width:520px;display:flex;align-items:center;justify-content:space-between;margin-bottom:32px}
+.logo{display:flex;align-items:center;gap:8px;text-decoration:none}
+.lm{width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-weight:800;font-size:11px;color:#fff}
+.lt{font-family:var(--fh);font-size:15px;font-weight:800;background:linear-gradient(135deg,var(--blue),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.back-l{font-size:12px;color:var(--t2);text-decoration:none;display:flex;align-items:center;gap:4px;transition:color .15s}
+.back-l:hover{color:var(--t)}
+/* PROGRESS */
+.prog-wrap{width:100%;max-width:520px;margin-bottom:28px}
+.prog-steps{display:flex;align-items:center;margin-bottom:9px}
+.ps{flex:1;display:flex;flex-direction:column;align-items:center;z-index:1;position:relative}
+.psdot{width:24px;height:24px;border-radius:50%;border:2px solid var(--bd2);background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--t3);transition:all .3s}
+.ps.done .psdot{background:var(--blue);border-color:var(--blue);color:#fff}
+.ps.active .psdot{background:rgba(59,130,246,.12);border-color:var(--blue);color:var(--blue);box-shadow:0 0 0 4px rgba(59,130,246,.1)}
+.ps-lbl{font-size:9px;color:var(--t3);margin-top:4px;font-weight:600;white-space:nowrap}
+.ps.active .ps-lbl{color:var(--blue)}
+.ps.done .ps-lbl{color:var(--t2)}
+.psline{flex:1;height:2px;background:var(--bd);transition:background .3s;margin-bottom:18px;z-index:0}
+.psline.done{background:var(--blue)}
+.prog-bar{height:3px;background:var(--bd);border-radius:999px;overflow:hidden}
+.prog-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--blue),var(--purple));transition:width .4s cubic-bezier(.34,1.56,.64,1)}
+/* CARD */
+.reg-card{width:100%;max-width:520px;background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:32px 28px;animation:up .4s cubic-bezier(.22,1,.36,1) both}
+@keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.step-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.16);border-radius:999px;padding:3px 11px;font-size:10px;font-weight:700;color:#93c5fd;letter-spacing:.5px;text-transform:uppercase;margin-bottom:11px}
+.step-title{font-family:var(--fh);font-size:21px;font-weight:800;letter-spacing:-.5px;margin-bottom:5px}
+.step-sub{font-size:13px;color:var(--t2);line-height:1.65;margin-bottom:24px}
+.gbtn{display:flex;align-items:center;justify-content:center;gap:11px;width:100%;padding:13px;background:#fff;color:#1e293b;border:none;border-radius:10px;font-family:var(--fb);font-size:14px;font-weight:600;cursor:pointer;transition:all .2s}
+.gbtn:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(0,0,0,.17)}
+.gbtn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.fg{margin-bottom:16px}
+.fl{display:flex;align-items:center;justify-content:space-between;font-size:10px;font-weight:700;color:var(--t2);letter-spacing:.3px;text-transform:uppercase;margin-bottom:6px}
+.fi{width:100%;background:var(--inp);border:1px solid var(--bd);border-radius:9px;padding:12px 13px;color:var(--t);font-family:var(--fb);font-size:14px;outline:none;transition:border-color .2s}
+.fi:focus{border-color:var(--bfocus)}
+.fi::placeholder{color:var(--t3)}
+.fi.err{border-color:var(--red)}
+.ferr{font-size:11px;color:var(--red);margin-top:4px;display:none}
+.auto-val{font-size:11px;font-weight:700;color:var(--blue)}
+/* GENDER */
+.gender-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.gopt{position:relative}
+.gopt input{position:absolute;opacity:0;pointer-events:none}
+.gopt label{display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 8px;border-radius:12px;border:1px solid var(--bd);background:var(--inp);cursor:pointer;transition:all .2s;text-align:center}
+.gopt label:hover{border-color:var(--bd2)}
+.gopt input:checked+label{border-color:var(--blue);background:rgba(59,130,246,.08)}
+.gopt-icon{width:32px;height:32px;border-radius:9px;background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.14);display:flex;align-items:center;justify-content:center}
+.gopt-icon svg{width:16px;height:16px;color:var(--blue)}
+.gopt-lbl{font-size:12px;font-weight:600}
+/* GOAL */
+.goal-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.goo{position:relative}
+.goo input{position:absolute;opacity:0;pointer-events:none}
+.goo label{display:flex;align-items:center;gap:9px;padding:12px 13px;border-radius:10px;border:1px solid var(--bd);background:var(--inp);cursor:pointer;transition:all .2s}
+.goo label:hover{border-color:var(--bd2)}
+.goo input:checked+label{border-color:var(--blue);background:rgba(59,130,246,.08)}
+.goo.dis label{opacity:.4;cursor:not-allowed}
+.goo-icon{width:26px;height:26px;border-radius:7px;background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.14);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.goo-icon svg{width:13px;height:13px;color:var(--blue)}
+.goo-name{font-size:13px;font-weight:700}
+.goo-cs{font-size:10px;color:var(--amber);font-weight:600}
+/* CLASS */
+.class-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.clsopt{position:relative}
+.clsopt input{position:absolute;opacity:0;pointer-events:none}
+.clsopt label{display:flex;align-items:center;justify-content:center;padding:13px;border-radius:10px;border:1px solid var(--bd);background:var(--inp);cursor:pointer;transition:all .2s;font-size:13px;font-weight:700}
+.clsopt label:hover{border-color:var(--bd2)}
+.clsopt input:checked+label{border-color:var(--blue);background:rgba(59,130,246,.08);color:var(--blue)}
+/* CONFIRM */
+.conf-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:4px}
+.ci{background:var(--inp);border:1px solid var(--bd);border-radius:9px;padding:11px 13px}
+.ci-l{font-size:9px;font-weight:700;letter-spacing:.8px;color:var(--t3);text-transform:uppercase;margin-bottom:2px}
+.ci-v{font-size:13px;font-weight:600}
+.ci-uid{font-family:'Courier New',monospace;color:#a78bfa;font-size:12px}
+/* BUTTONS */
+.btn-row{display:flex;gap:8px;margin-top:22px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:12px 18px;border-radius:9px;font-family:var(--fb);font-size:13px;font-weight:600;cursor:pointer;transition:all .18s;border:none;flex:1;justify-content:center}
+.btn-p{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff}
+.btn-p:hover{transform:translateY(-1px);box-shadow:0 5px 16px rgba(59,130,246,.33)}
+.btn-p:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.btn-g{background:var(--inp);border:1px solid var(--bd);color:var(--t2);flex:0 0 auto;padding:12px 16px}
+.btn-g:hover{color:var(--t);border-color:var(--bd2)}
+/* SUCCESS */
+.success-wrap{text-align:center;padding:10px 0}
+.suc-icon{width:68px;height:68px;border-radius:19px;margin:0 auto 18px;background:linear-gradient(135deg,rgba(16,185,129,.12),rgba(59,130,246,.12));border:1px solid rgba(16,185,129,.24);display:flex;align-items:center;justify-content:center;animation:pop .5s cubic-bezier(.34,1.56,.64,1)}
+@keyframes pop{from{opacity:0;transform:scale(.5)}to{opacity:1;transform:scale(1)}}
+.suc-icon svg{width:30px;height:30px;color:var(--green)}
+.suc-title{font-family:var(--fh);font-size:22px;font-weight:800;margin-bottom:6px}
+.suc-sub{font-size:13px;color:var(--t2);margin-bottom:22px;line-height:1.7}
+.uid-box{background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.2);border-radius:12px;padding:16px;margin-bottom:22px}
+.uid-box-l{font-size:10px;font-weight:700;letter-spacing:1px;color:var(--t3);text-transform:uppercase;margin-bottom:5px}
+.uid-box-v{font-family:'Courier New',monospace;font-size:24px;font-weight:700;color:#a78bfa;letter-spacing:2px}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--card);border:1px solid rgba(239,68,68,.3);padding:10px 16px;border-radius:10px;font-size:12px;font-weight:500;color:#fca5a5;display:flex;align-items:center;gap:8px;transition:transform .3s cubic-bezier(.34,1.56,.64,1);z-index:100}
+#toast.success{border-color:rgba(16,185,129,.3);color:#6ee7b7}
+#toast.show{transform:translateX(-50%) translateY(0)}
+.screen{display:none}.screen.active{display:block}
+@media(max-width:480px){.reg-card{padding:22px 16px}.conf-grid{grid-template-columns:1fr}.goal-grid{grid-template-columns:1fr}.class-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="orb o1"></div><div class="orb o2"></div>
+<div class="page">
+  <div class="topbar">
+    <a href="index.html" class="logo"><div class="lm">FP</div><span class="lt">FluxPrep</span></a>
+    <a href="login.html" class="back-l"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>Already registered?</a>
+  </div>
+  <div class="prog-wrap">
+    <div class="prog-steps" id="prog-steps">
+      <div class="ps active" data-s="1"><div class="psdot">1</div><div class="ps-lbl">Login</div></div>
+      <div class="psline" id="l1"></div>
+      <div class="ps" data-s="2"><div class="psdot">2</div><div class="ps-lbl">Name</div></div>
+      <div class="psline" id="l2"></div>
+      <div class="ps" data-s="3"><div class="psdot">3</div><div class="ps-lbl">Gender</div></div>
+      <div class="psline" id="l3"></div>
+      <div class="ps" data-s="4"><div class="psdot">4</div><div class="ps-lbl">Goal</div></div>
+      <div class="psline" id="l4"></div>
+      <div class="ps" data-s="5"><div class="psdot">5</div><div class="ps-lbl">Class</div></div>
+      <div class="psline" id="l5"></div>
+      <div class="ps" data-s="6"><div class="psdot">6</div><div class="ps-lbl">Details</div></div>
+      <div class="psline" id="l6"></div>
+      <div class="ps" data-s="7"><div class="psdot">&#10003;</div><div class="ps-lbl">Confirm</div></div>
+    </div>
+    <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:14%"></div></div>
+  </div>
+  <div class="reg-card" id="reg-card">
+    <div class="screen active" id="step-1">
+      <div class="step-badge">Step 1 of 7</div>
+      <div class="step-title">Sign in with Google</div>
+      <div class="step-sub">Use your Google account to create your FluxPrep profile. Takes under 2 minutes.</div>
+      <button class="gbtn" id="gbtn" onclick="signInG()">
+        <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20H24v8h11.3C33.7 33.6 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C34.1 6.5 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20c10.5 0 19.5-7.7 19.5-20 0-1.3-.1-2.7-.3-4z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.5 16.1 18.9 13 24 13c3 0 5.8 1.1 7.9 3l5.7-5.7C34.1 6.5 29.3 4 24 4 16.2 4 9.4 8.4 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-1.8 13.5-4.8l-6.2-5.2C29.4 35.5 26.8 36 24 36c-5.3 0-9.7-3.4-11.3-8.1l-6.6 5.1C9.5 39.7 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20H24v8h11.3c-.9 2.5-2.6 4.6-4.8 6l6.2 5.2C40.5 35.6 44 30.2 44 24c0-1.3-.1-2.7-.4-4z"/></svg>
+        Continue with Google
+      </button>
+      <p style="font-size:12px;color:var(--t3);text-align:center;margin-top:16px;line-height:1.6">Your data is stored securely in FluxPrep's database.</p>
+    </div>
+    <div class="screen" id="step-2">
+      <div class="step-badge">Step 2 of 7</div>
+      <div class="step-title">What is your name?</div>
+      <div class="step-sub">Enter your full name as it should appear on your profile.</div>
+      <div class="fg"><label class="fl">Full Name</label><input class="fi" id="inp-name" placeholder="e.g. Arjun Sharma" maxlength="60"/><div class="ferr" id="err-name">Please enter your full name.</div></div>
+      <div class="btn-row"><button class="btn btn-g" onclick="goStep(1)"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>Back</button><button class="btn btn-p" onclick="n2()">Continue</button></div>
+    </div>
+    <div class="screen" id="step-3">
+      <div class="step-badge">Step 3 of 7</div>
+      <div class="step-title">Your gender</div>
+      <div class="step-sub">Select the option that best describes you.</div>
+      <div class="gender-grid">
+        <div class="gopt"><input type="radio" name="gender" id="gm" value="Male"/><label for="gm"><div class="gopt-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="5"/><path d="M3 21v-1a9 9 0 0 1 18 0v1"/></svg></div><span class="gopt-lbl">Male</span></label></div>
+        <div class="gopt"><input type="radio" name="gender" id="gf" value="Female"/><label for="gf"><div class="gopt-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="5"/><path d="M3 21v-1a9 9 0 0 1 18 0v1"/></svg></div><span class="gopt-lbl">Female</span></label></div>
+        <div class="gopt"><input type="radio" name="gender" id="go" value="Other"/><label for="go"><div class="gopt-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><line x1="3" y1="12" x2="21" y2="12"/></svg></div><span class="gopt-lbl">Other</span></label></div>
+      </div>
+      <div class="ferr" id="err-gender" style="margin-top:8px">Please select a gender.</div>
+      <div class="btn-row"><button class="btn btn-g" onclick="goStep(2)"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>Back</button><button class="btn btn-p" onclick="n3()">Continue</button></div>
+    </div>
+    <div class="screen" id="step-4">
+      <div class="step-badge">Step 4 of 7</div>
+      <div class="step-title">Your target exam</div>
+      <div class="step-sub">Select the exam you are preparing for.</div>
+      <div class="goal-grid" id="goal-opts"><div style="color:var(--t3);font-size:13px;padding:8px">Loading goals…</div></div>
+      <div class="ferr" id="err-goal" style="margin-top:8px">Please select a goal.</div>
+      <div class="btn-row"><button class="btn btn-g" onclick="goStep(3)"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>Back</button><button class="btn btn-p" onclick="n4()">Continue</button></div>
+    </div>
+    <div class="screen" id="step-5">
+      <div class="step-badge">Step 5 of 7</div>
+      <div class="step-title">Your current class</div>
+      <div class="step-sub">Select your class. Options shown are available for your selected goal.</div>
+      <div class="class-grid" id="class-opts"></div>
+      <div class="ferr" id="err-class" style="margin-top:8px">Please select your class.</div>
+      <div class="btn-row"><button class="btn btn-g" onclick="goStep(4)"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>Back</button><button class="btn btn-p" onclick="n5()">Continue</button></div>
+    </div>
+    <div class="screen" id="step-6">
+      <div class="step-badge">Step 6 of 7</div>
+      <div class="step-title">Personal details</div>
+      <div class="step-sub">A few more details to complete your profile.</div>
+      <div class="fg"><label class="fl">Student Phone</label><input class="fi" id="inp-phone" type="tel" placeholder="10-digit mobile number" maxlength="10"/><div class="ferr" id="err-phone">Enter a valid 10-digit number.</div></div>
+      <div class="fg"><label class="fl">Guardian Phone</label><input class="fi" id="inp-gua" type="tel" placeholder="Parent / Guardian number" maxlength="10"/><div class="ferr" id="err-gua">Enter a valid 10-digit number.</div></div>
+      <div class="fg"><label class="fl">School / Institute</label><input class="fi" id="inp-school" placeholder="e.g. Delhi Public School" maxlength="100"/><div class="ferr" id="err-school">Please enter your school name.</div></div>
+      <div class="fg"><label class="fl">Date of Birth <span class="auto-val" id="age-show"></span></label><input class="fi" id="inp-dob" type="date" onchange="calcAge()"/><div class="ferr" id="err-dob">Please enter your date of birth.</div><div style="font-size:11px;color:var(--t3);margin-top:4px">Age is calculated automatically.</div></div>
+      <div class="btn-row"><button class="btn btn-g" onclick="goStep(5)"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>Back</button><button class="btn btn-p" onclick="n6()">Continue</button></div>
+    </div>
+    <div class="screen" id="step-7">
+      <div class="step-badge">Step 7 of 7</div>
+      <div class="step-title">Confirm &amp; Create</div>
+      <div class="step-sub">Review your details before creating your account.</div>
+      <div class="conf-grid" id="conf-grid"></div>
+      <div class="btn-row"><button class="btn btn-g" onclick="goStep(6)"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>Edit</button><button class="btn btn-p" id="create-btn" onclick="createAcc()"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Create Account</button></div>
+    </div>
+    <div class="screen" id="step-success">
+      <div class="success-wrap">
+        <div class="suc-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+        <div class="suc-title">Account Created!</div>
+        <div class="suc-sub">Welcome to FluxPrep. Your profile is ready. Save your permanent Student ID below.</div>
+        <div class="uid-box"><div class="uid-box-l">Your FluxPrep ID</div><div class="uid-box-v" id="suc-uid">FP-XXXXXX</div></div>
+        <button class="btn btn-p" style="width:100%;justify-content:center" onclick="location.href='stud.html'">Go to Dashboard <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="toast"><span id="toast-msg"></span></div>
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import{getAuth,GoogleAuthProvider,signInWithPopup,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import{getFirestore,doc,getDoc,setDoc,collection,onSnapshot}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+const cfg={apiKey:"AIzaSyB0yTyuJEpi3j4Wu5r45uJ7cSpVVzgjiMk",authDomain:"fluxprep-1f7b3.firebaseapp.com",projectId:"fluxprep-1f7b3",storageBucket:"fluxprep-1f7b3.firebasestorage.app",messagingSenderId:"651182920201",appId:"1:651182920201:web:3fb71e6f5d56e5bb9b5ed8"};
+const app=initializeApp(cfg);const auth=getAuth(app);const db=getFirestore(app);
+const ADMIN="aaravhfs@gmail.com";
+const GICONS={'IIT-JEE':'<path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>','NEET':'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>','CLAT':'<path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>','NSEB':'<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/>','ISC':'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>'};
+let CU=null,GD={},FD={};
+const th=localStorage.getItem('fp_theme')||'dark';document.documentElement.setAttribute('data-theme',th);
+onSnapshot(collection(db,'goals'),snap=>{GD={};snap.forEach(d=>GD[d.id]={id:d.id,...d.data()});renderGoalOpts();});
+onAuthStateChanged(auth,async u=>{
+  if(!u)return;if(u.email===ADMIN){location.href='admin.html';return;}
+  CU=u;const s=await getDoc(doc(db,'students',u.uid));if(s.exists()){location.href='stud.html';return;}
+  FD.email=u.email;FD.photo=u.photoURL||'';FD.uid=u.uid;goStep(2);
+});
+window.signInG=async()=>{const b=document.getElementById('gbtn');b.disabled=true;b.textContent='Signing in…';try{await signInWithPopup(auth,new GoogleAuthProvider());}catch(e){b.disabled=false;b.innerHTML='<svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20H24v8h11.3C33.7 33.6 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7C34.1 6.5 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20c10.5 0 19.5-7.7 19.5-20 0-1.3-.1-2.7-.3-4z"/></svg>Continue with Google';if(e.code!=='auth/popup-closed-by-user')showToast('Sign-in failed.');}};
+function renderGoalOpts(){const pre=sessionStorage.getItem('fp_goal');const c=document.getElementById('goal-opts');const gs=Object.values(GD);if(!gs.length)return;c.innerHTML=gs.map(g=>{const ic=GICONS[g.id]||'<circle cx="12" cy="12" r="10"/>';const cs=g.comingSoon;return`<div class="goo${cs?' dis':''}"><input type="radio" name="goal" id="g-${g.id}" value="${g.id}" ${cs?'disabled':''} ${pre===g.id?'checked':''}/><label for="g-${g.id}"><div class="goo-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">${ic}</svg></div><div><div class="goo-name">${x(g.name||g.id)}</div>${cs?'<div class="goo-cs">Coming Soon</div>':''}</div></label></div>`;}).join('');if(pre)sessionStorage.removeItem('fp_goal');}
+function renderClassOpts(goalId){const g=GD[goalId];if(!g)return;document.getElementById('class-opts').innerHTML=(g.classes||[]).map(c=>`<div class="clsopt"><input type="radio" name="class" id="c-${c}" value="${c}"/><label for="c-${c}">Class ${c}</label></div>`).join('');}
+window.goStep=n=>{document.querySelectorAll('.screen').forEach(s=>s.style.display='none');const el=document.getElementById('step-'+n);if(el)el.style.display='block';updProg(n);window.scrollTo({top:0,behavior:'smooth'});};
+function updProg(step){const tot=7;document.getElementById('prog-fill').style.width=(step==='success'?100:Math.round(step/tot*100))+'%';document.querySelectorAll('.ps').forEach(ps=>{const s=parseInt(ps.dataset.s);ps.classList.remove('active','done');if(step==='success')ps.classList.add('done');else if(s<step)ps.classList.add('done');else if(s===step)ps.classList.add('active');});for(let i=1;i<=6;i++){const l=document.getElementById('l'+i);if(l)l.classList.toggle('done',i<step);}}
+window.n2=()=>{const v=document.getElementById('inp-name').value.trim();if(!v||v.length<2){showFE('name');return;}hideFE('name');FD.name=v;goStep(3);};
+window.n3=()=>{const s=document.querySelector('input[name="gender"]:checked');if(!s){showFE('gender');return;}hideFE('gender');FD.gender=s.value;goStep(4);};
+window.n4=()=>{const s=document.querySelector('input[name="goal"]:checked');if(!s){showFE('goal');return;}hideFE('goal');FD.goal=s.value;renderClassOpts(FD.goal);goStep(5);};
+window.n5=()=>{const s=document.querySelector('input[name="class"]:checked');if(!s){showFE('class');return;}hideFE('class');FD.class=s.value;goStep(6);};
+window.n6=()=>{const ph=document.getElementById('inp-phone').value.trim(),gu=document.getElementById('inp-gua').value.trim(),sc=document.getElementById('inp-school').value.trim(),dob=document.getElementById('inp-dob').value;let ok=true;if(!/^\d{10}$/.test(ph)){showFE('phone');ok=false;}else hideFE('phone');if(!/^\d{10}$/.test(gu)){showFE('gua');ok=false;}else hideFE('gua');if(!sc){showFE('school');ok=false;}else hideFE('school');if(!dob){showFE('dob');ok=false;}else hideFE('dob');if(!ok)return;FD.phone=ph;FD.guardian=gu;FD.school=sc;FD.dob=dob;FD.age=calcAge();renderConf();goStep(7);};
+window.calcAge=()=>{const dob=document.getElementById('inp-dob').value;if(!dob)return'';const age=Math.floor((Date.now()-new Date(dob))/(1000*60*60*24*365.25));const el=document.getElementById('age-show');if(el)el.textContent='Age: '+age;return age;};
+function renderConf(){const uid=genUID();FD.userID=uid;const fields=[['Full Name',FD.name],['Gender',FD.gender],['Age',FD.age+' years'],['Goal',FD.goal],['Class','Class '+FD.class],['Phone',FD.phone],['Guardian',FD.guardian],['School',FD.school],['Date of Birth',FD.dob],['Email',FD.email]];document.getElementById('conf-grid').innerHTML=fields.map(([l,v])=>`<div class="ci"><div class="ci-l">${l}</div><div class="ci-v">${x(v||'—')}</div></div>`).join('')+`<div class="ci" style="grid-column:1/-1"><div class="ci-l">FluxPrep ID</div><div class="ci-v ci-uid">${uid}</div></div>`;}
+function genUID(){const c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let id='FP-';for(let i=0;i<6;i++)id+=c[Math.floor(Math.random()*c.length)];return id;}
+window.createAcc=async()=>{const btn=document.getElementById('create-btn');btn.disabled=true;btn.textContent='Creating…';try{await setDoc(doc(db,'students',CU.uid),{name:FD.name,email:FD.email,gender:FD.gender,goal:FD.goal,class:FD.class,phone:FD.phone,guardian:FD.guardian,school:FD.school,dob:FD.dob,age:FD.age,userID:FD.userID,photo:FD.photo,status:'active',createdAt:new Date().toISOString()});document.getElementById('suc-uid').textContent=FD.userID;document.querySelectorAll('.screen').forEach(s=>s.style.display='none');document.getElementById('step-success').style.display='block';updProg('success');showToast('Account created!','success');}catch(e){showToast('Error: '+e.message);btn.disabled=false;btn.innerHTML='<svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Create Account';}};
+function showFE(id){document.getElementById('err-'+id).style.display='block';const i=document.getElementById('inp-'+id);if(i)i.classList.add('err');}
+function hideFE(id){document.getElementById('err-'+id).style.display='none';const i=document.getElementById('inp-'+id);if(i)i.classList.remove('err');}
+let tt;function showToast(msg,type='error'){const el=document.getElementById('toast');document.getElementById('toast-msg').textContent=msg;el.className=type+' show';clearTimeout(tt);tt=setTimeout(()=>el.className=type,3500);}
+function x(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+</script>
+</body>
+</html>

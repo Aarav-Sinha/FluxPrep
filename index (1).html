@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>FluxPrep — Crack Your Exam</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--blue:#3b82f6;--blue2:#2563eb;--purple:#8b5cf6;--green:#10b981;--amber:#f59e0b;--red:#ef4444;--fh:'Syne',sans-serif;--fb:'Plus Jakarta Sans',sans-serif;}
+[data-theme="dark"]{--bg:#04070f;--card:#0c1322;--card2:#111929;--bd:rgba(255,255,255,.06);--bd2:rgba(255,255,255,.12);--t:#eef2ff;--t2:#94a3b8;--t3:#3d4f68;--inp:rgba(255,255,255,.04);}
+[data-theme="light"]{--bg:#f4f7ff;--card:#fff;--card2:#eef1fb;--bd:rgba(0,0,0,.07);--bd2:rgba(0,0,0,.14);--t:#0e1729;--t2:#475569;--t3:#9db0c8;--inp:rgba(0,0,0,.04);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--t);font-family:var(--fb);overflow-x:hidden;min-height:100vh;transition:background .3s,color .3s}
+.amb{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(90px)}
+.o1{width:700px;height:700px;background:radial-gradient(circle,rgba(59,130,246,.14),transparent 70%);top:-200px;left:-200px;animation:drift 18s ease-in-out infinite alternate;opacity:.7}
+.o2{width:600px;height:600px;background:radial-gradient(circle,rgba(139,92,246,.12),transparent 70%);bottom:-200px;right:-150px;animation:drift 22s ease-in-out infinite alternate-reverse;opacity:.7}
+.o3{width:400px;height:400px;background:radial-gradient(circle,rgba(16,185,129,.08),transparent 70%);top:40%;left:55%;animation:drift 15s ease-in-out infinite alternate;opacity:.5}
+@keyframes drift{from{transform:translate(0,0)}to{transform:translate(50px,35px)}}
+[data-theme="light"] .orb{opacity:.25}
+.grid-bg{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:linear-gradient(rgba(59,130,246,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(59,130,246,.04) 1px,transparent 1px);background-size:54px 54px;mask-image:radial-gradient(ellipse 80% 55% at 50% 0%,black 20%,transparent 80%)}
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:62px;display:flex;align-items:center;justify-content:space-between;padding:0 40px;background:rgba(4,7,15,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--bd);transition:background .3s}
+[data-theme="light"] nav{background:rgba(244,247,255,.9)}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-m{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--blue),var(--purple));display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-weight:800;font-size:13px;color:#fff}
+.logo-t{font-family:var(--fh);font-size:18px;font-weight:800;background:linear-gradient(135deg,var(--blue),var(--purple));background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-r{display:flex;align-items:center;gap:8px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:9px 20px;border-radius:9px;font-family:var(--fb);font-size:13px;font-weight:600;cursor:pointer;transition:all .18s;border:none;text-decoration:none;white-space:nowrap}
+.btn-g{background:transparent;border:1px solid var(--bd2);color:var(--t2)}
+.btn-g:hover{background:var(--card);color:var(--t)}
+.btn-p{background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;box-shadow:0 4px 14px rgba(59,130,246,.25)}
+.btn-p:hover{transform:translateY(-1px);box-shadow:0 8px 22px rgba(59,130,246,.38)}
+/* THEME BUTTON - properly centered */
+.theme-btn{width:36px;height:36px;padding:0;border-radius:9px;background:var(--inp);border:1px solid var(--bd);color:var(--t2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;flex-shrink:0}
+.theme-btn:hover{color:var(--t);border-color:var(--bd2);background:var(--card)}
+.theme-btn svg{display:block;flex-shrink:0}
+/* HERO */
+.hero{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:90px 20px 60px;text-align:center}
+.hero-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(59,130,246,.09);border:1px solid rgba(59,130,246,.22);border-radius:999px;padding:6px 16px;font-size:11px;font-weight:700;color:#93c5fd;letter-spacing:.5px;text-transform:uppercase;margin-bottom:26px;animation:fu .5s ease both}
+.pill-dot{width:6px;height:6px;border-radius:50%;background:var(--blue);animation:blink 2s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+h1{font-family:var(--fh);font-size:clamp(42px,7vw,82px);font-weight:800;line-height:1.02;letter-spacing:-2px;margin-bottom:20px;animation:fu .5s .08s ease both}
+.h1-g{display:block;background:linear-gradient(135deg,var(--blue) 10%,var(--purple) 55%,#06b6d4);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{max-width:500px;font-size:16px;line-height:1.8;color:var(--t2);margin:0 auto 38px;animation:fu .5s .16s ease both}
+.hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;animation:fu .5s .24s ease both}
+.btn-lg{padding:13px 28px;font-size:15px;border-radius:11px}
+@keyframes fu{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+/* STATS */
+.stats{position:relative;z-index:1;display:flex;justify-content:center;max-width:780px;margin:0 auto 70px;padding:0 20px}
+.stat{flex:1;text-align:center;padding:22px 16px;position:relative}
+.stat+.stat::before{content:'';position:absolute;left:0;top:15%;height:70%;width:1px;background:var(--bd)}
+.stat-n{font-family:var(--fh);font-size:32px;font-weight:800;background:linear-gradient(135deg,var(--blue),var(--purple));background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1}
+.stat-l{font-size:11px;color:var(--t3);margin-top:5px;font-weight:500}
+/* GOALS */
+.section{position:relative;z-index:1;padding:60px 20px;max-width:1160px;margin:0 auto}
+.ey{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--blue);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.ey::before{content:'';width:16px;height:2px;background:var(--blue)}
+.sec-t{font-family:var(--fh);font-size:clamp(24px,3.5vw,38px);font-weight:800;letter-spacing:-1px;line-height:1.1;margin-bottom:10px}
+.sec-s{font-size:14px;color:var(--t2);line-height:1.75;max-width:440px}
+.goals-hdr{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px;margin-bottom:22px}
+/* STATUS FILTER TABS */
+.goal-filter-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:28px}
+.gft{padding:6px 16px;border-radius:999px;font-size:12px;font-weight:600;cursor:pointer;transition:all .18s;border:1px solid var(--bd);background:var(--inp);color:var(--t2)}
+.gft:hover{border-color:var(--bd2);color:var(--t)}
+.gft.active{background:rgba(59,130,246,.1);border-color:rgba(59,130,246,.25);color:var(--blue)}
+/* GOAL CARDS */
+.goals-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.goal-card{background:var(--card);border:1px solid var(--bd);border-radius:17px;padding:24px;cursor:pointer;transition:all .22s;position:relative;overflow:hidden}
+.goal-card::after{content:'';position:absolute;inset:0;opacity:0;transition:opacity .22s;background:linear-gradient(135deg,rgba(59,130,246,.05),rgba(139,92,246,.04))}
+.goal-card:hover:not(.cs){border-color:rgba(59,130,246,.3);transform:translateY(-3px);box-shadow:0 14px 32px rgba(0,0,0,.18)}
+.goal-card:hover:not(.cs)::after{opacity:1}
+.goal-card.cs{opacity:.55;cursor:not-allowed}
+.goal-card.maintenance{border-color:rgba(245,158,11,.25);opacity:.7;cursor:not-allowed}
+.goal-icon{width:42px;height:42px;border-radius:12px;background:rgba(59,130,246,.09);border:1px solid rgba(59,130,246,.14);display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.goal-icon svg{width:20px;height:20px;color:var(--blue)}
+.goal-name{font-family:var(--fh);font-size:19px;font-weight:800;margin-bottom:5px;letter-spacing:-.5px}
+.goal-desc{font-size:12px;color:var(--t2);line-height:1.6;margin-bottom:14px}
+.goal-classes{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:16px}
+.cls-tag{background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.14);color:#93c5fd;font-size:11px;font-weight:700;padding:3px 9px;border-radius:5px}
+.goal-foot{display:flex;align-items:center;justify-content:space-between}
+.goal-cta{font-size:12px;font-weight:700;color:var(--blue);display:flex;align-items:center;gap:5px;transition:gap .15s}
+.goal-card:hover:not(.cs) .goal-cta{gap:9px}
+.status-badge{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;padding:3px 9px;border-radius:6px}
+.sb-live{background:rgba(16,185,129,.09);border:1px solid rgba(16,185,129,.2);color:var(--green)}
+.sb-soon{background:rgba(245,158,11,.09);border:1px solid rgba(245,158,11,.2);color:var(--amber)}
+.sb-maint{background:rgba(239,68,68,.09);border:1px solid rgba(239,68,68,.2);color:var(--red)}
+/* FEATURES */
+.feat-wrap{position:relative;z-index:1;padding:60px 20px;background:linear-gradient(to bottom,transparent,rgba(59,130,246,.02),transparent)}
+.feat-inner{max-width:1160px;margin:0 auto}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;margin-top:44px}
+.feat-card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:24px;transition:all .2s;position:relative}
+.feat-card:hover{border-color:var(--bd2)}
+.feat-icon{width:38px;height:38px;border-radius:11px;background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.14);display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.feat-icon svg{width:18px;height:18px;color:var(--blue)}
+.feat-t{font-family:var(--fh);font-size:15px;font-weight:700;margin-bottom:7px}
+.feat-d{font-size:13px;color:var(--t2);line-height:1.75}
+.feat-tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;text-transform:uppercase;margin-top:8px;letter-spacing:.3px}
+.ft-live{background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.18);color:var(--green)}
+.ft-soon{background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.18);color:var(--amber)}
+.ft-maint{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.18);color:var(--red)}
+/* CTA */
+.cta-s{position:relative;z-index:1;padding:60px 20px;max-width:800px;margin:0 auto;text-align:center}
+.cta-c{background:linear-gradient(135deg,rgba(59,130,246,.09),rgba(139,92,246,.07));border:1px solid rgba(59,130,246,.18);border-radius:22px;padding:52px 40px;position:relative;overflow:hidden}
+.cta-c::before{content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:360px;height:180px;background:radial-gradient(ellipse,rgba(59,130,246,.15),transparent 70%);pointer-events:none}
+.cta-t{font-family:var(--fh);font-size:clamp(24px,3.5vw,36px);font-weight:800;margin-bottom:12px;letter-spacing:-1px}
+.cta-s2{font-size:14px;color:var(--t2);margin-bottom:30px;line-height:1.75}
+footer{position:relative;z-index:1;padding:26px 40px;border-top:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.ft2{font-size:12px;color:var(--t3)}
+@media(max-width:768px){nav{padding:0 16px}.nav-r .btn-g{display:none}h1{letter-spacing:-1px}.feat-grid{grid-template-columns:1fr}.stats{flex-wrap:wrap}.stat{flex:0 0 50%}.stat+.stat::before{display:none}footer{padding:20px 16px;flex-direction:column;text-align:center}}
+@media(max-width:480px){.goals-grid{grid-template-columns:1fr}.hero-btns{flex-direction:column;align-items:center}.btn-lg{width:100%;max-width:280px}}
+</style>
+</head>
+<body>
+<div class="amb"><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div></div>
+<div class="grid-bg"></div>
+<nav>
+  <a href="index.html" class="logo"><div class="logo-m">FP</div><span class="logo-t">FluxPrep</span></a>
+  <div class="nav-r">
+    <button class="theme-btn" onclick="toggleTheme()" title="Toggle theme" aria-label="Toggle theme">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+    <a href="login.html" class="btn btn-g">Sign In</a>
+    <a href="register.html" class="btn btn-p">Get Started</a>
+  </div>
+</nav>
+<section class="hero">
+  <div class="hero-pill"><span class="pill-dot"></span>India's smartest exam prep platform</div>
+  <h1>Prepare Smarter.<br/><span class="h1-g">Rank Higher.</span></h1>
+  <p class="hero-sub">Goal-based learning for IIT-JEE, NEET, CLAT, NSEB, ISC and more. AI-powered infinite practice, admin mock tests, and deep performance analytics.</p>
+  <div class="hero-btns">
+    <a href="register.html" class="btn btn-p btn-lg">Start for Free</a>
+    <a href="login.html" class="btn btn-g btn-lg">Sign In</a>
+  </div>
+</section>
+<div class="stats">
+  <div class="stat"><div class="stat-n" id="sstu">—</div><div class="stat-l">Students</div></div>
+  <div class="stat"><div class="stat-n" id="sgoal">—</div><div class="stat-l">Active Goals</div></div>
+  <div class="stat"><div class="stat-n">100%</div><div class="stat-l">Free to Start</div></div>
+  <div class="stat"><div class="stat-n">AI</div><div class="stat-l">Powered Practice</div></div>
+</div>
+<section class="section">
+  <div class="goals-hdr">
+    <div><div class="ey">Exam Goals</div><h2 class="sec-t">Choose Your<br/>Target Exam</h2></div>
+    <p class="sec-s">Each goal has AI chapterwise practice and admin-curated mock tests with positive/negative marking.</p>
+  </div>
+  <div class="goal-filter-tabs">
+    <div class="gft active" onclick="filterGoals('all',this)">All Goals</div>
+    <div class="gft" onclick="filterGoals('live',this)">
+      <svg width="8" height="8" viewBox="0 0 8 8" fill="var(--green)"><circle cx="4" cy="4" r="4"/></svg>Live
+    </div>
+    <div class="gft" onclick="filterGoals('soon',this)">
+      <svg width="8" height="8" viewBox="0 0 8 8" fill="var(--amber)"><circle cx="4" cy="4" r="4"/></svg>Coming Soon
+    </div>
+  </div>
+  <div class="goals-grid" id="goals-grid"><div style="color:var(--t3);padding:40px;font-size:13px;text-align:center">Loading goals…</div></div>
+</section>
+<div class="feat-wrap">
+  <div class="feat-inner">
+    <div style="text-align:center"><div class="ey" style="justify-content:center">Platform Features</div><h2 class="sec-t" style="text-align:center">Everything you need to crack your exam</h2></div>
+    <div class="feat-grid" id="feat-grid">
+      <div class="feat-card"><div class="feat-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div class="feat-t">Infinite AI Practice</div><div class="feat-d">Gemini AI generates endless chapterwise questions harder than the actual exam — with full explanations.</div><span class="feat-tag ft-live">Live</span></div>
+      <div class="feat-card"><div class="feat-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><div class="feat-t">Admin Mock Tests</div><div class="feat-d">Full-length timed tests with positive/negative marking, section-wise questions, and instant results.</div><span class="feat-tag ft-live">Live</span></div>
+      <div class="feat-card"><div class="feat-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="feat-t">AI Doubt Solver</div><div class="feat-d">Ask any doubt and get instant detailed explanations powered by Gemini AI — available 24/7.</div><span class="feat-tag ft-live">Live</span></div>
+      <div class="feat-card"><div class="feat-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div class="feat-t">Performance Analytics</div><div class="feat-d">Track accuracy per subject and chapter, session history, and improvement trends over time.</div><span class="feat-tag ft-live">Live</span></div>
+      <div class="feat-card"><div class="feat-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg></div><div class="feat-t">Leaderboard</div><div class="feat-d">Compete with students across India. Rank weekly and monthly on your exam goal.</div><span class="feat-tag ft-soon">Coming Soon</span></div>
+      <div class="feat-card"><div class="feat-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/></svg></div><div class="feat-t">Personalised Study Plan</div><div class="feat-d">AI-generated study schedules based on your weak areas and exam date.</div><span class="feat-tag ft-soon">Coming Soon</span></div>
+    </div>
+  </div>
+</div>
+<section class="cta-s">
+  <div class="cta-c">
+    <h2 class="cta-t">Ready to start your prep?</h2>
+    <p class="cta-s2">Join students already on FluxPrep. Free to start, powerful at every level.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <a href="register.html" class="btn btn-p btn-lg">Create Free Account</a>
+      <a href="login.html" class="btn btn-g btn-lg">Sign In</a>
+    </div>
+  </div>
+</section>
+<footer>
+  <a href="index.html" class="logo"><div class="logo-m">FP</div><span class="logo-t">FluxPrep</span></a>
+  <div style="display:flex;gap:20px"><a href="login.html" style="font-size:12px;color:var(--t3);text-decoration:none">Sign In</a><a href="register.html" style="font-size:12px;color:var(--t3);text-decoration:none">Register</a></div>
+  <div class="ft2">© 2025 FluxPrep. All rights reserved.</div>
+</footer>
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import{getFirestore,collection,onSnapshot,getDocs}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+const cfg={apiKey:"AIzaSyB0yTyuJEpi3j4Wu5r45uJ7cSpVVzgjiMk",authDomain:"fluxprep-1f7b3.firebaseapp.com",projectId:"fluxprep-1f7b3",storageBucket:"fluxprep-1f7b3.firebasestorage.app",messagingSenderId:"651182920201",appId:"1:651182920201:web:3fb71e6f5d56e5bb9b5ed8"};
+const db=getFirestore(initializeApp(cfg));
+const ICONS={'IIT-JEE':'<path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>','NEET':'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>','CLAT':'<path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>','NSEB':'<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>','ISC':'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>'};
+const th=localStorage.getItem('fp_theme')||'dark';document.documentElement.setAttribute('data-theme',th);
+window.toggleTheme=()=>{const n=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);localStorage.setItem('fp_theme',n);};
+let allGoals=[];
+window.filterGoals=(type,el)=>{
+  document.querySelectorAll('.gft').forEach(t=>t.classList.remove('active'));el.classList.add('active');
+  renderGoals(type);
+};
+
+function renderGoals(filter='all'){
+  const grid=document.getElementById('goals-grid');
+  let goals=allGoals;
+  if(filter==='live')goals=allGoals.filter(g=>!g.comingSoon&&g.status!=='maintenance');
+  else if(filter==='soon')goals=allGoals.filter(g=>g.comingSoon||g.status==='maintenance');
+  if(!goals.length){grid.innerHTML='<div style="color:var(--t3);padding:40px;font-size:13px;text-align:center">No goals in this category.</div>';return;}
+  // Sort: live first, then coming_soon, then maintenance
+  const sorted=[...goals].sort((a,b)=>{const order=s=>{if(s.comingSoon||s.status==='coming_soon')return 1;if(s.status==='maintenance')return 2;return 0;};return order(a)-order(b);});
+  grid.innerHTML=sorted.map((g,i)=>{
+    const ic=ICONS[g.id]||'<circle cx="12" cy="12" r="10"/>';
+    const isMaint=g.status==='maintenance';const isCS=g.comingSoon;
+    const cls=isMaint?'goal-card maintenance':isCS?'goal-card cs':'goal-card';
+    const badge=isMaint?'<span class="status-badge sb-maint"><svg width="7" height="7" viewBox="0 0 8 8" fill="currentColor"><circle cx="4" cy="4" r="4"/></svg>Maintenance</span>':isCS?'<span class="status-badge sb-soon"><svg width="7" height="7" viewBox="0 0 8 8" fill="currentColor"><circle cx="4" cy="4" r="4"/></svg>Coming Soon</span>':'<span class="status-badge sb-live"><svg width="7" height="7" viewBox="0 0 8 8" fill="currentColor"><circle cx="4" cy="4" r="4"/></svg>Live</span>';
+    const onclick=(!isCS&&!isMaint)?`onclick="goReg('${g.id}')"`:''
+    return`<div class="${cls}" style="animation:fu .4s ${i*.07}s ease both" ${onclick}><div class="goal-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">${ic}</svg></div><div class="goal-name">${x(g.name||g.id)}</div><div class="goal-desc">${x(g.description||'')}</div><div class="goal-classes">${(g.classes||[]).map(c=>`<span class="cls-tag">Class ${c}</span>`).join('')}</div><div class="goal-foot">${badge}${!isCS&&!isMaint?'<span class="goal-cta">Enrol Now <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>':''}</div></div>`;
+  }).join('');
+}
+onSnapshot(collection(db,'goals'),snap=>{
+  allGoals=[];snap.forEach(d=>allGoals.push({id:d.id,...d.data()}));
+  document.getElementById('sgoal').textContent=allGoals.filter(g=>!g.comingSoon).length+'+';
+  renderGoals('all');
+});
+getDocs(collection(db,'students')).then(s=>document.getElementById('sstu').textContent=s.size+'+');
+window.goReg=id=>{sessionStorage.setItem('fp_goal',id);location.href='register.html';};
+function x(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+</script>
+</body>
+</html>
