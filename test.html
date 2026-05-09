@@ -289,17 +289,16 @@ onAuthStateChanged(auth,async u=>{
 });
 
 async function loadTests(){
-  const grid = document.getElementById('test-grid');
-  try {
-    // You MUST add the 'published' filter to match your security rules
-    const q = query(
-      collection(db, 'tests'), 
-      where('goalId', '==', SD.goal),
-      where('published', '==', true) 
-    );
-    
-    const snap = await getDocs(q);
-    // ... rest of your existing logic
+  const grid=document.getElementById('test-grid');
+  try{
+    const snap=await getDocs(query(collection(db,'tests'),where('goalId','==',SD.goal)));
+    const tests=[];
+    snap.forEach(d=>{
+      const t=d.data();
+      // Filter by targetClasses if set
+      if(t.targetClasses&&t.targetClasses.length>0&&!t.targetClasses.map(String).includes(String(SD.class)))return;
+      if(t.status==='published'||t.published)tests.push({id:d.id,...t});
+    });
     tests.sort((a,b)=>new Date(b.createdAt||0)-new Date(a.createdAt||0));
     if(!tests.length){grid.innerHTML=`<div style="text-align:center;padding:48px 20px"><div style="font-family:var(--fh);font-size:17px;font-weight:800;margin-bottom:8px">No Tests Available</div><div style="font-size:13px;color:var(--t2);line-height:1.7;max-width:300px;margin:0 auto">Admin hasn't published any mock tests for ${xe(SD.goal)} yet. Check back soon!</div></div>`;return}
     // Load attempt counts
