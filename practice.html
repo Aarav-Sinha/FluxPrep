@@ -5,131 +5,207 @@
 <title>FluxPrep — Practice</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bl:#3b82f6;--bl2:#1d4ed8;--pu:#7c3aed;--gn:#059669;--am:#d97706;--rd:#dc2626;--fh:'Syne',sans-serif;--fb:'Plus Jakarta Sans',sans-serif;--sw:250px}
-[data-theme=dark]{--bg:#030711;--c1:#0d1424;--c2:#0f1e30;--bd:rgba(255,255,255,.07);--bd2:rgba(255,255,255,.13);--bf:rgba(59,130,246,.45);--tx:#eef2ff;--t2:#7a90aa;--t3:#2d4057;--in:rgba(255,255,255,.04)}
-[data-theme=light]{--bg:#f0f4ff;--c1:#fff;--c2:#e8eeff;--bd:rgba(15,23,42,.08);--bd2:rgba(15,23,42,.15);--bf:rgba(59,130,246,.45);--tx:#0f172a;--t2:#475569;--t3:#94a3b8;--in:rgba(15,23,42,.04)}
-*{box-sizing:border-box;margin:0;padding:0}html,body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh;transition:background .3s,color .3s}
-#ag{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;align-items:center;justify-content:center}
-.gl{font-family:var(--fh);font-size:20px;font-weight:800;background:linear-gradient(135deg,var(--bl),var(--pu));-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:pulse 1.5s ease-in-out infinite}
+:root{--bl:#3b82f6;--bl2:#1d4ed8;--pu:#7c3aed;--gn:#059669;--am:#d97706;--rd:#dc2626;--fh:'Syne',sans-serif;--fb:'Plus Jakarta Sans',sans-serif;--sw:252px;--top:58px}
+[data-theme=dark]{--bg:#020817;--c1:#0c1428;--c2:#111d2e;--bd:rgba(255,255,255,.07);--bd2:rgba(255,255,255,.13);--bf:rgba(59,130,246,.5);--tx:#e8efff;--t2:#7a8faa;--t3:#2a3a52;--in:rgba(255,255,255,.04);--sh:rgba(0,0,0,.35)}
+[data-theme=light]{--bg:#f4f7ff;--c1:#fff;--c2:#eef2ff;--bd:rgba(15,23,42,.08);--bd2:rgba(15,23,42,.16);--bf:rgba(59,130,246,.45);--tx:#0f172a;--t2:#475569;--t3:#94a3b8;--in:rgba(15,23,42,.04);--sh:rgba(0,0,0,.07)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh;transition:background .3s,color .3s}
+
+/* ── LOADER ─────────────────────────────────────────────────── */
+#ag{position:fixed;inset:0;background:var(--bg);z-index:999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px}
+.gl{font-family:var(--fh);font-size:22px;font-weight:800;background:linear-gradient(135deg,var(--bl),var(--pu));-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:pulse 1.4s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
-/* SIDEBAR */
-.sb{position:fixed;top:0;left:0;width:var(--sw);height:100vh;z-index:60;background:var(--c1);border-right:1px solid var(--bd);display:flex;flex-direction:column;padding:18px 0;transition:transform .28s,background .3s}
-.sb-logo{padding:0 14px 15px;border-bottom:1px solid var(--bd)}.sb-logo a{display:flex;align-items:center;gap:8px;text-decoration:none}
-.lm{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--bl),var(--pu));display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:10px;font-weight:800;color:#fff}
-.lt{font-family:var(--fh);font-size:14px;font-weight:800;background:linear-gradient(90deg,var(--bl),var(--pu));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.sb-nav{padding:13px 8px;flex:1;overflow-y:auto}
-.sb-sec{font-size:9px;font-weight:700;letter-spacing:1.5px;color:var(--t3);text-transform:uppercase;padding:0 8px;margin:13px 0 5px}
-.si{display:flex;align-items:center;gap:8px;padding:8px 9px;border-radius:8px;cursor:pointer;color:var(--t2);font-size:13px;font-weight:500;margin-bottom:2px;transition:all .15s;text-decoration:none;border:1px solid transparent}
-.si:hover{background:var(--c2);color:var(--tx)}.si.active{background:rgba(59,130,246,.09);color:var(--bl);border-color:rgba(59,130,246,.18)}
-.si svg{width:14px;height:14px;flex-shrink:0;opacity:.7}.si.active svg{opacity:1}
-.sb-foot{padding:11px 8px;border-top:1px solid var(--bd)}
-.sb-user{display:flex;align-items:center;gap:8px;padding:8px;border-radius:8px;background:var(--in);margin-bottom:6px}
-.av{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--bl),var(--pu));display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;overflow:hidden}
+.spin{width:26px;height:26px;border:3px solid var(--bd);border-top-color:var(--bl);border-radius:50%;animation:rot .8s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+
+/* ── SIDEBAR ────────────────────────────────────────────────── */
+.sb{position:fixed;top:0;left:0;width:var(--sw);height:100vh;z-index:60;background:var(--c1);border-right:1px solid var(--bd);display:flex;flex-direction:column;transition:transform .28s}
+.sb-logo{padding:16px 18px;border-bottom:1px solid var(--bd);flex-shrink:0}
+.sb-logo a{display:flex;align-items:center;gap:9px;text-decoration:none}
+.lmark{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--bl),var(--pu));display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:11px;font-weight:800;color:#fff}
+.ltext{font-family:var(--fh);font-size:15px;font-weight:800;background:linear-gradient(90deg,var(--bl),var(--pu));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sb-nav{padding:12px 10px;flex:1;overflow-y:auto}
+.sb-sec{font-size:9px;font-weight:700;letter-spacing:1.5px;color:var(--t3);text-transform:uppercase;padding:0 8px;margin:14px 0 4px}
+.si{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:9px;cursor:pointer;color:var(--t2);font-size:13px;font-weight:500;margin-bottom:1px;transition:all .15s;text-decoration:none;border:1px solid transparent}
+.si:hover{background:var(--c2);color:var(--tx)}.si.active{background:rgba(59,130,246,.1);color:var(--bl);border-color:rgba(59,130,246,.2);font-weight:600}
+.si svg{width:15px;height:15px;flex-shrink:0;opacity:.7}.si.active svg{opacity:1}
+.sb-foot{padding:12px 10px;border-top:1px solid var(--bd);flex-shrink:0}
+.sb-user{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:9px;background:var(--in);margin-bottom:7px}
+.av{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--bl),var(--pu));display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;overflow:hidden}
 .av img{width:100%;height:100%;object-fit:cover}
-.sb-un{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sb-uid{font-size:10px;color:var(--t3);font-family:monospace}
-.lout{width:100%;background:rgba(220,38,38,.06);border:1px solid rgba(220,38,38,.14);color:var(--rd);font-family:var(--fb);font-size:12px;font-weight:500;padding:7px;border-radius:7px;cursor:pointer;transition:all .2s}.lout:hover{background:rgba(220,38,38,.1)}
-.main{margin-left:var(--sw);min-height:100vh;transition:margin .28s}
-.topbar{padding:12px 24px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:0;z-index:40}
-.tb-l{display:flex;align-items:center;gap:8px}.tb-t{font-family:var(--fh);font-size:16px;font-weight:800;letter-spacing:-.4px}.tb-r{display:flex;align-items:center;gap:7px}
-.ib{width:32px;height:32px;border-radius:7px;background:var(--in);border:1px solid var(--bd2);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--t2);transition:all .15s;flex-shrink:0;padding:0}
+.sb-un{font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-uid{font-size:10px;color:var(--t3);font-family:monospace}
+.lout{width:100%;background:rgba(220,38,38,.06);border:1px solid rgba(220,38,38,.14);color:var(--rd);font-family:var(--fb);font-size:12px;font-weight:500;padding:8px;border-radius:8px;cursor:pointer;transition:all .2s}.lout:hover{background:rgba(220,38,38,.1)}
+
+/* ── MAIN ───────────────────────────────────────────────────── */
+.main{margin-left:var(--sw);min-height:100vh;display:flex;flex-direction:column;transition:margin .28s}
+.topbar{padding:0 24px;height:var(--top);border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;background:var(--bg);position:sticky;top:0;z-index:40;flex-shrink:0}
+.tb-l{display:flex;align-items:center;gap:9px}
+.tb-t{font-family:var(--fh);font-size:17px;font-weight:800;letter-spacing:-.4px}
+.tb-r{display:flex;align-items:center;gap:7px}
+.ib{width:34px;height:34px;border-radius:9px;background:var(--in);border:1px solid var(--bd2);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--t2);transition:all .15s;flex-shrink:0;padding:0}
 .ib:hover{color:var(--tx);background:var(--c2)}.hb{display:none}
 .ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:50}.ov.show{display:block}
-.pg{display:none;padding:20px 24px;animation:fi .25s ease}.pg.active{display:block}
-@keyframes fi{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
-.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:7px;font-family:var(--fb);font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all .18s;white-space:nowrap}
-.btn-p{background:linear-gradient(135deg,var(--bl),var(--bl2));color:#fff}.btn-p:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(59,130,246,.34)}.btn-p:disabled{opacity:.4;cursor:not-allowed;transform:none}
+
+/* ── SCREENS ────────────────────────────────────────────────── */
+.pg{display:none;flex:1;flex-direction:column}.pg.active{display:flex}
+.pg-body{padding:22px 24px;flex:1;overflow-y:auto}
+@keyframes fi{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.pg.active{animation:fi .22s ease}
+
+/* ── BUTTONS ────────────────────────────────────────────────── */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:9px;font-family:var(--fb);font-size:12px;font-weight:600;cursor:pointer;border:none;transition:all .18s;white-space:nowrap;line-height:1;text-decoration:none}
+.btn-p{background:linear-gradient(135deg,var(--bl),var(--bl2));color:#fff;box-shadow:0 2px 10px rgba(59,130,246,.22)}.btn-p:hover{transform:translateY(-1px);box-shadow:0 5px 16px rgba(59,130,246,.35)}.btn-p:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
 .btn-g{background:var(--in);border:1px solid var(--bd2);color:var(--t2)}.btn-g:hover{color:var(--tx);background:var(--c2)}
-.pg-t{font-family:var(--fh);font-size:20px;font-weight:800;letter-spacing:-.4px;margin-bottom:4px}
-.pg-s{font-size:13px;color:var(--t2);margin-bottom:20px}
-.bc{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--t2);margin-bottom:14px;flex-wrap:wrap}
-.bci{cursor:pointer;transition:color .15s}.bci:hover{color:var(--bl)}.bcs{color:var(--t3)}.bcc{color:var(--tx);font-weight:600}
-/* GATE SCREEN */
-.gate{text-align:center;padding:56px 20px;max-width:400px;margin:0 auto}
-.gate-ic{width:60px;height:60px;border-radius:17px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
-.gate-ic svg{width:26px;height:26px}
-/* SUBJECTS */
-.subj-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:11px}
-.subj-c{background:var(--c1);border:1px solid var(--bd);border-radius:12px;padding:17px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden}
-.subj-c::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--bl),var(--pu));opacity:0;transition:opacity .2s}
-.subj-c:hover{border-color:rgba(59,130,246,.3);transform:translateY(-2px)}.subj-c:hover::before{opacity:1}
-.subj-ic{width:34px;height:34px;border-radius:9px;background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.14);display:flex;align-items:center;justify-content:center;margin-bottom:10px}
-.subj-ic svg{width:17px;height:17px;color:var(--bl)}
-.subj-n{font-family:var(--fh);font-size:13px;font-weight:700;margin-bottom:2px}.subj-cnt{font-size:11px;color:var(--t2)}
-/* CHAPTERS */
-.chap-l{display:flex;flex-direction:column;gap:6px}
-.chap-c{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--c1);border:1px solid var(--bd);border-radius:9px;cursor:pointer;transition:all .15s}
-.chap-c:hover{background:var(--c2);border-color:var(--bd2)}
-.chap-li{display:flex;align-items:center;gap:9px}
-.chap-num{width:22px;height:22px;border-radius:6px;background:rgba(59,130,246,.08);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--bl);flex-shrink:0}
-.chap-qc{font-size:10px;color:var(--t3);font-weight:600;flex-shrink:0}
-/* SESSION */
-.sess{display:grid;grid-template-columns:repeat(4,1fr);background:var(--c1);border:1px solid var(--bd);border-radius:11px;margin-bottom:17px;overflow:hidden}
-.ss{padding:11px 8px;text-align:center;border-right:1px solid var(--bd)}.ss:last-child{border-right:none}
-.ss-v{font-family:var(--fh);font-size:18px;font-weight:800;line-height:1}.ss-l{font-size:9px;color:var(--t3);margin-top:2px;font-weight:700;text-transform:uppercase;letter-spacing:.3px}
-/* QUESTION */
-.qw{max-width:700px;margin:0 auto}
-.qmeta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:14px}
-.qtag{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:4px;font-size:9px;font-weight:700}
-.qt-s{background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.17);color:var(--bl)}
-.qt-c{background:rgba(124,58,237,.08);border:1px solid rgba(124,58,237,.17);color:#a78bfa}
-.qt-n{background:var(--in);border:1px solid var(--bd2);color:var(--t2)}
-.qt-int{background:rgba(217,119,6,.07);border:1px solid rgba(217,119,6,.16);color:var(--am)}
-.qt-ow{background:rgba(5,150,105,.07);border:1px solid rgba(5,150,105,.16);color:var(--gn)}
-.qcard{background:var(--c1);border:1px solid var(--bd);border-radius:14px;padding:24px;margin-bottom:13px;position:relative}
-.qcard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;border-radius:14px 14px 0 0;background:linear-gradient(90deg,var(--bl),var(--pu))}
-.q-num{font-size:9px;font-weight:700;letter-spacing:.8px;color:var(--t3);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
-.q-text{font-size:15px;line-height:1.82;margin-bottom:18px;color:var(--tx)}
-.q-text code{background:var(--in);padding:2px 5px;border-radius:4px;font-family:monospace;font-size:12px}
-/* MCQ OPTS */
-.opts{display:flex;flex-direction:column;gap:7px;margin-bottom:15px}
-.opt{display:flex;align-items:flex-start;gap:11px;padding:12px 14px;border-radius:10px;border:1px solid var(--bd);background:var(--in);cursor:pointer;transition:all .17s;text-align:left;width:100%;font-family:var(--fb)}
-.opt:hover:not(.locked){background:var(--c2);border-color:var(--bd2)}
+.btn-pu{background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.22);color:#a78bfa}.btn-pu:hover{background:rgba(124,58,237,.16)}
+.btn-am{background:rgba(217,119,6,.08);border:1px solid rgba(217,119,6,.2);color:var(--am)}.btn-am:hover{background:rgba(217,119,6,.14)}
+.btn-gn{background:rgba(5,150,105,.08);border:1px solid rgba(5,150,105,.2);color:var(--gn)}.btn-gn:hover{background:rgba(5,150,105,.14)}
+.btn-lg{padding:13px 22px;font-size:14px}
+
+/* ── GATE ───────────────────────────────────────────────────── */
+.gate-wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 20px}
+.gate{text-align:center;max-width:380px}
+.gate-ic{width:64px;height:64px;border-radius:18px;display:flex;align-items:center;justify-content:center;margin:0 auto 18px}
+
+/* ── HOME SCREEN ─────────────────────────────────────────────── */
+/* Subject grid */
+.subj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:28px}
+.subj-card{background:var(--c1);border:1px solid var(--bd);border-radius:14px;padding:18px;cursor:pointer;transition:all .22s;position:relative;overflow:hidden}
+.subj-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--bl),var(--pu));opacity:0;transition:opacity .2s}
+.subj-card:hover{border-color:rgba(59,130,246,.3);transform:translateY(-2px);box-shadow:0 8px 24px var(--sh)}.subj-card:hover::after{opacity:1}
+.subj-icon{width:38px;height:38px;border-radius:10px;background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.14);display:flex;align-items:center;justify-content:center;margin-bottom:11px;flex-shrink:0}
+.subj-icon svg{width:18px;height:18px;color:var(--bl)}
+.subj-name{font-family:var(--fh);font-size:14px;font-weight:700;margin-bottom:4px;letter-spacing:-.2px}
+.subj-meta{font-size:11px;color:var(--t2);margin-bottom:10px}
+.subj-prog{height:4px;background:var(--bd);border-radius:999px;overflow:hidden;margin-bottom:6px}
+.subj-prog-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--bl),var(--pu));transition:width .6s ease}
+.subj-prog-lbl{font-size:10px;color:var(--t3);font-weight:600}
+/* Chapter list */
+.chap-list{display:flex;flex-direction:column;gap:6px}
+.chap-row{background:var(--c1);border:1px solid var(--bd);border-radius:11px;padding:13px 16px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:12px}
+.chap-row:hover{background:var(--c2);border-color:var(--bd2)}
+.chap-num{width:28px;height:28px;border-radius:8px;background:rgba(59,130,246,.08);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--bl);flex-shrink:0}
+.chap-info{flex:1;min-width:0}
+.chap-name{font-size:13px;font-weight:600;margin-bottom:2px}
+.chap-meta{font-size:11px;color:var(--t3)}
+.chap-arr{color:var(--t3);flex-shrink:0}
+
+/* ── SESSION LAUNCHER ─────────────────────────────────────────── */
+.launcher{background:var(--c1);border:1px solid var(--bd);border-radius:18px;padding:28px;margin-bottom:22px;position:relative;overflow:hidden}
+.launcher::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--bl),var(--pu))}
+.launcher-title{font-family:var(--fh);font-size:17px;font-weight:800;margin-bottom:4px}
+.launcher-sub{font-size:13px;color:var(--t2);margin-bottom:20px;line-height:1.65}
+.launcher-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px}
+.ls{background:var(--in);border:1px solid var(--bd);border-radius:11px;padding:12px 14px;text-align:center}
+.ls-v{font-family:var(--fh);font-size:20px;font-weight:800;line-height:1}
+.ls-l{font-size:10px;color:var(--t3);margin-top:3px;font-weight:600}
+.launcher-actions{display:flex;gap:10px;flex-wrap:wrap}
+
+/* ── PAST SESSIONS ─────────────────────────────────────────────── */
+.sessions-title{font-family:var(--fh);font-size:15px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:9px}
+.sessions-list{display:flex;flex-direction:column;gap:9px}
+.sess-card{background:var(--c1);border:1px solid var(--bd);border-radius:13px;padding:16px;transition:border-color .2s}
+.sess-card:hover{border-color:var(--bd2)}
+.sess-hd{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:10px}
+.sess-name{font-weight:700;font-size:13px}
+.sess-date{font-size:10px;color:var(--t3);margin-top:2px}
+.sess-pct{font-family:var(--fh);font-size:22px;font-weight:800;line-height:1}
+.sess-bar{height:5px;background:var(--bd);border-radius:999px;overflow:hidden;margin-bottom:8px}
+.sess-bar-fill{height:100%;border-radius:999px;transition:width .6s ease}
+.sess-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.sess-tag{font-size:10px;font-weight:600;padding:2px 8px;border-radius:5px}
+
+/* ── PRACTICE ENGINE ──────────────────────────────────────────── */
+.engine-hdr{padding:14px 20px;border-bottom:1px solid var(--bd);background:var(--c1);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;position:sticky;top:var(--top);z-index:30;flex-shrink:0}
+.eng-info{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.eng-badge{font-size:11px;font-weight:700;padding:4px 11px;border-radius:7px;background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.2);color:var(--bl)}
+.eng-stat{font-size:12px;color:var(--t2);display:flex;align-items:center;gap:5px}
+.eng-stat strong{color:var(--gn)}
+.eng-stat.wrong strong{color:var(--rd)}
+
+/* ── QUESTION CARD ──────────────────────────────────────────── */
+.qwrap{max-width:720px;margin:0 auto;padding:20px}
+.qcard{background:var(--c1);border:1px solid var(--bd);border-radius:16px;padding:26px;margin-bottom:14px;box-shadow:0 2px 12px var(--sh)}
+.qcard::before{content:'';display:block;height:3px;background:linear-gradient(90deg,var(--bl),var(--pu));margin:-26px -26px 22px;border-radius:16px 16px 0 0}
+.q-meta{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.q-tags{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.qtag{font-size:9px;font-weight:700;padding:2px 8px;border-radius:4px}
+.qt-subj{background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.16);color:var(--bl)}
+.qt-chap{background:rgba(124,58,237,.08);border:1px solid rgba(124,58,237,.16);color:#a78bfa}
+.qt-mcq{background:var(--in);border:1px solid var(--bd2);color:var(--t2)}
+.qt-int{background:rgba(217,119,6,.08);border:1px solid rgba(217,119,6,.16);color:var(--am)}
+.qt-ow{background:rgba(5,150,105,.08);border:1px solid rgba(5,150,105,.16);color:var(--gn)}
+.qt-diff{background:var(--in);border:1px solid var(--bd2);color:var(--t3)}
+.q-marks-tag{font-size:10px;font-weight:700;color:var(--t2);background:var(--in);border:1px solid var(--bd2);padding:2px 9px;border-radius:5px}
+.q-text{font-size:15px;line-height:1.88;margin-bottom:22px;color:var(--tx);word-break:break-word}
+.q-text img{max-width:100%;border-radius:8px;margin:8px 0;display:block}
+.q-text sup{font-size:.72em;vertical-align:super}.q-text sub{font-size:.72em;vertical-align:sub}
+/* Options */
+.opts{display:flex;flex-direction:column;gap:9px;margin-bottom:18px}
+.opt{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;border-radius:12px;border:1.5px solid var(--bd);background:var(--in);cursor:pointer;transition:all .17s;text-align:left;width:100%;font-family:var(--fb)}
+.opt:hover:not(.locked){background:var(--c2);border-color:var(--bd2);transform:translateX(2px)}
 .opt.sel{border-color:var(--bl);background:rgba(59,130,246,.07)}
 .opt.correct{border-color:var(--gn)!important;background:rgba(5,150,105,.07)!important}
 .opt.wrong{border-color:var(--rd)!important;background:rgba(220,38,38,.07)!important}
 .opt.show-c{border-color:var(--gn);background:rgba(5,150,105,.04)}
 .opt.locked{cursor:not-allowed}
-.okey{width:22px;height:22px;border-radius:5px;border:1.5px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--t3);flex-shrink:0;transition:all .17s}
+.okey{width:28px;height:28px;border-radius:8px;border:1.5px solid var(--bd2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--t3);flex-shrink:0;transition:all .17s}
 .opt.sel .okey{border-color:var(--bl);color:var(--bl);background:rgba(59,130,246,.1)}
 .opt.correct .okey{border-color:var(--gn);color:var(--gn);background:rgba(5,150,105,.14)}
 .opt.wrong .okey{border-color:var(--rd);color:var(--rd);background:rgba(220,38,38,.14)}
 .opt.show-c .okey{border-color:var(--gn);color:var(--gn);background:rgba(5,150,105,.1)}
-.otxt{font-size:13px;line-height:1.65;padding-top:2px;color:var(--tx)}
-/* INTEGER / ONE-WORD */
-.ans-in{background:var(--in);border:2px solid var(--bd);border-radius:9px;padding:11px 14px;color:var(--tx);font-family:monospace;font-size:16px;font-weight:700;outline:none;width:220px;transition:border-color .2s;text-align:center;display:block;margin-bottom:15px}
-.ans-in:focus{border-color:var(--bf)}.ans-in.correct{border-color:var(--gn)!important}.ans-in.wrong{border-color:var(--rd)!important}
-.q-acts{display:flex;gap:7px;justify-content:flex-end;flex-wrap:wrap}
-.rb{border-radius:9px;padding:11px 14px;margin-bottom:11px;display:flex;align-items:center;gap:8px;font-weight:600;font-size:13px}
-.rb-c{background:rgba(5,150,105,.07);border:1px solid rgba(5,150,105,.18);color:var(--gn)}
-.rb-w{background:rgba(220,38,38,.07);border:1px solid rgba(220,38,38,.18);color:var(--rd)}
-.exp{background:var(--in);border:1px solid var(--bd);border-radius:10px;padding:14px}
-.exp-l{font-size:9px;font-weight:700;letter-spacing:.7px;color:var(--bl);text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:5px}
-.exp-l::before{content:'';width:2px;height:11px;background:var(--bl);border-radius:2px}
-.exp-t{font-size:13px;line-height:1.85;color:var(--t2)}
-/* SCORE */
-.score-c{background:var(--c1);border:1px solid var(--bd);border-radius:17px;padding:28px;text-align:center;max-width:420px;margin:0 auto}
-.sc-ring{width:94px;height:94px;border-radius:50%;margin:0 auto 14px;position:relative}
-.sc-in{position:absolute;inset:8px;border-radius:50%;background:var(--c1);display:flex;align-items:center;justify-content:center;flex-direction:column}
-.sc-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-bottom:16px}
-.scs{background:var(--in);border:1px solid var(--bd);border-radius:9px;padding:9px}
-.scs-v{font-family:var(--fh);font-size:17px;font-weight:800;line-height:1}.scs-l{font-size:9px;color:var(--t3);margin-top:2px}
-/* HISTORY */
-.hist{background:var(--c1);border:1px solid var(--bd);border-radius:11px;overflow:hidden;margin-top:16px}
-table{width:100%;border-collapse:collapse}
-th{text-align:left;padding:8px 13px;font-size:9px;font-weight:700;letter-spacing:.5px;color:var(--t3);text-transform:uppercase;border-bottom:1px solid var(--bd)}
-td{padding:9px 13px;font-size:12px;border-bottom:1px solid var(--bd)}tr:last-child td{border-bottom:none}tr:hover td{background:var(--in)}
-#toast{position:fixed;bottom:16px;right:16px;z-index:999;background:var(--c1);border:1px solid var(--bd);padding:9px 13px;border-radius:9px;font-size:12px;font-weight:500;display:flex;align-items:center;gap:6px;transform:translateY(80px);opacity:0;transition:all .28s cubic-bezier(.34,1.56,.64,1);max-width:260px}
-#toast.show{transform:translateY(0);opacity:1}#toast.suc{border-color:rgba(5,150,105,.27)}#toast.err{border-color:rgba(220,38,38,.27)}
-.tdot{width:6px;height:6px;border-radius:50%;flex-shrink:0}#toast.suc .tdot{background:var(--gn)}#toast.err .tdot{background:var(--rd)}
-@media(max-width:768px){:root{--sw:0px}.sb{transform:translateX(-250px);width:250px}.sb.open{transform:translateX(0)}.main{margin-left:0}.ov.show{display:block}.topbar,.pg{padding-left:13px;padding-right:13px}.hb{display:flex}.subj-g{grid-template-columns:1fr 1fr}.sess{grid-template-columns:1fr 1fr}}
-@media(max-width:480px){.subj-g{grid-template-columns:1fr}.sc-stats{grid-template-columns:1fr 1fr}}
+.otxt{font-size:13px;line-height:1.7;padding-top:2px;color:var(--tx);word-break:break-word;flex:1}
+.otxt img{max-width:100%;border-radius:6px;margin:4px 0;display:block}
+.otxt sup{font-size:.72em;vertical-align:super}.otxt sub{font-size:.72em;vertical-align:sub}
+/* Integer / oneword */
+.ans-inp{background:var(--in);border:2px solid var(--bd);border-radius:11px;padding:13px 18px;color:var(--tx);font-family:monospace;font-size:18px;font-weight:700;outline:none;width:260px;transition:border-color .2s;text-align:center;display:block;margin-bottom:18px}
+.ans-inp:focus{border-color:var(--bf)}.ans-inp.correct{border-color:var(--gn)!important}.ans-inp.wrong{border-color:var(--rd)!important}.ans-inp:disabled{opacity:.7}
+/* Result row */
+.result-row{border-radius:11px;padding:13px 16px;margin-bottom:12px;display:flex;align-items:center;gap:10px;font-weight:600;font-size:14px}
+.result-row.correct{background:rgba(5,150,105,.07);border:1px solid rgba(5,150,105,.2);color:var(--gn)}
+.result-row.wrong{background:rgba(220,38,38,.07);border:1px solid rgba(220,38,38,.2);color:var(--rd)}
+/* Explanation */
+.exp-box{background:var(--in);border:1px solid var(--bd);border-radius:12px;padding:15px;margin-bottom:12px}
+.exp-box-l{font-size:9px;font-weight:700;letter-spacing:.6px;color:var(--bl);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:5px}
+.exp-box-l::before{content:'';width:3px;height:12px;background:var(--bl);border-radius:2px}
+.exp-box-t{font-size:13px;line-height:1.82;color:var(--t2)}
+.exp-box-t img{max-width:100%;border-radius:7px;margin:6px 0;display:block}
+/* Q actions */
+.q-acts{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:4px}
+
+/* ── SESSION COMPLETE ─────────────────────────────────────────── */
+.score-wrap{max-width:480px;margin:0 auto;text-align:center;padding:40px 20px}
+.score-ring-wrap{position:relative;width:110px;height:110px;margin:0 auto 18px}
+.score-ring-wrap svg{transform:rotate(-90deg)}
+.score-ring-bg{fill:none;stroke:var(--bd);stroke-width:9}
+.score-ring-fill{fill:none;stroke-width:9;stroke-linecap:round;transition:stroke-dashoffset .9s ease}
+.score-ring-text{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.score-pct{font-family:var(--fh);font-size:24px;font-weight:800;line-height:1}
+.score-sub{font-size:10px;color:var(--t3);margin-top:2px}
+.score-grade{font-family:var(--fh);font-size:20px;font-weight:800;margin-bottom:6px}
+.score-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0}
+.ss-c{background:var(--c1);border:1px solid var(--bd);border-radius:11px;padding:12px}
+.ss-v{font-family:var(--fh);font-size:18px;font-weight:800;line-height:1}
+.ss-l{font-size:9px;color:var(--t3);margin-top:3px;font-weight:700;text-transform:uppercase}
+.score-btns{display:flex;flex-direction:column;gap:9px;margin-top:22px}
+
+/* ── TOAST ──────────────────────────────────────────────────── */
+#toast{position:fixed;bottom:18px;right:18px;z-index:999;background:var(--c1);border:1px solid var(--bd);padding:10px 15px;border-radius:11px;font-size:12px;font-weight:500;display:flex;align-items:center;gap:8px;transform:translateY(90px);opacity:0;transition:all .3s cubic-bezier(.34,1.56,.64,1);max-width:280px;box-shadow:0 8px 24px var(--sh)}
+#toast.show{transform:translateY(0);opacity:1}#toast.suc{border-color:rgba(5,150,105,.3)}#toast.err{border-color:rgba(220,38,38,.3)}
+.tdot{width:7px;height:7px;border-radius:50%;flex-shrink:0}#toast.suc .tdot{background:var(--gn)}#toast.err .tdot{background:var(--rd)}
+
+/* ── RESPONSIVE ─────────────────────────────────────────────── */
+@media(max-width:768px){:root{--sw:0px}.sb{transform:translateX(-252px);width:252px}.sb.open{transform:translateX(0)}.main{margin-left:0}.ov.show{display:block}.hb{display:flex}.pg-body{padding:16px 14px}.qwrap{padding:14px}.launcher-stats{grid-template-columns:1fr 1fr 1fr}.subj-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.subj-grid{grid-template-columns:1fr}.launcher-stats{grid-template-columns:1fr 1fr}.score-stats{grid-template-columns:1fr 1fr 1fr}}
 </style>
 </head>
 <body>
-<div id="ag"><div class="gl">FluxPrep</div></div>
+<div id="ag"><div class="gl">FluxPrep</div><div class="spin"></div></div>
 <div class="ov" id="ov" onclick="closeSB()"></div>
+
+<!-- SIDEBAR -->
 <aside class="sb" id="sb">
-  <div class="sb-logo"><a href="stud.html"><div class="lm">FP</div><span class="lt">FluxPrep</span></a></div>
+  <div class="sb-logo"><a href="stud.html"><div class="lmark">FP</div><span class="ltext">FluxPrep</span></a></div>
   <nav class="sb-nav">
     <div class="sb-sec">Main</div>
     <a class="si" href="stud.html"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>Dashboard</a>
@@ -138,76 +214,146 @@ td{padding:9px 13px;font-size:12px;border-bottom:1px solid var(--bd)}tr:last-chi
     <a class="si" href="test.html"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Mock Tests</a>
     <a class="si" href="doubt.html"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Doubts</a>
     <div class="sb-sec">Analytics</div>
-    <div class="si" onclick="showPg('performance')"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>My Performance</div>
+    <div class="si" id="nav-perf" onclick="showScreen('perf')"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Performance</div>
   </nav>
   <div class="sb-foot">
-    <div class="sb-user"><div class="av" id="sbav">?</div><div style="min-width:0"><div class="sb-un" id="sbn">Loading…</div><div class="sb-uid" id="sbuid">FP-…</div></div></div>
+    <div class="sb-user"><div class="av" id="sbav">?</div><div style="min-width:0;flex:1"><div class="sb-un" id="sbn">Loading…</div><div class="sb-uid" id="sbuid">FP-…</div></div></div>
     <button class="lout" onclick="doOut()">Sign Out</button>
   </div>
 </aside>
-<div class="main">
+
+<!-- MAIN -->
+<div class="main" id="main">
   <div class="topbar">
-    <div class="tb-l"><div class="ib hb" onclick="openSB()"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></div><div class="tb-t" id="ph">Practice</div></div>
-    <div class="tb-r"><div class="ib" onclick="toggleTheme()"><svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg></div></div>
-  </div>
-  <!-- GATE (maintenance/coming soon) -->
-  <div class="pg" id="pg-gate">
-    <div class="gate">
-      <div class="gate-ic" id="gate-ic" style="background:rgba(217,119,6,.07);border:1px solid rgba(217,119,6,.17)"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color:var(--am)"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 0-14.14 0m14.14 14.14a10 10 0 0 1-14.14 0M2.93 7.05a10 10 0 0 0 0 9.9M21.07 7.05a10 10 0 0 1 0 9.9"/></svg></div>
-      <div style="font-family:var(--fh);font-size:18px;font-weight:800;margin-bottom:7px" id="gate-t">Under Maintenance</div>
-      <div style="font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:22px" id="gate-s">Practice is temporarily unavailable.</div>
-      <a href="stud.html" class="btn btn-p">← Back to Dashboard</a>
+    <div class="tb-l">
+      <div class="ib hb" onclick="openSB()"><svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg></div>
+      <!-- breadcrumb -->
+      <div id="breadcrumb" style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--t2)"></div>
+    </div>
+    <div class="tb-r">
+      <div class="ib" onclick="toggleTheme()"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg></div>
     </div>
   </div>
-  <!-- SELECT SUBJECT -->
-  <div class="pg active" id="pg-select">
-    <div class="pg-t">Choose a Subject</div>
-    <div class="pg-s" id="pg-goal-hint">Select a subject to begin chapterwise practice</div>
-    <div class="subj-g" id="subj-grid"><div style="color:var(--t3);padding:32px;font-size:13px;text-align:center">Loading subjects…</div></div>
-  </div>
-  <!-- CHAPTERS -->
-  <div class="pg" id="pg-chapters">
-    <div class="bc"><span class="bci" onclick="showPg('select')">Subjects</span><span class="bcs">›</span><span class="bcc" id="bc-sub">—</span></div>
-    <div class="pg-t" id="chap-title">Chapters</div>
-    <div class="pg-s">Select a chapter to start practising.</div>
-    <div class="chap-l" id="chap-list"></div>
-  </div>
+
+  <!-- GATE -->
+  <div class="pg" id="pg-gate"><div class="gate-wrap">
+    <div class="gate">
+      <div class="gate-ic" style="background:rgba(217,119,6,.07);border:1px solid rgba(217,119,6,.17)"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color:var(--am);width:28px;height:28px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+      <div style="font-family:var(--fh);font-size:18px;font-weight:800;margin-bottom:8px" id="gate-t">Under Maintenance</div>
+      <div style="font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:24px" id="gate-s">Practice is temporarily unavailable.</div>
+      <a href="stud.html" class="btn btn-p" style="justify-content:center">← Back to Dashboard</a>
+    </div>
+  </div></div>
+
+  <!-- SUBJECTS -->
+  <div class="pg" id="pg-subjects"><div class="pg-body">
+    <div style="margin-bottom:22px">
+      <div style="font-family:var(--fh);font-size:22px;font-weight:800;margin-bottom:4px">Practice</div>
+      <div style="font-size:13px;color:var(--t2)" id="subj-hint">Choose a subject to start practising.</div>
+    </div>
+    <div class="subj-grid" id="subj-grid"><div style="color:var(--t3);padding:40px;text-align:center;font-size:13px;grid-column:1/-1">Loading subjects…</div></div>
+  </div></div>
+
+  <!-- CHAPTERS / LAUNCHER -->
+  <div class="pg" id="pg-chapters"><div class="pg-body">
+    <!-- Launcher card -->
+    <div class="launcher" id="launcher-card" style="display:none">
+      <div class="launcher-title" id="launcher-title">—</div>
+      <div class="launcher-sub" id="launcher-sub">—</div>
+      <div class="launcher-stats" id="launcher-stats"></div>
+      <div class="launcher-actions" id="launcher-actions"></div>
+    </div>
+    <!-- Chapter list -->
+    <div id="chaps-section">
+      <div style="font-family:var(--fh);font-size:15px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:9px" id="chaps-title">Chapters</div>
+      <div class="chap-list" id="chap-list"></div>
+    </div>
+    <!-- Past sessions -->
+    <div id="past-sessions-wrap" style="margin-top:28px;display:none">
+      <div class="sessions-title">
+        <svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color:var(--bl)"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.16"/></svg>
+        Past Sessions
+      </div>
+      <div class="sessions-list" id="sessions-list"></div>
+    </div>
+  </div></div>
+
   <!-- PRACTICE ENGINE -->
   <div class="pg" id="pg-practice">
-    <div class="bc"><span class="bci" onclick="exitSess()">Subjects</span><span class="bcs">›</span><span class="bci" id="bc-sub2" onclick="exitToChaps()">—</span><span class="bcs">›</span><span class="bcc" id="bc-chap">—</span></div>
-    <div class="sess">
-      <div class="ss"><div class="ss-v" id="ss-q">0</div><div class="ss-l">Questions</div></div>
-      <div class="ss"><div class="ss-v" style="color:var(--gn)" id="ss-c">0</div><div class="ss-l">Correct</div></div>
-      <div class="ss"><div class="ss-v" style="color:var(--rd)" id="ss-w">0</div><div class="ss-l">Wrong</div></div>
-      <div class="ss"><div class="ss-v" id="ss-a">—</div><div class="ss-l">Accuracy</div></div>
+    <div class="engine-hdr" id="engine-hdr">
+      <div class="eng-info">
+        <div class="eng-badge" id="eng-badge">Practice</div>
+        <div class="eng-stat"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><strong id="eng-correct">0</strong>&nbsp;Correct</div>
+        <div class="eng-stat wrong"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><strong id="eng-wrong">0</strong>&nbsp;Wrong</div>
+        <div class="eng-stat" style="color:var(--am)"><svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg><span id="eng-remain" style="font-weight:700;color:var(--am)">0</span>&nbsp;left</div>
+      </div>
+      <div style="display:flex;gap:7px;flex-wrap:wrap">
+        <button class="btn btn-am" onclick="skipQ()">Skip →</button>
+        <button class="btn btn-g" onclick="endSession()">End Session</button>
+      </div>
     </div>
-    <div class="qw" id="qeng"></div>
+    <div id="qwrap-outer" style="overflow-y:auto;flex:1">
+      <div class="qwrap" id="qwrap"></div>
+    </div>
   </div>
+
+  <!-- SESSION COMPLETE -->
+  <div class="pg" id="pg-complete"><div style="overflow-y:auto;flex:1">
+    <div class="score-wrap">
+      <div class="score-ring-wrap">
+        <svg viewBox="0 0 110 110" width="110" height="110">
+          <circle class="score-ring-bg" cx="55" cy="55" r="46"/>
+          <circle class="score-ring-fill" id="score-ring-fill" cx="55" cy="55" r="46" stroke="#3b82f6" stroke-dasharray="289.0" stroke-dashoffset="289.0"/>
+        </svg>
+        <div class="score-ring-text"><div class="score-pct" id="sc-pct">—</div><div class="score-sub">accuracy</div></div>
+      </div>
+      <div class="score-grade" id="sc-grade">—</div>
+      <div style="font-size:13px;color:var(--t2)" id="sc-sub">—</div>
+      <div class="score-stats" id="sc-stats"></div>
+      <div class="score-btns" id="sc-btns"></div>
+    </div>
+  </div></div>
+
   <!-- PERFORMANCE -->
-  <div class="pg" id="pg-performance">
-    <div class="pg-t">My Performance</div>
-    <div class="pg-s">Practice analytics across all subjects</div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px" id="perf-top"></div>
-    <div style="font-family:var(--fh);font-size:13px;font-weight:700;margin-bottom:10px">Subject Accuracy</div>
-    <div id="sp-bars" style="margin-bottom:16px"></div>
-    <div style="font-family:var(--fh);font-size:13px;font-weight:700;margin-bottom:10px">Recent Sessions</div>
-    <div class="hist"><table><thead><tr><th>Subject</th><th>Chapter</th><th>Score</th><th>Accuracy</th><th>Date</th></tr></thead><tbody id="hist-body"><tr><td colspan="5" style="text-align:center;padding:22px;color:var(--t3)">No sessions yet</td></tr></tbody></table></div>
-  </div>
+  <div class="pg" id="pg-perf"><div class="pg-body">
+    <div style="font-family:var(--fh);font-size:22px;font-weight:800;margin-bottom:5px">Performance</div>
+    <div style="font-size:13px;color:var(--t2);margin-bottom:22px">Your overall practice analytics</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:22px" id="perf-top"></div>
+    <div style="font-family:var(--fh);font-size:14px;font-weight:700;margin-bottom:12px">Subject Accuracy</div>
+    <div id="perf-bars" style="margin-bottom:24px"></div>
+    <div style="font-family:var(--fh);font-size:14px;font-weight:700;margin-bottom:12px">Recent Sessions</div>
+    <div id="perf-sessions"></div>
+  </div></div>
 </div>
+
 <div id="toast"><span class="tdot"></span><span id="tmsg"></span></div>
+
 <script type="module">
 import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import{getAuth,onAuthStateChanged,signOut as fbOut}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import{getFirestore,doc,getDoc,addDoc,setDoc,increment,collection,query,where,getDocs,onSnapshot,orderBy}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
 const FC={apiKey:"AIzaSyB0yTyuJEpi3j4Wu5r45uJ7cSpVVzgjiMk",authDomain:"fluxprep-1f7b3.firebaseapp.com",projectId:"fluxprep-1f7b3",storageBucket:"fluxprep-1f7b3.firebasestorage.app",messagingSenderId:"651182920201",appId:"1:651182920201:web:3fb71e6f5d56e5bb9b5ed8"};
 const app=initializeApp(FC);const auth=getAuth(app);const db=getFirestore(app);
-let SD={},CU=null,selSubj=null,selChap=null;
-let sess={total:0,correct:0,wrong:0,start:0};
-let allQ=[],curQIdx=0,answered=false,selOpts=new Set(),inputVal='';
+
+// ── State ──────────────────────────────────────────────────────
+let SD={},CU=null;
+let selSubj=null,selChap=null;   // currently selected subject / chapter (null = whole subject)
+let sessQ=[],curQIdx=0,sess={correct:0,wrong:0,start:0};
+let answered=false,selOpts=new Set(),inputVal='';
+// attempted question IDs per subject (loaded from Firestore practiceStats)
+// stored as Set<questionId> keyed by subjectId
+let attemptedIds={};  // { subjectId: Set<id> }
+let sessMode='';      // 'new' | 'reattempt_all' | 'reattempt_session' | 'chapter'
+let prevSessions=[];  // practiceHistory for selected subject
+
+// ── Theme & sidebar ────────────────────────────────────────────
 const _t=localStorage.getItem('fp_theme')||'dark';document.documentElement.setAttribute('data-theme',_t);
 window.toggleTheme=()=>{const n=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);localStorage.setItem('fp_theme',n)};
 window.openSB=()=>{document.getElementById('sb').classList.add('open');document.getElementById('ov').classList.add('show')};
 window.closeSB=()=>{document.getElementById('sb').classList.remove('open');document.getElementById('ov').classList.remove('show')};
+
+// ── Auth ───────────────────────────────────────────────────────
 onAuthStateChanged(auth,async u=>{
   if(!u){location.href='login.html';return}
   const s=await getDoc(doc(db,'students',u.uid));
@@ -216,145 +362,469 @@ onAuthStateChanged(auth,async u=>{
   CU=u;SD=d;
   const ini=(d.name||'?').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
   const ph=d.photo||u.photoURL;
-  document.getElementById('sbav').innerHTML=ph?`<img src="${ph}">`:ini;
-  document.getElementById('sbn').textContent=d.name||'—';document.getElementById('sbuid').textContent=d.userID||'—';
-  document.getElementById('pg-goal-hint').textContent=`Goal: ${d.goal} · Class ${d.class} — admin-curated questions`;
-  // Real-time feature status
+  document.getElementById('sbav').innerHTML=ph?`<img src="${xe(ph)}">`:ini;
+  document.getElementById('sbn').textContent=d.name||'—';
+  document.getElementById('sbuid').textContent=d.userID||'—';
+  document.getElementById('subj-hint').textContent=`Goal: ${d.goal||'—'} · Class ${d.class||'—'}`;
+  // Feature gate
   onSnapshot(doc(db,'featureStatuses','practice'),fs=>{
     const st=fs.exists()?fs.data().status:'live';
     if(st!=='live'){
-      const isMaint=st==='maintenance';
-      document.getElementById('gate-t').textContent=isMaint?'Practice Under Maintenance':'Practice Coming Soon';
-      document.getElementById('gate-s').textContent=isMaint?'Practice is temporarily unavailable. Please check back soon.':'Practice mode will be available shortly.';
-      showPg('gate');
-    }else{
-      const cur=document.querySelector('.pg.active');
-      if(cur&&cur.id==='pg-gate')showPg('select');
+      document.getElementById('gate-t').textContent=st==='maintenance'?'Practice Under Maintenance':'Practice Coming Soon';
+      document.getElementById('gate-s').textContent=st==='maintenance'?'Practice is temporarily unavailable.':'Practice will be available soon.';
+      showScreen('gate');
+    } else {
+      if(document.querySelector('.pg.active')?.id==='pg-gate')showScreen('subjects');
     }
   });
   document.getElementById('ag').style.display='none';
-  loadSubjs();
+  await loadAttemptedIds();
+  loadSubjects();
+  setBreadcrumb([{label:'Subjects',action:()=>showScreen('subjects')}]);
 });
-// ===== SUBJECTS (admin-controlled, class-filtered) =====
-async function loadSubjs(){
+
+// ── Load attempted question IDs from practiceStats ──────────────
+// We store attempted IDs per subject as a comma-separated list
+async function loadAttemptedIds(){
+  try{
+    const snap=await getDocs(collection(db,`students/${CU.uid}/practiceStats`));
+    snap.forEach(d=>{
+      const data=d.data();
+      if(data.attemptedIds){
+        attemptedIds[d.id]=new Set(data.attemptedIds.split(',').filter(Boolean));
+      }else{
+        attemptedIds[d.id]=new Set();
+      }
+    });
+  }catch(e){attemptedIds={}}
+}
+
+// ── Load subjects ──────────────────────────────────────────────
+async function loadSubjects(){
   const grid=document.getElementById('subj-grid');
   try{
     const snap=await getDocs(collection(db,`goals/${SD.goal}/subjects`));
     const subs=[];
     snap.forEach(d=>{
       const s=d.data();
-      if(s.classes&&s.classes.length>0&&!s.classes.map(String).includes(String(SD.class)))return;
+      if(s.classes?.length>0&&!s.classes.map(String).includes(String(SD.class)))return;
       subs.push({id:d.id,...s});
     });
     subs.sort((a,b)=>(a.order||99)-(b.order||99));
-    if(!subs.length){grid.innerHTML=`<div style="color:var(--t3);padding:32px;text-align:center;font-size:13px;line-height:1.8">No subjects for Class ${SD.class}.<br>Ask admin to add subjects for your class.</div>`;return}
-    const ICONS={'Physics':'<path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>','Chemistry':'<path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v11m0 0H5a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2h-4"/>','Mathematics':'<path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/>','Biology':'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>','English':'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>'};
-    grid.innerHTML=subs.map(s=>`<div class="subj-c" onclick="selSubjFn(${JSON.stringify(s).replace(/"/g,'&quot;')})"><div class="subj-ic"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">${ICONS[s.name]||'<circle cx="12" cy="12" r="10"/>'}</svg></div><div class="subj-n">${xe(s.name)}</div><div class="subj-cnt">${(s.chapters||[]).length} chapters</div></div>`).join('');
-  }catch(e){grid.innerHTML=`<div style="color:var(--rd);padding:32px;text-align:center;font-size:13px">Error: ${xe(e.message)}<br><br><button class="btn btn-g" onclick="loadSubjs()">Retry</button></div>`}
+    if(!subs.length){grid.innerHTML='<div style="color:var(--t3);padding:40px;text-align:center;font-size:13px;grid-column:1/-1">No subjects for Class '+xe(SD.class)+'. Ask admin.</div>';return}
+    // Load stats for each subject
+    const statsSnap=await getDocs(collection(db,`students/${CU.uid}/practiceStats`));
+    const stats={};statsSnap.forEach(d=>stats[d.id]={...d.data()});
+    const ICONS={Physics:'<path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>',Chemistry:'<path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v11m0 0H5a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2h-4"/>',Mathematics:'<path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/>',Biology:'<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',English:'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>'};
+    grid.innerHTML=subs.map(s=>{
+      const st=stats[s.id]||{};const done=st.total||0;const correct=st.correct||0;
+      const acc=done>0?Math.round(correct/done*100):0;
+      const attSet=attemptedIds[s.id]||new Set();
+      const ico=ICONS[s.name]||'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/>';
+      return`<div class="subj-card" onclick="selectSubject(${JSON.stringify(s).replace(/"/g,'&quot;')})">
+        <div class="subj-icon"><svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">${ico}</svg></div>
+        <div class="subj-name">${xe(s.name)}</div>
+        <div class="subj-meta">${(s.chapters||[]).length} chapters${done?` · ${done} done`:'  · Not started'}</div>
+        ${done?`<div class="subj-prog"><div class="subj-prog-fill" style="width:${Math.min(100,acc)}%"></div></div><div class="subj-prog-lbl">${acc}% accuracy · ${attSet.size} unique Qs done</div>`:''}
+      </div>`;
+    }).join('');
+  }catch(e){grid.innerHTML=`<div style="color:var(--rd);padding:40px;text-align:center;font-size:13px;grid-column:1/-1">Error: ${xe(e.message)}<br><br><button class="btn btn-g" onclick="loadSubjects()">Retry</button></div>`}
 }
-window.selSubjFn=s=>{
-  selSubj=s;document.getElementById('bc-sub').textContent=s.name;document.getElementById('chap-title').textContent=s.name;
-  const chs=s.chapters||[];
-  document.getElementById('chap-list').innerHTML=!chs.length?'<div style="color:var(--t3);padding:16px;font-size:13px">No chapters yet. Ask admin to add chapters.</div>':chs.map((ch,i)=>`<div class="chap-c" onclick="selChapFn('${xe(ch)}',${i})"><div class="chap-li"><div class="chap-num">${i+1}</div><div style="font-size:13px;font-weight:600">${xe(ch)}</div></div><div style="display:flex;align-items:center;gap:7px"><span class="chap-qc" id="qc-${i}">—</span><svg style="color:var(--t3)" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div></div>`).join('');
-  chs.forEach((ch,i)=>{getDocs(query(collection(db,`goals/${SD.goal}/subjects/${s.id}/questions`),where('chapter','==',ch))).then(snap=>{const el=document.getElementById('qc-'+i);if(el)el.textContent=snap.size+' Qs'}).catch(()=>{})});
-  showPg('chapters');
+
+// ── Select subject → show chapters + launcher ──────────────────
+window.selectSubject=async s=>{
+  selSubj=s;selChap=null;
+  setBreadcrumb([
+    {label:'Subjects',action:()=>showScreen('subjects')},
+    {label:s.name,action:()=>{selChap=null;loadChapScreen()}}
+  ]);
+  await loadChapScreen();
+  showScreen('chapters');
 };
-window.selChapFn=async(ch,idx)=>{
-  selChap={name:ch,idx};
-  document.getElementById('bc-sub2').textContent=selSubj.name;document.getElementById('bc-chap').textContent=ch;
-  sess={total:0,correct:0,wrong:0,start:Date.now()};updSess();
-  document.getElementById('qeng').innerHTML='<div style="text-align:center;padding:30px;color:var(--t2);font-size:13px">Loading questions…</div>';
-  showPg('practice');
-  try{
-    const snap=await getDocs(query(collection(db,`goals/${SD.goal}/subjects/${selSubj.id}/questions`),where('chapter','==',ch)));
-    if(snap.empty){
-      document.getElementById('qeng').innerHTML=`<div style="text-align:center;padding:40px;background:var(--c1);border:1px solid var(--bd);border-radius:14px"><div style="font-family:var(--fh);font-size:16px;font-weight:800;margin-bottom:8px">No Questions Yet</div><div style="font-size:13px;color:var(--t2);line-height:1.7;max-width:280px;margin:0 auto">Admin hasn't added questions for this chapter. Check back soon!</div></div>`;
-      return;
+async function loadChapScreen(){
+  const chaps=selSubj.chapters||[];
+  // Count available new questions for this subject
+  const allQ=await fetchAllQ(selSubj.id,null);
+  const newQ=allQ.filter(q=>!(attemptedIds[selSubj.id]||new Set()).has(q.id));
+  // Past sessions
+  prevSessions=await loadPrevSessions(selSubj.id);
+  const stats=await getSubjStats(selSubj.id);
+  const done=stats?.total||0;const correct=stats?.correct||0;const acc=done>0?Math.round(correct/done*100):0;
+  // Launcher
+  const lc=document.getElementById('launcher-card');lc.style.display='block';
+  document.getElementById('launcher-title').textContent=selSubj.name;
+  document.getElementById('launcher-sub').textContent=`${allQ.length} questions total · ${newQ.length} unseen · ${chaps.length} chapters`;
+  document.getElementById('launcher-stats').innerHTML=[
+    ['<span style="color:var(--bl)">'+allQ.length+'</span>','Total Qs'],
+    ['<span style="color:var(--gn)">'+newQ.length+'</span>','New Qs'],
+    ['<span style="color:var(--am)">'+(done>0?acc+'%':'—')+'</span>','Accuracy']
+  ].map(([v,l])=>`<div class="ls"><div class="ls-v">${v}</div><div class="ls-l">${l}</div></div>`).join('');
+  const acts=document.getElementById('launcher-actions');
+  acts.innerHTML='';
+  if(newQ.length>0){
+    const btn=document.createElement('button');btn.className='btn btn-p btn-lg';btn.innerHTML='<svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>Start New Session';
+    btn.onclick=()=>startSession('new',null,newQ);acts.appendChild(btn);
+  } else {
+    const msg=document.createElement('div');msg.style.cssText='font-size:13px;color:var(--gn);font-weight:600;padding:8px 0';msg.textContent='✓ All questions attempted!';acts.appendChild(msg);
+  }
+  if(done>0){
+    const btn2=document.createElement('button');btn2.className='btn btn-am btn-lg';btn2.innerHTML='<svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.16"/></svg>Reattempt All Questions';
+    btn2.onclick=()=>startSession('reattempt_all',null,allQ);acts.appendChild(btn2);
+  }
+  // Chapters
+  document.getElementById('chaps-title').textContent=selSubj.name;
+  document.getElementById('chap-list').innerHTML=!chaps.length?'<div style="color:var(--t3);font-size:13px;padding:8px">No chapters added yet.</div>':chaps.map((ch,i)=>{
+    return`<div class="chap-row" onclick="selectChapter('${xe(ch)}')">
+      <div class="chap-num">${i+1}</div>
+      <div class="chap-info"><div class="chap-name">${xe(ch)}</div><div class="chap-meta" id="chap-meta-${i}">Loading…</div></div>
+      <div class="chap-arr"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div>
+    </div>`;
+  }).join('');
+  // Load chapter question counts async
+  chaps.forEach(async(ch,i)=>{
+    try{
+      const snap=await getDocs(query(collection(db,`goals/${SD.goal}/subjects/${selSubj.id}/questions`),where('chapter','==',ch)));
+      const total=snap.size;const attSet=attemptedIds[selSubj.id]||new Set();
+      let attInChap=0;snap.forEach(d=>{if(attSet.has(d.id))attInChap++});
+      const newInChap=total-attInChap;
+      const el=document.getElementById('chap-meta-'+i);
+      if(el)el.textContent=`${total} Qs · ${newInChap} new`;
+    }catch(e){}
+  });
+  // Past sessions
+  const psw=document.getElementById('past-sessions-wrap');
+  if(prevSessions.length){
+    psw.style.display='block';
+    document.getElementById('sessions-list').innerHTML=prevSessions.slice(0,6).map((s,i)=>{
+      const acc2=s.total>0?Math.round((s.correct||0)/s.total*100):0;
+      const col=acc2>=70?'var(--gn)':acc2>=40?'var(--am)':'var(--rd)';
+      const date=s.timestamp?new Date(s.timestamp).toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}):'—';
+      return`<div class="sess-card">
+        <div class="sess-hd">
+          <div><div class="sess-name">${xe(s.chapter||'Full Subject')} Session</div><div class="sess-date">${date} · ${s.duration||0} min</div></div>
+          <div style="text-align:right"><div class="sess-pct" style="color:${col}">${acc2}%</div><div style="font-size:10px;color:var(--t3)">${s.correct||0}/${s.total||0}</div></div>
+        </div>
+        <div class="sess-bar"><div class="sess-bar-fill" style="width:${acc2}%;background:${col}"></div></div>
+        <div class="sess-tags">
+          <span class="sess-tag" style="background:rgba(5,150,105,.07);border:1px solid rgba(5,150,105,.15);color:var(--gn)">✓ ${s.correct||0}</span>
+          <span class="sess-tag" style="background:rgba(220,38,38,.07);border:1px solid rgba(220,38,38,.15);color:var(--rd)">✗ ${s.wrong||0}</span>
+          <span class="sess-tag" style="background:rgba(217,119,6,.07);border:1px solid rgba(217,119,6,.15);color:var(--am)">→ ${s.skipped||0} skipped</span>
+          ${s.chapter?`<span class="sess-tag" style="background:var(--in);border:1px solid var(--bd2);color:var(--t2)">${xe(s.chapter)}</span>`:''}
+        </div>
+        <div style="display:flex;gap:7px;flex-wrap:wrap">
+          ${(s.skippedIds?.length)?`<button class="btn btn-am" style="font-size:11px" onclick="reattemptSkipped(${i})">Attempt Skipped (${s.skippedIds.length})</button>`:''}
+          <button class="btn btn-g" style="font-size:11px" onclick="reattemptSession(${i})">Reattempt This Session</button>
+        </div>
+      </div>`;
+    }).join('');
+  } else {psw.style.display='none'}
+}
+
+window.selectChapter=async ch=>{
+  selChap=ch;
+  setBreadcrumb([
+    {label:'Subjects',action:()=>showScreen('subjects')},
+    {label:selSubj.name,action:()=>{selChap=null;loadChapScreen();showScreen('chapters')}},
+    {label:ch}
+  ]);
+  const allQ=await fetchAllQ(selSubj.id,ch);
+  const newQ=allQ.filter(q=>!(attemptedIds[selSubj.id]||new Set()).has(q.id));
+  if(!allQ.length){showToast('No questions for this chapter yet.','err');return}
+  // Show chapter launcher as overlay over chapters screen
+  document.getElementById('launcher-title').textContent=ch;
+  document.getElementById('launcher-sub').textContent=`${allQ.length} total · ${newQ.length} new questions`;
+  document.getElementById('launcher-stats').innerHTML=[
+    ['<span style="color:var(--bl)">'+allQ.length+'</span>','Total'],
+    ['<span style="color:var(--gn)">'+newQ.length+'</span>','New'],
+    ['<span style="color:var(--t2)">'+(allQ.length-newQ.length)+'</span>','Done']
+  ].map(([v,l])=>`<div class="ls"><div class="ls-v">${v}</div><div class="ls-l">${l}</div></div>`).join('');
+  const acts=document.getElementById('launcher-actions');acts.innerHTML='';
+  const qs=newQ.length?newQ:allQ;// if all done, reattempt
+  const mainBtn=document.createElement('button');
+  mainBtn.className='btn btn-p btn-lg';
+  mainBtn.innerHTML=newQ.length?'<svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>Start Chapter Practice':'<svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.16"/></svg>Reattempt All';
+  mainBtn.onclick=()=>startSession('chapter',ch,qs);
+  acts.appendChild(mainBtn);
+  if(newQ.length&&(allQ.length-newQ.length)>0){
+    const raBtn=document.createElement('button');raBtn.className='btn btn-am';raBtn.textContent='Reattempt All';raBtn.onclick=()=>startSession('chapter',ch,allQ);acts.appendChild(raBtn);
+  }
+  document.getElementById('chap-list').style.display='none';
+  document.getElementById('past-sessions-wrap').style.display='none';
+  document.getElementById('launcher-card').style.display='block';
+  showScreen('chapters');
+};
+
+// reattempt a specific past session
+window.reattemptSession=async i=>{
+  const s=prevSessions[i];if(!s)return;
+  const qIds=s.questionIds||[];
+  let qs=[];
+  if(qIds.length){
+    for(const id of qIds){
+      try{const d=await getDoc(doc(db,`goals/${SD.goal}/subjects/${selSubj.id}/questions`,id));if(d.exists())qs.push({id:d.id,...d.data()})}catch(e){}
     }
-    allQ=[];snap.forEach(d=>allQ.push({id:d.id,...d.data()}));
-    for(let i=allQ.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[allQ[i],allQ[j]]=[allQ[j],allQ[i]]}
-    curQIdx=0;renderQ(allQ[0]);
-  }catch(e){document.getElementById('qeng').innerHTML=`<div style="color:var(--rd);padding:20px;text-align:center;font-size:13px">Error loading questions: ${xe(e.message)}<br><br><button class="btn btn-g" onclick="exitSess()">Back</button></div>`}
+  }
+  if(!qs.length){const all=await fetchAllQ(selSubj.id,s.chapter||null);qs=all}
+  if(!qs.length){showToast('Questions not found','err');return}
+  startSession('reattempt_session',s.chapter||null,qs);
 };
-function renderQ(q){
-  if(!q)return;answered=false;selOpts=new Set();inputVal='';
-  const qn=curQIdx+1,tot=allQ.length;
+window.reattemptSkipped=async i=>{
+  const s=prevSessions[i];if(!s||!s.skippedIds?.length)return;
+  const qs=[];
+  for(const id of s.skippedIds){
+    try{const d=await getDoc(doc(db,`goals/${SD.goal}/subjects/${selSubj.id}/questions`,id));if(d.exists())qs.push({id:d.id,...d.data()})}catch(e){}
+  }
+  if(!qs.length){showToast('Skipped questions not found','err');return}
+  startSession('chapter',s.chapter||null,qs);
+};
+
+// ── Fetch questions ────────────────────────────────────────────
+async function fetchAllQ(subjId,chapter){
+  try{
+    let q=collection(db,`goals/${SD.goal}/subjects/${subjId}/questions`);
+    const snap=await getDocs(chapter?query(q,where('chapter','==',chapter)):q);
+    const qs=[];snap.forEach(d=>qs.push({id:d.id,...d.data()}));
+    return qs;
+  }catch(e){return[]}
+}
+async function getSubjStats(subjId){
+  try{const d=await getDoc(doc(db,`students/${CU.uid}/practiceStats/${subjId}`));return d.exists()?d.data():null}catch(e){return null}
+}
+async function loadPrevSessions(subjId){
+  try{
+    const snap=await getDocs(query(collection(db,`students/${CU.uid}/practiceHistory`),where('subjectId','==',subjId),orderBy('timestamp','desc')));
+    const r=[];snap.forEach(d=>r.push({id:d.id,...d.data()}));return r;
+  }catch(e){return[]}
+}
+
+// ── Start a session ─────────────────────────────────────────────
+function startSession(mode,chapter,questionsArray){
+  if(!questionsArray.length){showToast('No questions available','err');return}
+  sessMode=mode;selChap=chapter;
+  // Shuffle
+  sessQ=shuffle([...questionsArray]);
+  curQIdx=0;sess={correct:0,wrong:0,skipped:[],questionIds:questionsArray.map(q=>q.id),start:Date.now()};
+  answered=false;selOpts=new Set();inputVal='';
+  updEngHeader();renderQ();
+  showScreen('practice');
+  document.getElementById('qwrap-outer').scrollTop=0;
+  setBreadcrumb([
+    {label:'Subjects',action:()=>{if(confirm('End session?')){endSession()}}},
+    {label:selSubj.name,action:()=>{if(confirm('End session?')){endSession()}}},
+    {label:chapter||'All Chapters'}
+  ]);
+}
+function shuffle(arr){for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]]}return arr}
+function updEngHeader(){
+  const rem=sessQ.length-curQIdx;
+  document.getElementById('eng-badge').textContent=`${selSubj?.name||'Practice'}${selChap?' · '+selChap:''}`;
+  document.getElementById('eng-correct').textContent=sess.correct;
+  document.getElementById('eng-wrong').textContent=sess.wrong;
+  document.getElementById('eng-remain').textContent=rem>0?rem:0;
+}
+
+// ── Render question ─────────────────────────────────────────────
+function renderQ(){
+  if(curQIdx>=sessQ.length){endSession();return}
+  const q=sessQ[curQIdx];answered=false;selOpts=new Set();inputVal='';
   const t=q.type||'mcq';const keys=['A','B','C','D','E'];
-  const typeLabel={mcq:'MCQ',mcq_multi:'MCQ (Multi)',integer:'Integer',oneword:'One Word Answer'};
+  const typeLabel={mcq:'MCQ',mcq_multi:'Multi-Select',integer:'Integer',oneword:'One Word'};
+  const typeCls={mcq:'qt-mcq',mcq_multi:'qt-mcq',integer:'qt-int',oneword:'qt-ow'};
+  const qHtml=sanitizeHTML(q.question||'(No question text)');
+  const pm=q.posMarks||null;const nm=q.negMarks||null;
   let ansArea='';
   if(t==='mcq'||t==='mcq_multi'){
     const multi=t==='mcq_multi';
-    ansArea=`<div class="opts" id="opts">${(q.options||[]).map((o,i)=>`<button class="opt" id="opt${i}" onclick="pickOpt(${i},${multi})"><div class="okey">${keys[i]}</div><div class="otxt">${fmt(o)}</div></button>`).join('')}</div>${multi?'<div style="font-size:11px;color:var(--t2);margin-bottom:9px">Select all correct options</div>':''}`;
-  }else if(t==='integer'||t==='oneword'){
-    const ph=t==='integer'?'Enter integer answer…':'Enter your answer…';
-    ansArea=`<input type="${t==='integer'?'number':'text'}" class="ans-in" id="ans-in" placeholder="${ph}" ${t==='integer'?'step="1"':''} oninput="inputVal=this.value;document.getElementById('sub-btn').disabled=!this.value.trim()" autocomplete="off" spellcheck="false"><br>`;
+    ansArea=`<div class="opts" id="opts">${(q.options||[]).map((o,i)=>`<button class="opt" id="opt${i}" onclick="pickOpt(${i},${multi})"><div class="okey">${keys[i]}</div><div class="otxt">${sanitizeHTML(o||'')}</div></button>`).join('')}</div>${multi?'<div style="font-size:11px;color:var(--t2);margin-bottom:12px;font-style:italic">Select all correct options</div>':''}`;
+  } else {
+    ansArea=`<input type="${t==='integer'?'number':'text'}" class="ans-inp" id="ans-inp" placeholder="${t==='integer'?'Enter integer answer…':'Type your answer…'}" autocomplete="off" spellcheck="false" oninput="inputVal=this.value;document.getElementById('sub-btn').disabled=!this.value.trim()"><br>`;
   }
-  document.getElementById('qeng').innerHTML=`
-    <div class="qmeta"><span class="qtag qt-s">${xe(selSubj.name)}</span><span class="qtag qt-c">${xe(selChap.name)}</span><span class="qtag qt-n">Q${qn}/${tot}</span>${t!=='mcq'?`<span class="qtag ${t==='integer'?'qt-int':t==='mcq_multi'?'qt-s':'qt-ow'}">${typeLabel[t]||t}</span>`:''}</div>
+  document.getElementById('qwrap').innerHTML=`
     <div class="qcard">
-      <div class="q-num"><span>Question ${qn} of ${tot}</span>${q.difficulty?`<span>${xe(q.difficulty)}</span>`:''}</div>
-      <div class="q-text">${fmt(q.question)}</div>
+      <div class="q-meta">
+        <div class="q-tags">
+          <span class="qtag qt-subj">${xe(selSubj?.name||'')}</span>
+          <span class="qtag qt-chap">${xe(q.chapter||'—')}</span>
+          <span class="qtag ${typeCls[t]||'qt-mcq'}">${typeLabel[t]||'MCQ'}</span>
+          ${q.difficulty?`<span class="qtag qt-diff">${xe(q.difficulty)}</span>`:''}
+        </div>
+        ${(pm||nm)?`<span class="q-marks-tag">+${pm||'?'} / −${nm||'?'}</span>`:''}
+      </div>
+      <div class="q-text">${qHtml}</div>
       ${ansArea}
       <div id="res-area"></div>
       <div class="q-acts" id="q-acts">
-        <button class="btn btn-g" onclick="skipQ()">Skip</button>
+        <button class="btn btn-am" onclick="skipQ()">Skip for Now →</button>
         <button class="btn btn-p" id="sub-btn" onclick="submitQ()" ${(t==='mcq'||t==='mcq_multi')?'disabled':''}>Submit Answer</button>
       </div>
     </div>`;
+  document.getElementById('qwrap-outer').scrollTop=0;
+  updEngHeader();
 }
+
 window.pickOpt=(i,multi)=>{
   if(answered)return;
   if(multi){selOpts.has(i)?selOpts.delete(i):selOpts.add(i);document.querySelectorAll('.opt').forEach((o,j)=>o.classList.toggle('sel',selOpts.has(j)));document.getElementById('sub-btn').disabled=selOpts.size===0}
   else{selOpts=new Set([i]);document.querySelectorAll('.opt').forEach((o,j)=>o.classList.toggle('sel',j===i));document.getElementById('sub-btn').disabled=false}
 };
+
 window.submitQ=()=>{
-  if(answered)return;const q=allQ[curQIdx];const t=q.type||'mcq';
+  if(answered)return;const q=sessQ[curQIdx];const t=q.type||'mcq';
   answered=true;let ok=false;
   if(t==='mcq'){ok=selOpts.has(q.correct??0);document.querySelectorAll('.opt').forEach((o,i)=>{o.classList.add('locked');if(i===(q.correct??0))o.classList.add('correct');else if(selOpts.has(i))o.classList.add('wrong')})}
-  else if(t==='mcq_multi'){const corSet=new Set(q.correctOptions||[]);const same=corSet.size===selOpts.size&&[...corSet].every(v=>selOpts.has(v));ok=same;document.querySelectorAll('.opt').forEach((o,i)=>{o.classList.add('locked');if(corSet.has(i))o.classList.add('correct');else if(selOpts.has(i))o.classList.add('wrong')})}
-  else if(t==='integer'){const ui=parseInt(inputVal);const ca=parseInt(q.intAnswer??q.answer??0);ok=ui===ca;const el=document.getElementById('ans-in');if(el){el.disabled=true;el.classList.add(ok?'correct':'wrong')}}
-  else if(t==='oneword'){const ui=inputVal.trim().toLowerCase();const ca=String(q.answer||'').trim().toLowerCase();ok=ui===ca||ui===String(q.altAnswer||'').trim().toLowerCase();const el=document.getElementById('ans-in');if(el){el.disabled=true;el.classList.add(ok?'correct':'wrong')}}
-  sess.total++;ok?sess.correct++:sess.wrong++;updSess();
+  else if(t==='mcq_multi'){const cs=new Set(q.correctOptions||[]);const same=cs.size===selOpts.size&&[...cs].every(v=>selOpts.has(v));ok=same;document.querySelectorAll('.opt').forEach((o,i)=>{o.classList.add('locked');if(cs.has(i))o.classList.add('correct');else if(selOpts.has(i))o.classList.add('wrong')})}
+  else if(t==='integer'){const ui=parseInt(inputVal);const ca=parseInt(q.intAnswer??q.answer??0);ok=ui===ca;const el=document.getElementById('ans-inp');if(el){el.disabled=true;el.classList.add(ok?'correct':'wrong')}}
+  else if(t==='oneword'){const ui=inputVal.trim().toLowerCase();const ca=String(q.answer||'').trim().toLowerCase();ok=ui===ca||ui===String(q.altAnswer||'').trim().toLowerCase();const el=document.getElementById('ans-inp');if(el){el.disabled=true;el.classList.add(ok?'correct':'wrong')}}
+  ok?sess.correct++:sess.wrong++;
+  // Mark as attempted
+  if(!attemptedIds[selSubj.id])attemptedIds[selSubj.id]=new Set();
+  attemptedIds[selSubj.id].add(q.id);
+  saveAttemptedId(q.id);
+  // Result feedback
   let corTxt='';
-  if(t==='integer')corTxt=`Correct answer: <strong>${q.intAnswer??q.answer}</strong>`;
-  else if(t==='oneword')corTxt=`Correct answer: <strong>${xe(String(q.answer||''))}</strong>`;
+  if(t==='integer')corTxt=`Correct: <strong>${q.intAnswer??q.answer}</strong>`;
+  else if(t==='oneword')corTxt=`Correct: <strong>${xe(String(q.answer||''))}</strong>`;
   else if(t==='mcq')corTxt=`Correct: Option ${'ABCDE'[q.correct??0]}`;
   else if(t==='mcq_multi')corTxt=`Correct: ${(q.correctOptions||[]).map(i=>'ABCDE'[i]).join(', ')}`;
-  document.getElementById('res-area').innerHTML=`<div class="rb ${ok?'rb-c':'rb-w'}"><svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">${ok?'<polyline points="20 6 9 17 4 12"/>':'<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>'}</svg>${ok?'Correct!':'Wrong — '+corTxt}</div>${q.explanation?`<div class="exp"><div class="exp-l">Explanation</div><div class="exp-t">${fmt(q.explanation)}</div></div>`:''}`;
-  document.getElementById('q-acts').innerHTML=`<button class="btn btn-g" onclick="endSess()">End Session</button><button class="btn btn-p" onclick="nextQ()">Next →</button>`;
+  document.getElementById('res-area').innerHTML=`<div class="result-row ${ok?'correct':'wrong'}"><svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">${ok?'<polyline points="20 6 9 17 4 12"/>':'<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>'}</svg>${ok?'Correct!':'Wrong — '+corTxt}</div>${q.explanation?`<div class="exp-box"><div class="exp-box-l">Explanation</div><div class="exp-box-t">${sanitizeHTML(q.explanation)}</div></div>`:''}`
+  document.getElementById('q-acts').innerHTML=`<button class="btn btn-g" onclick="endSession()">End Session</button><button class="btn btn-p" onclick="nextQ()">Next Question →</button>`;
+  updEngHeader();
   saveProg(ok);
 };
-window.nextQ=()=>{curQIdx++;if(curQIdx>=allQ.length){endSess();return}renderQ(allQ[curQIdx])};
-window.skipQ=()=>{sess.total++;updSess();curQIdx++;if(curQIdx>=allQ.length){endSess();return}renderQ(allQ[curQIdx])};
-function updSess(){document.getElementById('ss-q').textContent=sess.total;document.getElementById('ss-c').textContent=sess.correct;document.getElementById('ss-w').textContent=sess.wrong;document.getElementById('ss-a').textContent=sess.total>0?Math.round(sess.correct/sess.total*100)+'%':'—'}
-async function saveProg(ok){try{await setDoc(doc(db,`students/${CU.uid}/practiceStats/${selSubj.id}`),{subject:selSubj.name,subjectId:selSubj.id,goal:SD.goal,total:increment(1),correct:ok?increment(1):increment(0),lastPracticed:new Date().toISOString()},{merge:true})}catch(e){}}
-window.endSess=async()=>{
-  if(sess.total===0){showPg('select');return}
-  try{await addDoc(collection(db,`students/${CU.uid}/practiceHistory`),{subject:selSubj.name,chapter:selChap.name,goal:SD.goal,total:sess.total,correct:sess.correct,wrong:sess.wrong,accuracy:sess.total>0?Math.round(sess.correct/sess.total*100):0,duration:Math.round((Date.now()-sess.start)/60000),timestamp:new Date().toISOString()})}catch(e){}
-  const acc=sess.total>0?Math.round(sess.correct/sess.total*100):0;
-  const grade=acc>=85?'Excellent! 🎉':acc>=65?'Good Job! 👍':acc>=45?'Keep Practising! 💪':'Needs Work 📚';
-  const deg=acc*3.6;
-  document.getElementById('qeng').innerHTML=`<div class="score-c"><div class="sc-ring" style="background:conic-gradient(var(--bl) 0deg,var(--pu) ${deg}deg,var(--bd) ${deg}deg)"><div class="sc-in"><div style="font-family:var(--fh);font-size:20px;font-weight:800;line-height:1">${acc}%</div><div style="font-size:9px;color:var(--t3)">accuracy</div></div></div><div style="font-family:var(--fh);font-size:17px;font-weight:800;margin-bottom:4px">${grade}</div><div style="font-size:12px;color:var(--t2);margin-bottom:14px">${xe(selSubj.name)} › ${xe(selChap.name)}</div><div class="sc-stats"><div class="scs"><div class="scs-v">${sess.total}</div><div class="scs-l">Total</div></div><div class="scs"><div class="scs-v" style="color:var(--gn)">${sess.correct}</div><div class="scs-l">Correct</div></div><div class="scs"><div class="scs-v" style="color:var(--rd)">${sess.wrong}</div><div class="scs-l">Wrong</div></div></div><div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><button class="btn btn-g" onclick="exitSess()">Subjects</button><button class="btn btn-p" onclick="restartSess()">Practice Again</button></div></div>`;
+
+window.nextQ=()=>{curQIdx++;renderQ()};
+window.skipQ=()=>{
+  if(!answered&&sessQ[curQIdx]){
+    const q=sessQ[curQIdx];
+    // Move to end of queue for later
+    sess.skipped=sess.skipped||[];
+    if(!sess.skipped.includes(q.id))sess.skipped.push(q.id);
+    sessQ.push(sessQ.splice(curQIdx,1)[0]);// move to end
+    if(curQIdx>=sessQ.length-1){
+      // All remaining are skipped — end
+      if(sess.correct+sess.wrong===0&&sessQ.length>0){
+        // no progress yet, just move on
+        if(sess.skipped.length>=sessQ.length){endSession();return}
+      }
+      renderQ();return;
+    }
+    renderQ();return;
+  }
+  curQIdx++;renderQ();
 };
-window.restartSess=()=>{sess={total:0,correct:0,wrong:0,start:Date.now()};updSess();curQIdx=0;for(let i=allQ.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[allQ[i],allQ[j]]=[allQ[j],allQ[i]]}renderQ(allQ[0])};
-window.exitSess=()=>showPg('select');window.exitToChaps=()=>showPg('chapters');
+
+// ── Save progress to Firestore ─────────────────────────────────
+async function saveProg(ok){
+  try{
+    await setDoc(doc(db,`students/${CU.uid}/practiceStats/${selSubj.id}`),{
+      subject:selSubj.name,subjectId:selSubj.id,goal:SD.goal,
+      total:increment(1),correct:ok?increment(1):increment(0),
+      lastPracticed:new Date().toISOString()
+    },{merge:true});
+  }catch(e){}
+}
+async function saveAttemptedId(qid){
+  try{
+    const d=await getDoc(doc(db,`students/${CU.uid}/practiceStats/${selSubj.id}`));
+    const cur=(d.exists()&&d.data().attemptedIds)?d.data().attemptedIds:'';
+    const set=new Set(cur.split(',').filter(Boolean));set.add(qid);
+    await setDoc(doc(db,`students/${CU.uid}/practiceStats/${selSubj.id}`),{attemptedIds:[...set].join(',')},{merge:true});
+  }catch(e){}
+}
+
+// ── End session → show score ────────────────────────────────────
+window.endSession=async()=>{
+  const total=sess.correct+sess.wrong;
+  if(total===0&&!curQIdx){showScreen('chapters');return}
+  const acc=total>0?Math.round(sess.correct/total*100):0;
+  const duration=Math.round((Date.now()-sess.start)/60000);
+  // Save history
+  try{
+    await addDoc(collection(db,`students/${CU.uid}/practiceHistory`),{
+      subject:selSubj.name,subjectId:selSubj.id,chapter:selChap||null,
+      goal:SD.goal,total,correct:sess.correct,wrong:sess.wrong,
+      skipped:sess.skipped?.length||0,skippedIds:sess.skipped||[],
+      questionIds:sess.questionIds||[],
+      accuracy:acc,duration,timestamp:new Date().toISOString()
+    });
+  }catch(e){}
+  // Show score screen
+  const circ=2*Math.PI*46;const offset=circ-(acc/100*circ);
+  const col=acc>=70?'#34d399':acc>=40?'#fbbf24':'#f87171';
+  document.getElementById('score-ring-fill').style.strokeDashoffset=offset;
+  document.getElementById('score-ring-fill').style.stroke=col;
+  document.getElementById('sc-pct').textContent=acc+'%';
+  document.getElementById('sc-pct').style.color=col;
+  const grade=acc>=85?'Outstanding 🏆':acc>=70?'Excellent! 🌟':acc>=55?'Good Job 👍':acc>=40?'Keep Going 💪':'Needs Work 📚';
+  document.getElementById('sc-grade').textContent=grade;
+  document.getElementById('sc-sub').textContent=`${xe(selSubj?.name||'')}${selChap?' · '+xe(selChap):''} · ${duration} min`;
+  document.getElementById('sc-stats').innerHTML=[
+    ['<span style="color:var(--gn)">'+sess.correct+'</span>','Correct'],
+    ['<span style="color:var(--rd)">'+sess.wrong+'</span>','Wrong'],
+    ['<span style="color:var(--am)">'+(sess.skipped?.length||0)+'</span>','Skipped']
+  ].map(([v,l])=>`<div class="ss-c"><div class="ss-v">${v}</div><div class="ss-l">${l}</div></div>`).join('');
+  // Buttons
+  const btns=document.getElementById('sc-btns');btns.innerHTML='';
+  const newQ=await fetchAllQ(selSubj.id,selChap).then(all=>all.filter(q=>!(attemptedIds[selSubj.id]||new Set()).has(q.id)));
+  if(newQ.length){
+    const b1=document.createElement('button');b1.className='btn btn-p btn-lg';b1.style='width:100%;justify-content:center';b1.innerHTML='Continue with New Questions';b1.onclick=()=>startSession('new',selChap,newQ);btns.appendChild(b1);
+  }
+  if(sess.skipped?.length){
+    const b2=document.createElement('button');b2.className='btn btn-am';b2.style='width:100%;justify-content:center';b2.innerHTML=`Attempt ${sess.skipped.length} Skipped Question${sess.skipped.length!==1?'s':''}`;
+    b2.onclick=async()=>{
+      const qs=[];for(const id of sess.skipped){try{const d=await getDoc(doc(db,`goals/${SD.goal}/subjects/${selSubj.id}/questions`,id));if(d.exists())qs.push({id:d.id,...d.data()})}catch(e){}}
+      if(qs.length)startSession('chapter',selChap,qs);
+    };btns.appendChild(b2);
+  }
+  const b3=document.createElement('button');b3.className='btn btn-g';b3.style='width:100%;justify-content:center';b3.textContent='Back to Subjects';b3.onclick=()=>showScreen('subjects');btns.appendChild(b3);
+  showScreen('complete');
+  setBreadcrumb([{label:'Practice',action:()=>showScreen('subjects')}]);
+};
+
+// ── Performance screen ─────────────────────────────────────────
+window.showScreen=pg=>{
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('active'));
+  document.getElementById('pg-'+pg)?.classList.add('active');
+  closeSB();
+  if(pg==='perf')loadPerf();
+};
 async function loadPerf(){
   try{
     const st=await getDocs(collection(db,`students/${CU.uid}/practiceStats`));
     const hs=await getDocs(query(collection(db,`students/${CU.uid}/practiceHistory`),orderBy('timestamp','desc')));
     let tt=0,tc=0;const sm={};
-    st.forEach(d=>{const s=d.data();tt+=s.total||0;tc+=s.correct||0;sm[s.subject]=(sm[s.subject]||{t:0,c:0});sm[s.subject].t+=s.total||0;sm[s.subject].c+=s.correct||0});
+    st.forEach(d=>{const s=d.data();tt+=s.total||0;tc+=s.correct||0;sm[s.subject]=(sm[s.subject]||{t:0,c:0});sm[s.subject].t+=(s.total||0);sm[s.subject].c+=(s.correct||0)});
     const oa=tt>0?Math.round(tc/tt*100):0;
-    document.getElementById('perf-top').innerHTML=[['Total Qs',tt,'var(--bl)'],['Accuracy',oa+'%','var(--pu)'],['Sessions',hs.size,'var(--gn)']].map(([l,v,c])=>`<div style="background:var(--c1);border:1px solid var(--bd);border-radius:10px;padding:13px;text-align:center"><div style="font-family:var(--fh);font-size:22px;font-weight:800;color:${c}">${v}</div><div style="font-size:9px;color:var(--t3);margin-top:2px;font-weight:700;text-transform:uppercase">${l}</div></div>`).join('');
-    document.getElementById('sp-bars').innerHTML=Object.entries(sm).map(([s,d])=>{const a=d.t>0?Math.round(d.c/d.t*100):0;return`<div style="display:flex;align-items:center;gap:9px;margin-bottom:8px"><div style="flex:0 0 100px;font-size:11px;font-weight:600">${xe(s)}</div><div style="flex:1;height:5px;background:var(--bd);border-radius:999px;overflow:hidden"><div style="height:100%;width:${a}%;background:linear-gradient(90deg,var(--bl),var(--pu));border-radius:999px"></div></div><div style="flex:0 0 30px;text-align:right;font-size:11px;font-weight:700;color:var(--bl)">${a}%</div></div>`}).join('')||'<div style="color:var(--t3);font-size:12px">No data yet.</div>';
+    document.getElementById('perf-top').innerHTML=[['Total Qs',tt,'var(--bl)'],['Accuracy',oa+'%','var(--pu)'],['Sessions',hs.size,'var(--gn)']].map(([l,v,c])=>`<div style="background:var(--c1);border:1px solid var(--bd);border-radius:12px;padding:16px;text-align:center"><div style="font-family:var(--fh);font-size:24px;font-weight:800;color:${c}">${v}</div><div style="font-size:10px;color:var(--t3);margin-top:3px;font-weight:700;text-transform:uppercase;letter-spacing:.3px">${l}</div></div>`).join('');
+    document.getElementById('perf-bars').innerHTML=Object.entries(sm).map(([s,d])=>{const a=d.t>0?Math.round(d.c/d.t*100):0;return`<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><div style="flex:0 0 100px;font-size:12px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${xe(s)}</div><div style="flex:1;height:7px;background:var(--bd);border-radius:999px;overflow:hidden"><div style="height:100%;width:${a}%;background:linear-gradient(90deg,var(--bl),var(--pu));border-radius:999px"></div></div><div style="flex:0 0 36px;text-align:right;font-size:12px;font-weight:700;color:var(--bl)">${a}%</div></div>`}).join('')||'<div style="color:var(--t3);font-size:13px">No data yet.</div>';
     const rows=[];hs.forEach(d=>rows.push(d.data()));
-    document.getElementById('hist-body').innerHTML=rows.length?rows.slice(0,20).map(r=>`<tr><td style="font-weight:600">${xe(r.subject||'—')}</td><td style="color:var(--t2)">${xe(r.chapter||'—')}</td><td>${r.correct||0}/${r.total||0}</td><td style="color:${(r.accuracy||0)>=60?'var(--gn)':'var(--rd)'};font-weight:700">${r.accuracy||0}%</td><td style="color:var(--t3)">${r.timestamp?new Date(r.timestamp).toLocaleDateString('en-IN'):'—'}</td></tr>`).join(''):'<tr><td colspan="5" style="text-align:center;padding:22px;color:var(--t3)">No sessions yet</td></tr>';
+    document.getElementById('perf-sessions').innerHTML=rows.length?rows.slice(0,10).map(r=>{const a=r.accuracy||0;const col=a>=70?'var(--gn)':a>=40?'var(--am)':'var(--rd)';return`<div style="display:flex;align-items:center;justify-content:space-between;padding:11px 14px;background:var(--c1);border:1px solid var(--bd);border-radius:11px;margin-bottom:8px"><div><div style="font-size:13px;font-weight:600;margin-bottom:2px">${xe(r.subject||'—')}${r.chapter?' · '+xe(r.chapter):''}</div><div style="font-size:10px;color:var(--t3)">${r.timestamp?new Date(r.timestamp).toLocaleDateString('en-IN'):'—'} · ${r.total||0} Qs · ${r.duration||0}min</div></div><div style="font-family:var(--fh);font-size:16px;font-weight:800;color:${col}">${a}%</div></div>`}).join(''):'<div style="color:var(--t3);font-size:13px">No sessions yet.</div>';
   }catch(e){}
 }
-window.showPg=pg=>{document.querySelectorAll('.pg').forEach(p=>p.classList.remove('active'));document.getElementById('pg-'+pg).classList.add('active');const h={select:'Practice',chapters:'Chapters',practice:'Practice',performance:'My Performance',gate:'Practice'};document.getElementById('ph').textContent=h[pg]||'Practice';closeSB();if(pg==='performance')loadPerf()};
+
+// ── Breadcrumb ─────────────────────────────────────────────────
+function setBreadcrumb(items){
+  document.getElementById('breadcrumb').innerHTML=items.map((it,i)=>{
+    const isLast=i===items.length-1;
+    if(isLast)return`<span style="color:var(--tx);font-weight:600">${xe(it.label)}</span>`;
+    return`<span onclick="${it.action?'('+it.action.toString()+')()':''}" style="cursor:${it.action?'pointer':'default'};color:var(--t2);transition:color .15s" onmouseover="this.style.color='var(--bl)'" onmouseout="this.style.color='var(--t2)'">${xe(it.label)}</span><span style="color:var(--t3)">›</span>`;
+  }).join('');
+}
+
+// ── Sanitize HTML (allow rich text, images) ────────────────────
+function sanitizeHTML(html){
+  const tmp=document.createElement('div');tmp.innerHTML=html||'';
+  tmp.querySelectorAll('script,style,iframe,object,embed,form').forEach(el=>el.remove());
+  tmp.querySelectorAll('img').forEach(img=>{const src=img.getAttribute('src')||'';if(!src.startsWith('data:')&&!src.startsWith('https://'))img.remove()});
+  return tmp.innerHTML;
+}
+
 window.doOut=async()=>{await fbOut(auth);location.href='login.html'};
-function fmt(t){return String(t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/`(.*?)`/g,'<code>$1</code>').replace(/\n/g,'<br>')}
-function xe(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
-let tt;function showToast(msg,type='suc'){const el=document.getElementById('toast');document.getElementById('tmsg').textContent=msg;el.className=type+' show';clearTimeout(tt);tt=setTimeout(()=>el.className=type,3500)}
+function xe(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+let _tt;function showToast(msg,type='suc'){const el=document.getElementById('toast');document.getElementById('tmsg').textContent=msg;el.className=type+' show';clearTimeout(_tt);_tt=setTimeout(()=>el.className=type,3500)}
+
+// init
+showScreen('subjects');
 </script>
-</body></html>
+</body>
+</html>
