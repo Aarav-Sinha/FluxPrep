@@ -547,7 +547,7 @@ function renderPalette(){
 }
 
 // ── Render question ───────────────────────────────────────────
-function goToQ(idx){
+window.goToQ = (idx) => {
   const qs=getQs();if(idx<0||idx>=qs.length)return;
   curQ=idx;visited.add(idx);
   renderQ(qs[idx],idx);
@@ -555,7 +555,7 @@ function goToQ(idx){
   // Sync section tab to this question
   const secs=getSecs();if(secs.length){const si=secs.findIndex(s=>s.name===qs[idx].section);if(si>=0&&si!==curSecIdx){curSecIdx=si;curSubIdx=-1;renderSecTabs()}}
   document.getElementById('te-q-col').scrollTop=0;
-}
+};
 
 function renderQ(q,idx){
   const qs=getQs();const t=q.type||'mcq';const keys=['A','B','C','D','E'];
